@@ -1,0 +1,25 @@
+{
+	"name": "slevomat/csob-gateway",
+	"description": "CSOB gateway",
+	"license": "MIT",
+	"require": {
+		"ext-openssl": "*",
+		"php": ">= 5.6.0"
+	},
+	"require-dev": {
+		"jakub-onderka/php-parallel-lint": "^0.9",
+		"phing/phing": "~2.12",
+		"phpunit/phpunit": "^5.0.4",
+		"squizlabs/php_codesniffer": "~2.3.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"SlevomatCsobGateway\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"SlevomatCsobGateway\\": "tests/unit"
+		}
+	}
+}

@@ -1,0 +1,11 @@
+machine:
+    php:
+        version: 5.6.5
+
+dependencies:
+    override:
+        - composer install --no-interaction --prefer-source
+
+test:
+    override:
+        - php vendor/bin/phing check
