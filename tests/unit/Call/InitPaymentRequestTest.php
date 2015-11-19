@@ -33,7 +33,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'returnMethod' => 'POST',
 				'cart' => [
 					[
-						'name' => 'Nákup na vasobchod.cz',
+						'name' => 'Nákup na vasobchodcz',
 						'quantity' => 1,
 						'amount' => 1789600,
 						'description' => 'Lenovo ThinkPad Edge E540',
@@ -64,7 +64,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 		$cart = new Cart(
 			new Currency(Currency::CZK)
 		);
-		$cart->addItem('Nákup na vasobchod.cz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
+		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
 		$initPaymentRequest = new InitPaymentRequest(

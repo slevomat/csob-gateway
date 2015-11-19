@@ -35,7 +35,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 		$cart = new Cart(
 			new Currency(Currency::CZK)
 		);
-		$cart->addItem('Nákup na vasobchod.cz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
+		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
 		$request = $this->requestFactory->createInitPayment(
