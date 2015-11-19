@@ -150,7 +150,7 @@ class InitPaymentRequest
 		];
 
 		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = $this->merchantData;
+			$requestData['merchantData'] = base64_encode($this->merchantData);
 		}
 
 		if ($this->customerId !== null) {

@@ -38,12 +38,18 @@ class PaymentResponse
 	private $authCode;
 
 	/**
+	 * @var string|null
+	 */
+	private $merchantData;
+
+	/**
 	 * @param string $payId
 	 * @param DateTimeImmutable $responseDateTime
 	 * @param ResultCode $resultCode
 	 * @param string $resultMessage
 	 * @param PaymentStatus|null $paymentStatus
 	 * @param string|null $authCode
+	 * @param string|null $merchantData
 	 */
 	public function __construct(
 		$payId,
@@ -51,7 +57,8 @@ class PaymentResponse
 		ResultCode $resultCode,
 		$resultMessage,
 		PaymentStatus $paymentStatus = null,
-		$authCode = null
+		$authCode = null,
+		$merchantData = null
 	)
 	{
 		$this->payId = $payId;
@@ -60,6 +67,7 @@ class PaymentResponse
 		$this->resultMessage = $resultMessage;
 		$this->paymentStatus = $paymentStatus;
 		$this->authCode = $authCode;
+		$this->merchantData = $merchantData;
 	}
 
 	/**

@@ -46,7 +46,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 					],
 				],
 				'description' => 'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
-				'merchantData' => 'some-base64-encoded-merchant-data',
+				'merchantData' => base64_encode('some-base64-encoded-merchant-data'),
 				'customerId' => '123',
 				'language' => 'CZ',
 			])

@@ -23,6 +23,7 @@ class ReceivePaymentRequest
 			'resultMessage' => null,
 			'paymentStatus' => null,
 			'authCode' => null,
+			'merchantData' => null,
 		]));
 
 		$data = $response->getData();
@@ -33,7 +34,8 @@ class ReceivePaymentRequest
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
 			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null
+			array_key_exists('authCode', $data) ? $data['authCode'] : null,
+			array_key_exists('merchantData', $data) ? base64_decode($data['merchantData']) : null
 		);
 	}
 
