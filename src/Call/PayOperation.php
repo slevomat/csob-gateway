@@ -8,6 +8,6 @@ class PayOperation extends Enum
 {
 
 	const PAYMENT = 'payment';
-	const RECURRENT_PAYMENT = 'recurrent_payment';
+	const RECURRENT_PAYMENT = 'recurrentPayment';
 
 }
