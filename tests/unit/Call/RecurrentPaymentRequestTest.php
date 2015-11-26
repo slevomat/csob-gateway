@@ -21,9 +21,9 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			->with('payment/recurrent', [
 				'merchantId' => '012345',
 				'origPayId' => 'ef08b6e9f22345c',
-				'orderId' => '5547123',
 				'totalAmount' => 99.8,
 				'currency' => 'CZK',
+				'orderNo' => '5547123',
 				'description' => 'foo description',
 			])
 			->willReturn(

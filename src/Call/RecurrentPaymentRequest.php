@@ -74,7 +74,7 @@ class RecurrentPaymentRequest
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'origPayId' => $this->origPayId,
-			'orderId' => $this->orderId,
+			'orderNo' => $this->orderId,
 		];
 
 		if ($this->totalAmount !== null) {
