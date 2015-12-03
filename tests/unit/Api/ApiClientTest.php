@@ -113,6 +113,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRequests(HttpMethod $httpMethod, $url, $expectedUrl, array $requestData, array $expectedRequestData, $responseData, ResponseCode $responseCode, array $responseHeaders)
 	{
+		$currentTime = new \DateTimeImmutable();
+
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -134,7 +136,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				->method('request')
 				->with($httpMethod, ApiClient::API_URL . '/' . $expectedUrl, $expectedRequestData + [
 						'signature' => 'signature',
-						'dttm' => (new \DateTimeImmutable())->format('YmdHis'),
+						'dttm' => $currentTime->format('YmdHis'),
 					])
 				->willReturn(new Response(
 					$responseCode,
@@ -149,7 +151,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				->method('request')
 				->with($httpMethod, ApiClient::API_URL . '/' . $expectedUrl, [], $expectedRequestData + [
 						'signature' => $cryptoService->signData($requestData, new SignatureDataFormatter([])),
-						'dttm' => (new \DateTimeImmutable())->format('YmdHis'),
+						'dttm' => $currentTime->format('YmdHis'),
 					])
 				->willReturn(new Response(
 					$responseCode,
