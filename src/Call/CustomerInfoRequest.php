@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call;
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\Validator;
 
 class CustomerInfoRequest
 {
@@ -28,6 +29,8 @@ class CustomerInfoRequest
 		$customerId
 	)
 	{
+		Validator::checkCustomerId($customerId);
+
 		$this->merchantId = $merchantId;
 		$this->customerId = $customerId;
 	}

@@ -9,6 +9,7 @@ use SlevomatCsobGateway\Cart;
 use SlevomatCsobGateway\CartItem;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Language;
+use SlevomatCsobGateway\Validator;
 
 class InitPaymentRequest
 {
@@ -102,6 +103,16 @@ class InitPaymentRequest
 		Language $language = null
 	)
 	{
+		Validator::checkOrderId($orderId);
+		Validator::checkReturnUrl($returnUrl);
+		Validator::checkDescription($description);
+		if ($merchantData !== null) {
+			Validator::checkMerchantData($merchantData);
+		}
+		if ($customerId !== null) {
+			Validator::checkCustomerId($customerId);
+		}
+
 		$this->merchantId = $merchantId;
 		$this->orderId = $orderId;
 		$this->payOperation = $payOperation;

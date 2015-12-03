@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Validator;
 
 class RecurrentPaymentRequest
 {
@@ -57,6 +58,11 @@ class RecurrentPaymentRequest
 		$description = null
 	)
 	{
+		Validator::checkOrderId($orderId);
+		if ($description !== null) {
+			Validator::checkDescription($description);
+		}
+
 		$this->merchantId = $merchantId;
 		$this->origPayId = $origPayId;
 		$this->orderId = $orderId;

@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Validator;
 
 class CustomerInfoResponse
 {
@@ -40,6 +41,8 @@ class CustomerInfoResponse
 		$customerId
 	)
 	{
+		Validator::checkCustomerId($customerId);
+
 		$this->responseDateTime = $responseDateTime;
 		$this->resultCode = $resultCode;
 		$this->resultMessage = $resultMessage;

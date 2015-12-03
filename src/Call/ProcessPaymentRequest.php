@@ -4,6 +4,7 @@ namespace SlevomatCsobGateway\Call;
 
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\Validator;
 
 class ProcessPaymentRequest
 {
@@ -27,6 +28,8 @@ class ProcessPaymentRequest
 		$payId
 	)
 	{
+		Validator::checkPayId($payId);
+
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
 	}

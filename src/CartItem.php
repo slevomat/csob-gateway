@@ -33,19 +33,14 @@ class CartItem
 	 */
 	public function __construct($name, $quantity, $amount, $description = null)
 	{
-		if (strlen(utf8_decode($name)) > 20) {
-			throw new \InvalidArgumentException(sprintf(
-				'Name length must be less than 20 symbols.',
-				$amount
-			));
-		}
+		$name = trim($name);
 
-		if ($quantity < 1) {
-			throw new \InvalidArgumentException(sprintf(
-				'Quantity must be greater than 0. %d given.',
-				$amount
-			));
+		Validator::checkCardItemName($name);
+		if ($description !== null) {
+			$description = trim($description);
+			Validator::checkCardItemDescription($description);
 		}
+		Validator::checkCardItemQuantity($quantity);
 
 		$this->name = $name;
 		$this->quantity = $quantity;

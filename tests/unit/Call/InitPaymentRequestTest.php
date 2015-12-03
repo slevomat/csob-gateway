@@ -78,7 +78,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			$cart,
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
-			123,
+			'123',
 			new Language(Language::CZ)
 		);
 

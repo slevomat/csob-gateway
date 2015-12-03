@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call;
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\Validator;
 
 class RefundPaymentRequest
 {
@@ -28,6 +29,8 @@ class RefundPaymentRequest
 		$payId
 	)
 	{
+		Validator::checkPayId($payId);
+
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
 	}

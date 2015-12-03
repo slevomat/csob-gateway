@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Validator;
 
 class PaymentResponse
 {
@@ -61,6 +62,11 @@ class PaymentResponse
 		$merchantData = null
 	)
 	{
+		Validator::checkPayId($payId);
+		if ($merchantData !== null) {
+			Validator::checkMerchantData($merchantData);
+		}
+
 		$this->payId = $payId;
 		$this->responseDateTime = $responseDateTime;
 		$this->resultCode = $resultCode;
@@ -116,6 +122,14 @@ class PaymentResponse
 	public function getAuthCode()
 	{
 		return $this->authCode;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getMerchantData()
+	{
+		return $this->merchantData;
 	}
 
 }
