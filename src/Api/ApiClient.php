@@ -14,7 +14,7 @@ class ApiClient
 {
 
 	const API_URL = 'https://iapi.iplatebnibrana.csob.cz/api/v1.5';
-	const API_URL_PRODUCTION = 'https://api.iplatebnibrana.csob.cz/api/v1.5';
+	const API_URL_PRODUCTION = 'https://api.platebnibrana.csob.cz/api/v1.5';
 
 	/**
 	 * @var ApiClientDriver
