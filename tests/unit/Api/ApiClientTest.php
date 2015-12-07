@@ -8,6 +8,8 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class ApiClientTest extends \PHPUnit_Framework_TestCase
 {
 
+	const API_URL = 'http://foo.csob.cz';
+
 	public function getRequests()
 	{
 		return [
@@ -134,7 +136,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, ApiClient::API_URL . '/' . $expectedUrl, $expectedRequestData + [
+				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData + [
 						'signature' => 'signature',
 						'dttm' => $currentTime->format('YmdHis'),
 					])
@@ -149,7 +151,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		} else {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, ApiClient::API_URL . '/' . $expectedUrl, [], $expectedRequestData + [
+				->with($httpMethod, self::API_URL . '/' . $expectedUrl, [], $expectedRequestData + [
 						'signature' => $cryptoService->signData($requestData, new SignatureDataFormatter([])),
 						'dttm' => $currentTime->format('YmdHis'),
 					])
@@ -163,7 +165,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		}
 
 		/** @var ApiClientDriver $apiClientDriver */
-		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$response = $apiClient->get($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));

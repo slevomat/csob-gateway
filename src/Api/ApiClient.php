@@ -13,9 +13,6 @@ use SlevomatCsobGateway\Crypto\VerificationFailedException;
 class ApiClient
 {
 
-	const API_URL = 'https://iapi.iplatebnibrana.csob.cz/api/v1.5';
-	const API_URL_PRODUCTION = 'https://api.platebnibrana.csob.cz/api/v1.5';
-
 	/**
 	 * @var ApiClientDriver
 	 */
@@ -44,7 +41,7 @@ class ApiClient
 	{
 		$this->driver = $driver;
 		$this->cryptoService = $cryptoService;
-		$this->apiUrl = $apiUrl !== null ? (string) $apiUrl : self::API_URL;
+		$this->apiUrl = $apiUrl;
 	}
 
 	/**
