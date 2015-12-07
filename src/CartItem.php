@@ -35,12 +35,12 @@ class CartItem
 	{
 		$name = trim($name);
 
-		Validator::checkCardItemName($name);
+		Validator::checkCartItemName($name);
 		if ($description !== null) {
 			$description = trim($description);
-			Validator::checkCardItemDescription($description);
+			Validator::checkCartItemDescription($description);
 		}
-		Validator::checkCardItemQuantity($quantity);
+		Validator::checkCartItemQuantity($quantity);
 
 		$this->name = $name;
 		$this->quantity = $quantity;

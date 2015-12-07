@@ -5,12 +5,12 @@ namespace SlevomatCsobGateway;
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
-	public function testCheckCardItemName()
+	public function testCheckCartItemName()
 	{
-		Validator::checkCardItemName('foo name');
+		Validator::checkCartItemName('foo name');
 
 		try {
-			Validator::checkCardItemName('very long long long cart item name');
+			Validator::checkCartItemName('very long long long cart item name');
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
@@ -18,7 +18,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		}
 
 		try {
-			Validator::checkCardItemName(' whitespace');
+			Validator::checkCartItemName(' whitespace');
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
@@ -26,12 +26,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testCheckCardItemDescription()
+	public function testCheckCartItemDescription()
 	{
-		Validator::checkCardItemDescription('foo description');
+		Validator::checkCartItemDescription('foo description');
 
 		try {
-			Validator::checkCardItemDescription('very long long long cart item description');
+			Validator::checkCartItemDescription('very long long long cart item description');
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
@@ -39,12 +39,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testCheckCardItemQuantity()
+	public function testCheckCartItemQuantity()
 	{
-		Validator::checkCardItemQuantity(2);
+		Validator::checkCartItemQuantity(2);
 
 		try {
-			Validator::checkCardItemQuantity(0);
+			Validator::checkCartItemQuantity(0);
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {

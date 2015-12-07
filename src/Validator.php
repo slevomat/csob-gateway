@@ -5,8 +5,8 @@ namespace SlevomatCsobGateway;
 class Validator
 {
 
-	const CARD_ITEM_NAME_LENGTH_MAX = 20;
-	const CARD_ITEM_DESCRIPTION_LENGTH_MAX = 40;
+	const CART_ITEM_NAME_LENGTH_MAX = 20;
+	const CART_ITEM_DESCRIPTION_LENGTH_MAX = 40;
 
 	const ORDER_ID_LENGTH_MAX = 10;
 	const RETURN_URL_LENGTH_MAX = 300;
@@ -18,13 +18,13 @@ class Validator
 	/**
 	 * @param string $name
 	 */
-	public static function checkCardItemName($name)
+	public static function checkCartItemName($name)
 	{
 		self::checkWhitespaces($name);
 
-		if (strlen(utf8_decode($name)) > self::CARD_ITEM_NAME_LENGTH_MAX) {
+		if (strlen(utf8_decode($name)) > self::CART_ITEM_NAME_LENGTH_MAX) {
 			throw new \InvalidArgumentException(sprintf(
-				sprintf('Name length must be less than %d symbols.', self::CARD_ITEM_NAME_LENGTH_MAX)
+				sprintf('Name length must be less than %d symbols.', self::CART_ITEM_NAME_LENGTH_MAX)
 			));
 		}
 	}
@@ -32,13 +32,13 @@ class Validator
 	/**
 	 * @param string $description
 	 */
-	public static function checkCardItemDescription($description)
+	public static function checkCartItemDescription($description)
 	{
 		self::checkWhitespaces($description);
 
-		if (strlen(utf8_decode($description)) > self::CARD_ITEM_DESCRIPTION_LENGTH_MAX) {
+		if (strlen(utf8_decode($description)) > self::CART_ITEM_DESCRIPTION_LENGTH_MAX) {
 			throw new \InvalidArgumentException(sprintf(
-				sprintf('Description length must be less than %d symbols.', self::CARD_ITEM_DESCRIPTION_LENGTH_MAX)
+				sprintf('Description length must be less than %d symbols.', self::CART_ITEM_DESCRIPTION_LENGTH_MAX)
 			));
 		}
 	}
@@ -46,7 +46,7 @@ class Validator
 	/**
 	 * @param int $quantity
 	 */
-	public static function checkCardItemQuantity($quantity)
+	public static function checkCartItemQuantity($quantity)
 	{
 		if ($quantity < 1) {
 			throw new \InvalidArgumentException(sprintf(
