@@ -15,11 +15,6 @@ class CryptoService
 	/**
 	 * @var string
 	 */
-	private $publicKeyFile;
-
-	/**
-	 * @var string
-	 */
 	private $bankPublicKeyFile;
 
 	/**
@@ -28,51 +23,17 @@ class CryptoService
 	private $privateKeyPassword;
 
 	/**
-	 * @var mixed[]
-	 */
-	private $keysPriority = [
-		'merchantId' => null,
-		'customerId' => null,
-		'orderNo' => null,
-		'payId' => null,
-		'dttm' => null,
-		'resultCode' => null,
-		'resultMessage' => null,
-		'paymentStatus' => null,
-		'authCode' => null,
-		'payOperation' => null,
-		'payMethod' => null,
-		'totalAmount' => null,
-		'currency' => null,
-		'closePayment' => null,
-		'returnUrl' => null,
-		'returnMethod' => null,
-		'cart' => [
-			'name' => null,
-			'quantity' => null,
-			'amount' => null,
-			'description' => null,
-		],
-		'description' => null,
-		'merchantData' => null,
-		'language' => null,
-	];
-
-	/**
 	 * @param string $privateKeyFile
-	 * @param string $publicKeyFile
 	 * @param string $bankPublicKeyFile
 	 * @param string|null $privateKeyPassword
 	 */
 	public function __construct(
 		$privateKeyFile,
-		$publicKeyFile,
 		$bankPublicKeyFile,
 		$privateKeyPassword = null
 	)
 	{
 		$this->privateKeyFile = (string) $privateKeyFile;
-		$this->publicKeyFile = (string) $publicKeyFile;
 		$this->bankPublicKeyFile = (string) $bankPublicKeyFile;
 		$this->privateKeyPassword = $privateKeyPassword !== null ? (string) $privateKeyPassword : null;
 	}

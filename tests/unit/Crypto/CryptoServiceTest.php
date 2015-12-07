@@ -14,7 +14,6 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->cryptoService = new CryptoService(
 			__DIR__ . '/../../keys/client.key',
-			__DIR__ . '/../../keys/client.pub',
 			__DIR__ . '/../../keys/client.pub'
 		);
 	}
@@ -85,7 +84,6 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 	{
 		$cryptoService = new CryptoService(
 			__DIR__ . '/invalid-key.key',
-			__DIR__ . '/invalid-key.key',
 			__DIR__ . '/invalid-key.key'
 		);
 
@@ -115,7 +113,6 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 
 		$cryptoService = new CryptoService(
 			__DIR__ . '/../../keys/client.key',
-			__DIR__ . '/../../keys/client.pub',
 			__DIR__ . '/../../keys/bank.pub'
 		);
 
