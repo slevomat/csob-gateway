@@ -5,6 +5,9 @@ namespace SlevomatCsobGateway\Crypto;
 class SignatureDataFormatter
 {
 
+	/** @var mixed[] */
+	private $keysPriority;
+
 	/**
 	 * @param mixed[] $keysPriority
 	 */

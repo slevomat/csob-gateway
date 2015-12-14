@@ -31,10 +31,7 @@ class ReceivePaymentRequestTest extends \PHPUnit_Framework_TestCase
 			);
 
 		/** @var ApiClient $apiClient */
-		$receivePaymentRequest = new ReceivePaymentRequest(
-			'012345',
-			'123456789'
-		);
+		$receivePaymentRequest = new ReceivePaymentRequest();
 
 		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
 
