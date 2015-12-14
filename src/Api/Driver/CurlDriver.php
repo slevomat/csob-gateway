@@ -10,6 +10,9 @@ use SlevomatCsobGateway\Api\ResponseCode;
 class CurlDriver implements ApiClientDriver
 {
 
+	/** @var int */
+	private $timeout = 20;
+
 	/**
 	 * @param HttpMethod $method
 	 * @param string $url
@@ -27,6 +30,7 @@ class CurlDriver implements ApiClientDriver
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		}
 
+		curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
 		curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, true);
@@ -36,6 +40,13 @@ class CurlDriver implements ApiClientDriver
 			]);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 		$output = curl_exec($ch);
+
+		if ($output === false) {
+			$error = curl_error($ch);
+			if ($error !== '') {
+				throw new CurlDriverException($error, $ch);
+			}
+		}
 
 		$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 		$headers = substr($output, 0, $headerSize);
