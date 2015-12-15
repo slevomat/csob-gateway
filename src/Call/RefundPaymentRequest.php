@@ -21,18 +21,26 @@ class RefundPaymentRequest
 	private $payId;
 
 	/**
+	 * @var integer|null
+	 */
+	private $amount;
+
+	/**
 	 * @param string $merchantId
 	 * @param string $payId
+	 * @param integer|null $amount
 	 */
 	public function __construct(
 		$merchantId,
-		$payId
+		$payId,
+		$amount = null
 	)
 	{
 		Validator::checkPayId($payId);
 
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
+		$this->amount = $amount;
 	}
 
 	/**
@@ -41,16 +49,21 @@ class RefundPaymentRequest
 	 */
 	public function send(ApiClient $apiClient)
 	{
+		$requestData = [
+			'merchantId' => $this->merchantId,
+			'payId' => $this->payId,
+		];
+		if ($this->amount !== null) {
+			$requestData['amount'] = $this->amount;
+		}
 		$response = $apiClient->put(
 			'payment/refund',
-			[
-				'merchantId' => $this->merchantId,
-				'payId' => $this->payId,
-			],
+			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'payId' => null,
 				'dttm' => null,
+				'amount' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,

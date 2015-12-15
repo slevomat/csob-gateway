@@ -129,13 +129,15 @@ class RequestFactory
 
 	/**
 	 * @param string $payId
-	 * @return RefundPaymentRequest
+	 * @param integer $amount
+	 * @return \SlevomatCsobGateway\Call\RefundPaymentRequest
 	 */
-	public function createRefundPayment($payId)
+	public function createRefundPayment($payId, $amount = null)
 	{
 		return new RefundPaymentRequest(
 			$this->merchantId,
-			$payId
+			$payId,
+			$amount
 		);
 	}
 
