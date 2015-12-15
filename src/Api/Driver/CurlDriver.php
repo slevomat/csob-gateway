@@ -20,6 +20,7 @@ class CurlDriver implements ApiClientDriver
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
 	 * @return Response
+	 * @throws CurlDriverException
 	 */
 	public function request(HttpMethod $method, $url, array $queries = [], array $data = null, array $headers = [])
 	{
@@ -42,10 +43,7 @@ class CurlDriver implements ApiClientDriver
 		$output = curl_exec($ch);
 
 		if ($output === false) {
-			$error = curl_error($ch);
-			if ($error !== '') {
-				throw new CurlDriverException($error, $ch);
-			}
+			throw new CurlDriverException($ch);
 		}
 
 		$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);

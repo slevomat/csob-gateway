@@ -11,12 +11,12 @@ class CurlDriverException extends \RuntimeException
 	private $info;
 
 	/**
-	 * @param string $curlError
 	 * @param resource $handle
 	 */
-	public function __construct($curlError, $handle)
+	public function __construct($handle)
 	{
-		parent::__construct('Request error: ' . $curlError);
+		parent::__construct('Request error: ' . curl_error($handle));
+
 		$this->code = curl_errno($handle);
 		$this->info = curl_getinfo($handle);
 	}

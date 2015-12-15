@@ -40,4 +40,32 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 		], $response->getHeaders());
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function testCurlDriverException()
+	{
+		include __DIR__ . '/Curl_exec_false_Mock.php';
+
+		$curlDriver = new CurlDriver();
+
+		try {
+			$response = $curlDriver->request(
+				new HttpMethod(HttpMethod::POST),
+				'foo/url',
+				[
+					'fooQuery' => 123,
+				],
+				null,
+				[
+					'Content-Type' => 'application/json',
+				]
+			);
+
+		} catch (CurlDriverException $e) {
+			$this->assertSame(11, $e->getCode());
+			$this->assertSame('foo getinfo', $e->getInfo());
+		}
+	}
+
 }
