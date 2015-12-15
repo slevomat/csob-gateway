@@ -51,7 +51,6 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @return Response
 	 *
-	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -82,7 +81,6 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @return Response
 	 *
-	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -113,7 +111,6 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @return Response
 	 *
-	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -145,7 +142,6 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @return Response
 	 *
-	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
