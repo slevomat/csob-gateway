@@ -57,6 +57,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 * @throws RequestException
+	 * @throws ApiClientDriverException
 	 */
 	public function get(
 		$url,
@@ -87,6 +88,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 * @throws RequestException
+	 * @throws ApiClientDriverException
 	 */
 	public function post(
 		$url,
@@ -117,6 +119,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 * @throws RequestException
+	 * @throws ApiClientDriverException
 	 */
 	public function put(
 		$url,
@@ -148,6 +151,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 * @throws RequestException
+	 * @throws ApiClientDriverException
 	 */
 	public function request(
 		HttpMethod $method,

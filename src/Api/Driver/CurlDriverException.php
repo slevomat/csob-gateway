@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api\Driver;
 
-class CurlDriverException extends \RuntimeException
+use SlevomatCsobGateway\Api\ApiClientDriverException;
+
+class CurlDriverException extends \RuntimeException implements ApiClientDriverException
 {
 
 	/**

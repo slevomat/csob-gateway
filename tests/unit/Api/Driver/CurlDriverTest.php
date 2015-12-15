@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Api\Driver;
 
+use SlevomatCsobGateway\Api\ApiClientDriverException;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
@@ -63,6 +64,7 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 			);
 
 		} catch (CurlDriverException $e) {
+			$this->assertInstanceOf(ApiClientDriverException::class, $e);
 			$this->assertSame(11, $e->getCode());
 			$this->assertSame('foo getinfo', $e->getInfo());
 		}
