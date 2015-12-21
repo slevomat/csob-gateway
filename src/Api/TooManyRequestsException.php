@@ -12,7 +12,7 @@ class TooManyRequestsException extends \RuntimeException implements RequestExcep
 
 	public function __construct(Response $response)
 	{
-		parent::__construct('To Many Requests');
+		parent::__construct('Too Many Requests');
 
 		$this->response = $response;
 	}
