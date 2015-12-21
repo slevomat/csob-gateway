@@ -164,10 +164,13 @@ class ApiClient
 			}
 		}
 
+		if ($queries !== []) {
+			throw new \InvalidArgumentException('Arguments are missing URL placeholders: ' . json_encode($queries));
+		}
+
 		$response = $this->driver->request(
 			$method,
 			$this->apiUrl . '/' . $url,
-			$queries,
 			$data
 		);
 

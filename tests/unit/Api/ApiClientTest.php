@@ -15,14 +15,10 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		return [
 			[
 				new HttpMethod(HttpMethod::GET),
-				'fooUrl',
-				'fooUrl',
-				[
-					'foo' => 1,
-				],
-				[
-					'foo' => 1,
-				],
+				'fooUrl/{dttm}/{signature}',
+				'fooUrl/' . date('YmdHis') . '/signature',
+				[],
+				null,
 				[
 					'bar' => 2,
 				],
@@ -33,15 +29,12 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			],
 			[
 				new HttpMethod(HttpMethod::GET),
-				'fooUrl/{fooId}',
-				'fooUrl/3',
+				'fooUrl/{fooId}/{dttm}/{signature}',
+				'fooUrl/3/' . date('YmdHis') . '/signature',
 				[
-					'foo' => 1,
 					'fooId' => 3,
 				],
-				[
-					'foo' => 1,
-				],
+				null,
 				[
 					'bar' => 2,
 				],
@@ -88,10 +81,10 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			],
 			[
 				new HttpMethod(HttpMethod::GET),
-				'fooUrl',
-				'fooUrl',
+				'fooUrl/{dttm}/{signature}',
+				'fooUrl/' . date('YmdHis') . '/signature',
 				[],
-				[],
+				null,
 				null,
 				new ResponseCode(ResponseCode::S303_SEE_OTHER),
 				[
@@ -106,14 +99,14 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 * @param string $url
 	 * @param string $expectedUrl
 	 * @param mixed[] $requestData
-	 * @param mixed[] $expectedRequestData
+	 * @param mixed[]|null $expectedRequestData
 	 * @param mixed[]|null $responseData
 	 * @param ResponseCode $responseCode
 	 * @param mixed[] $responseHeaders
 	 *
 	 * @dataProvider getRequests
 	 */
-	public function testRequests(HttpMethod $httpMethod, $url, $expectedUrl, array $requestData, array $expectedRequestData, $responseData, ResponseCode $responseCode, array $responseHeaders)
+	public function testRequests(HttpMethod $httpMethod, $url, $expectedUrl, array $requestData, array $expectedRequestData = null, $responseData, ResponseCode $responseCode, array $responseHeaders)
 	{
 		$currentTime = new \DateTimeImmutable();
 
@@ -136,10 +129,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData + [
-						'signature' => 'signature',
-						'dttm' => $currentTime->format('YmdHis'),
-					])
+				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData)
 				->willReturn(new Response(
 					$responseCode,
 					($responseData ? $responseData : []) + [
@@ -151,7 +141,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		} else {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, self::API_URL . '/' . $expectedUrl, [], $expectedRequestData + [
+				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData + [
 						'signature' => $cryptoService->signData($requestData, new SignatureDataFormatter([])),
 						'dttm' => $currentTime->format('YmdHis'),
 					])
@@ -270,7 +260,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
 
 		try {
-			$apiClient->get('foo', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
+			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 			$this->fail();
 
 		} catch (RequestException $e) {
@@ -306,7 +296,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
 
 		try {
-			$apiClient->get('foo', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
+			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 			$this->fail();
 
 		} catch (InvalidSignatureException $e) {
@@ -347,7 +337,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
 
 		try {
-			$apiClient->get('foo', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
+			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 			$this->fail();
 
 		} catch (InvalidSignatureException $e) {

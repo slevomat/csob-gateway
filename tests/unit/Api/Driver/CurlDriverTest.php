@@ -22,9 +22,6 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 		$response = $curlDriver->request(
 			new HttpMethod(HttpMethod::POST),
 			'foo/url',
-			[
-				'fooQuery' => 123,
-			],
 			null,
 			[
 				'Content-Type' => 'application/json',
@@ -54,9 +51,6 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 			$response = $curlDriver->request(
 				new HttpMethod(HttpMethod::POST),
 				'foo/url',
-				[
-					'fooQuery' => 123,
-				],
 				null,
 				[
 					'Content-Type' => 'application/json',
