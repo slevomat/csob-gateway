@@ -33,11 +33,8 @@ class CartItem
 	 */
 	public function __construct($name, $quantity, $amount, $description = null)
 	{
-		$name = trim($name);
-
 		Validator::checkCartItemName($name);
 		if ($description !== null) {
-			$description = trim($description);
 			Validator::checkCartItemDescription($description);
 		}
 		Validator::checkCartItemQuantity($quantity);

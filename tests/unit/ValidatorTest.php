@@ -14,7 +14,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('Name length must be less than 20 symbols.', $e->getMessage());
+			$this->assertSame('Cart item name can have maximum of 20 characters.', $e->getMessage());
 		}
 
 		try {
@@ -35,7 +35,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('Description length must be less than 40 symbols.', $e->getMessage());
+			$this->assertSame('Cart item description can have maximum of 40 characters.', $e->getMessage());
 		}
 	}
 
@@ -61,7 +61,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('OrderId length must be less than 10 symbols.', $e->getMessage());
+			$this->assertSame('OrderId can have maximum of 10 characters.', $e->getMessage());
 		}
 
 		try {
@@ -82,7 +82,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('ReturnUrl length must be less than 300 symbols.', $e->getMessage());
+			$this->assertSame('ReturnUrl can have maximum of 300 characters.', $e->getMessage());
 		}
 	}
 
@@ -95,7 +95,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('Description length must be less than 255 symbols.', $e->getMessage());
+			$this->assertSame('Description can have maximum of 255 characters.', $e->getMessage());
 		}
 	}
 
@@ -108,7 +108,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('MerchantData length must be less than 255 symbols.', $e->getMessage());
+			$this->assertSame('MerchantData can have maximum of 255 characters.', $e->getMessage());
 		}
 	}
 
@@ -121,7 +121,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('CustomerId length must be less than 50 symbols.', $e->getMessage());
+			$this->assertSame('CustomerId can have maximum of 50 characters.', $e->getMessage());
 		}
 	}
 
@@ -134,7 +134,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('PayId length must be less than 15 symbols.', $e->getMessage());
+			$this->assertSame('PayId can have maximum of 15 characters.', $e->getMessage());
 		}
 	}
 

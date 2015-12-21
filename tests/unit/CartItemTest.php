@@ -27,7 +27,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('Name length must be less than 20 symbols.', $e->getMessage());
+			$this->assertSame('Cart item name can have maximum of 20 characters.', $e->getMessage());
 		}
 
 		try {
@@ -35,7 +35,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('Description length must be less than 40 symbols.', $e->getMessage());
+			$this->assertSame('Cart item description can have maximum of 40 characters.', $e->getMessage());
 		}
 	}
 
