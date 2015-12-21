@@ -1,10 +1,21 @@
 {
 	"name": "slevomat/csob-gateway",
-	"description": "CSOB gateway",
+	"description": "CSOB payment gateway client",
 	"license": "MIT",
+	"type": "library",
+	"keywords": ["csob", "card", "gateway", "paymentgateway"],
+	"authors": [
+		{
+			"name": "Slevomat.cz, s.r.o.",
+			"homepage": "http://www.slevomat.cz"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/slevomat/csob-gateway/issues"
+	},
 	"require": {
 		"ext-openssl": "*",
-		"php": ">= 5.6.0"
+		"php": "^5.6.0|^7.0"
 	},
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "^0.9",
