@@ -3,9 +3,6 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
-use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Api\Response;
-use SlevomatCsobGateway\Api\ResponseCode;
 
 class PaymentResponseTest extends \PHPUnit_Framework_TestCase
 {

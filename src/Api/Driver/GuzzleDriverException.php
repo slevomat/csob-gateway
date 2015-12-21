@@ -11,4 +11,5 @@ class GuzzleDriverException extends \RuntimeException implements ApiClientDriver
 	{
 		parent::__construct('Request error: ' . $e->getMessage(), $e->getCode(), $e);
 	}
+
 }

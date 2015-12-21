@@ -27,6 +27,23 @@
 		</exec>
 	</target>
 
+	<target name="phpcs-fix">
+		<exec
+				executable="${path.phpcbf.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+		>
+			<arg value="--standard=${path.build}"/>
+			<arg value="--extensions=php,phpt"/>
+			<arg value="--encoding=utf-8"/>
+			<arg value="--tab-width=4"/>
+			<arg value="-sp"/>
+			<arg path="${path.src}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
 	<target name="check-phplint">
 		<exec
 				executable="${path.phplint.executable}"

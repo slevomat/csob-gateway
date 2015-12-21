@@ -46,7 +46,7 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 						'price' => null,
 					],
 					'description' => null,
-				])
+				]),
 			],
 			[
 				[
@@ -56,8 +56,8 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 				],
 				'invalidSignature',
 				false,
-				new SignatureDataFormatter([])
-			]
+				new SignatureDataFormatter([]),
+			],
 		];
 	}
 
