@@ -62,5 +62,8 @@ Please refer to the CSOB documentation and learn what states you should to check
 
 ## Custom `ApiClientDriver`
 
-API calls are made throug `ApiClientDriver` interface. Library contains driver which communicates via `curl`. You can create
-your own driver by implementing the `ApiClientDriver` interface, and passing it to `ApiClient` constructor.
+API calls are made through `ApiClientDriver` interface. Library contains two default implementations of driver - CurlDriver and GuzzleDriver. You can also
+create your own driver by implementing the `ApiClientDriver` interface, and passing it to `ApiClient` constructor.
+
+`CurlDriver` communicates via `curl` PHP extension, `GuzzleDriver` uses [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle) library. If you want to use
+GuzzleDriver you need to require `guzzlehttp/guzzle` package in your composer.json.

@@ -21,7 +21,12 @@
 		"jakub-onderka/php-parallel-lint": "^0.9",
 		"phing/phing": "~2.12",
 		"phpunit/phpunit": "^5.0.4",
-		"squizlabs/php_codesniffer": "~2.3.4"
+		"squizlabs/php_codesniffer": "~2.3.4",
+		"guzzlehttp/guzzle": "^6.1"
+	},
+	"suggest": {
+		"guzzlehttp/guzzle": "HTTP client for usage of GuzzleHttpClient",
+		"ext-curl": "cURL driver for usage of CurlDriver"
 	},
 	"autoload": {
 		"psr-4": {
