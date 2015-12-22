@@ -4,11 +4,13 @@ namespace SlevomatCsobGateway\Api\Driver;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
+use SlevomatCsobGateway\Api\ApiClientDriver;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class GuzzleDriver implements \SlevomatCsobGateway\Api\ApiClientDriver
+class GuzzleDriver implements ApiClientDriver
 {
 
 	/** @var Client */
@@ -58,24 +60,24 @@ class GuzzleDriver implements \SlevomatCsobGateway\Api\ApiClientDriver
 	private function validateClientConfig()
 	{
 		$options = $this->client->getConfig();
-		if ($options[\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS] !== false) {
+		if ($options[RequestOptions::ALLOW_REDIRECTS] !== false) {
 			throw new InvalidGuzzleConfigurationException(sprintf(
 				'Guzzle HTTP client has to be configured to not follow redirect. Set option %s to false.',
-				\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS
+				RequestOptions::ALLOW_REDIRECTS
 			));
 		}
 
-		if ($options[\GuzzleHttp\RequestOptions::HTTP_ERRORS] !== false) {
+		if ($options[RequestOptions::HTTP_ERRORS] !== false) {
 			throw new InvalidGuzzleConfigurationException(sprintf(
-				'Guzzle HTTP client has to be configured to throw exceptions on non-OK response code. Set config option %s to false.',
-				\GuzzleHttp\RequestOptions::HTTP_ERRORS
+				'Guzzle HTTP client has to be configured not to throw exceptions on non-OK response code. Set config option %s to false.',
+				RequestOptions::HTTP_ERRORS
 			));
 		}
 
-		if ($options[\GuzzleHttp\RequestOptions::VERIFY] === false) {
+		if ($options[RequestOptions::VERIFY] === false) {
 			throw new InvalidGuzzleConfigurationException(sprintf(
 				'Setting %s config option to false is insecure and therefore not supported. Set option to true or to provide custom CA bundle file.',
-				\GuzzleHttp\RequestOptions::VERIFY
+				RequestOptions::VERIFY
 			));
 		}
 	}
