@@ -19,7 +19,6 @@ class GuzzleDriver implements ApiClientDriver
 	public function __construct(Client $client)
 	{
 		$this->client = $client;
-		$this->validateClientConfig();
 	}
 
 	/**
@@ -28,6 +27,7 @@ class GuzzleDriver implements ApiClientDriver
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
 	 * @return Response
+	 * @throws GuzzleDriverException
 	 */
 	public function request(HttpMethod $method, $url, array $data = null, array $headers = [])
 	{
@@ -39,7 +39,10 @@ class GuzzleDriver implements ApiClientDriver
 		$request = new Request($method->getValue(), $url, $headers, $postData);
 
 		try {
-			$httpResponse = $this->client->send($request);
+			$httpResponse = $this->client->send($request, [
+				RequestOptions::HTTP_ERRORS => false,
+				RequestOptions::ALLOW_REDIRECTS => false,
+			]);
 
 			$responseCode = new ResponseCode($httpResponse->getStatusCode());
 
@@ -54,31 +57,6 @@ class GuzzleDriver implements ApiClientDriver
 			);
 		} catch (\Exception $e) {
 			throw new GuzzleDriverException($e);
-		}
-	}
-
-	private function validateClientConfig()
-	{
-		$options = $this->client->getConfig();
-		if ($options[RequestOptions::ALLOW_REDIRECTS] !== false) {
-			throw new InvalidGuzzleConfigurationException(sprintf(
-				'Guzzle HTTP client has to be configured to not follow redirect. Set option %s to false.',
-				RequestOptions::ALLOW_REDIRECTS
-			));
-		}
-
-		if ($options[RequestOptions::HTTP_ERRORS] !== false) {
-			throw new InvalidGuzzleConfigurationException(sprintf(
-				'Guzzle HTTP client has to be configured not to throw exceptions on non-OK response code. Set config option %s to false.',
-				RequestOptions::HTTP_ERRORS
-			));
-		}
-
-		if ($options[RequestOptions::VERIFY] === false) {
-			throw new InvalidGuzzleConfigurationException(sprintf(
-				'Setting %s config option to false is insecure and therefore not supported. Set option to true or to provide custom CA bundle file.',
-				RequestOptions::VERIFY
-			));
 		}
 	}
 
