@@ -25,17 +25,17 @@ class CryptoService
 	/**
 	 * @param string $privateKeyFile
 	 * @param string $bankPublicKeyFile
-	 * @param string|null $privateKeyPassword
+	 * @param string $privateKeyPassword
 	 */
 	public function __construct(
 		$privateKeyFile,
 		$bankPublicKeyFile,
-		$privateKeyPassword = null
+		$privateKeyPassword = ''
 	)
 	{
 		$this->privateKeyFile = (string) $privateKeyFile;
 		$this->bankPublicKeyFile = (string) $bankPublicKeyFile;
-		$this->privateKeyPassword = $privateKeyPassword !== null ? (string) $privateKeyPassword : null;
+		$this->privateKeyPassword = (string) $privateKeyPassword;
 	}
 
 	/**
