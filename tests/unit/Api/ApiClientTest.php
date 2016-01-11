@@ -108,6 +108,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRequests(HttpMethod $httpMethod, $url, $expectedUrl, array $requestData, array $expectedRequestData = null, $responseData, ResponseCode $responseCode, array $responseHeaders)
 	{
+		self::markTestIncomplete('Contains imprecise DateTime handling');
 		$currentTime = new \DateTimeImmutable();
 
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
