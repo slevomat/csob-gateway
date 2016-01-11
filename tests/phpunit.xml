@@ -23,6 +23,7 @@
 			showUncoveredFiles="true"
 			showOnlySummary="true"
 		/>
+		<log type="coverage-clover" target="../build/log/clover.xml"/>
 	</logging>
 
 	<filter>

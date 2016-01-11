@@ -23,7 +23,8 @@
 		"phing/phing": "~2.12",
 		"phpunit/phpunit": "^5.0.4",
 		"slevomat/coding-standard": "^1.0.5",
-		"guzzlehttp/guzzle": "^6.1"
+		"guzzlehttp/guzzle": "^6.1",
+		"satooshi/php-coveralls": "^1.0"
 	},
 	"suggest": {
 		"guzzlehttp/guzzle": "HTTP client for usage of GuzzleHttpClient",

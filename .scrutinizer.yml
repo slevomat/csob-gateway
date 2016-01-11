@@ -1,0 +1,30 @@
+checks:
+    php:
+        side_effects_or_types: false
+        psr2_switch_declaration: false
+        psr2_class_declaration: false
+        non_commented_empty_catch_block: false
+        one_class_per_file: false
+        no_underscore_prefix_in_properties: false
+        no_underscore_prefix_in_methods: false
+        switch_fallthrough_commented: false
+        single_namespace_per_use: false
+        require_scope_for_properties: false
+        require_scope_for_methods: false
+        php5_style_constructor: false
+        no_trailing_whitespace: false
+        no_short_open_tag: false
+        no_global_keyword: false
+        no_exit: false
+        no_error_suppression: false
+        no_commented_out_code: false
+        encourage_shallow_comparison: false
+        blank_line_after_namespace_declaration: false
+        avoid_usage_of_logical_operators: false
+        avoid_superglobals: false
+        avoid_length_functions_in_loops: false
+        avoid_closing_tag: false
+        avoid_aliased_php_functions: false
+filter:
+    excluded_paths:
+        - vendor/*

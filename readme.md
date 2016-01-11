@@ -1,5 +1,10 @@
 # CSOB gateway
 
+[![Build Status](https://img.shields.io/travis/slevomat/csob-gateway/master.svg?style=flat-square)](https://travis-ci.org/slevomat/csob-gateway)
+[![Code Coverage](https://img.shields.io/coveralls/slevomat/csob-gateway.svg?style=flat-square)](https://coveralls.io/r/slevomat/csob-gateway)
+[![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)
+[![Composer Downloads](https://img.shields.io/packagist/dt/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)
+
 This repository provides a client library for ČSOB Payment Gateway.
 
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
