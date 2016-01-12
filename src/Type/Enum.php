@@ -22,7 +22,7 @@ abstract class Enum
 	 */
 	public function __construct($value)
 	{
-		static::checkValue($value);
+		self::checkValue($value);
 		$this->value = $value;
 	}
 
@@ -31,10 +31,10 @@ abstract class Enum
 	 */
 	private static function checkValue($value)
 	{
-		if (!static::isValidValue($value)) {
+		if (!self::isValidValue($value)) {
 			throw new InvalidEnumValueException(
 				$value,
-				static::getAvailableValues()
+				self::getAvailableValues()
 			);
 		}
 	}
@@ -66,7 +66,7 @@ abstract class Enum
 	 */
 	public function equalsValue($value)
 	{
-		static::checkValue($value);
+		self::checkValue($value);
 
 		return $this->getValue() === $value;
 	}
@@ -77,7 +77,7 @@ abstract class Enum
 	 */
 	private static function isValidValue($value)
 	{
-		return in_array($value, static::getAvailableValues(), true);
+		return in_array($value, self::getAvailableValues(), true);
 	}
 
 	/**
