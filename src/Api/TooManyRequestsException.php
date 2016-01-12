@@ -2,27 +2,12 @@
 
 namespace SlevomatCsobGateway\Api;
 
-class TooManyRequestsException extends \RuntimeException implements RequestException
+class TooManyRequestsException extends RequestException
 {
-
-	/**
-	 * @var Response
-	 */
-	private $response;
 
 	public function __construct(Response $response)
 	{
-		parent::__construct('Too Many Requests');
-
-		$this->response = $response;
-	}
-
-	/**
-	 * @return Response
-	 */
-	public function getResponse()
-	{
-		return $this->response;
+		parent::__construct('Too Many Requests', $response);
 	}
 
 }
