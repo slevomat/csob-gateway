@@ -18,6 +18,7 @@ class ResponseCode extends Enum
 	const S429_TOO_MANY_REQUESTS = 429;
 
 	const S500_INTERNAL_ERROR = 500;
+	const S502_BAD_GATEWAY = 502;
 	const S503_SERVICE_UNAVAILABLE = 503;
 
 }

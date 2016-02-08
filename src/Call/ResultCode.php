@@ -22,5 +22,6 @@ class ResultCode extends Enum
 	const C820_CUSTOMER_FOUND_WITH_SAVED_CARD = 820;
 
 	const C900_INTERNAL_ERROR = 900;
+	const C999_GENERAL_ERROR = 999;
 
 }
