@@ -3,6 +3,9 @@
 namespace SlevomatCsobGateway\Call;
 
 use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\InvalidPaymentException;
+use SlevomatCsobGateway\Api\Response;
+use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
@@ -58,7 +61,15 @@ class ProcessPaymentRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
-			])
+			]),
+			function (Response $response) {
+				// This handles edge case when provided payId is missing or already expired on gateway
+				// In this case gateway responds with HTTP 200 and HTML content. Bad API.
+				// See https://github.com/csob/paymentgateway/issues/135
+				if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
+					throw new InvalidPaymentException($this, $response, $this->payId);
+				}
+			}
 		);
 
 		return new ProcessPaymentResponse($response->getHeaders()['Location']);

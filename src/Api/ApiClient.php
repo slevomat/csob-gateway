@@ -49,6 +49,7 @@ class ApiClient
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
+	 * @param \Closure|null $responseValidityCallback
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -62,7 +63,8 @@ class ApiClient
 		$url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
-		SignatureDataFormatter $responseSignatureDataFormatter
+		SignatureDataFormatter $responseSignatureDataFormatter,
+		\Closure $responseValidityCallback = null
 	)
 	{
 		return $this->request(
@@ -70,7 +72,8 @@ class ApiClient
 			$url,
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			null,
-			$responseSignatureDataFormatter
+			$responseSignatureDataFormatter,
+			$responseValidityCallback
 		);
 	}
 
@@ -140,6 +143,7 @@ class ApiClient
 	 * @param string[] $queries
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
+	 * @param \Closure|null $responseValidityCallback
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -154,7 +158,8 @@ class ApiClient
 		$url,
 		array $queries = [],
 		array $data = null,
-		SignatureDataFormatter $responseSignatureDataFormatter
+		SignatureDataFormatter $responseSignatureDataFormatter,
+		\Closure $responseValidityCallback = null
 	)
 	{
 		foreach ($queries as $key => $value) {
@@ -173,6 +178,10 @@ class ApiClient
 			$this->apiUrl . '/' . $url,
 			$data
 		);
+
+		if ($responseValidityCallback !== null) {
+			$responseValidityCallback($response);
+		}
 
 		if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
 			return new Response(
