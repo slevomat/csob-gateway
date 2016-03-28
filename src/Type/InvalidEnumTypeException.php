@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Type;
 
@@ -15,11 +15,7 @@ class InvalidEnumTypeException extends \InvalidArgumentException
 	 */
 	private $expectedClass;
 
-	/**
-	 * @param Enum $enum
-	 * @param string $expectedClass
-	 */
-	public function __construct(Enum $enum, $expectedClass)
+	public function __construct(Enum $enum, string $expectedClass)
 	{
 		parent::__construct(sprintf(
 			'Invalid enum type \'%s\'. Expected class: %s',
@@ -31,18 +27,12 @@ class InvalidEnumTypeException extends \InvalidArgumentException
 		$this->expectedClass = $expectedClass;
 	}
 
-	/**
-	 * @return Enum
-	 */
-	public function getEnum()
+	public function getEnum(): Enum
 	{
 		return $this->enum;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getExpectedClass()
+	public function getExpectedClass(): string
 	{
 		return $this->expectedClass;
 	}

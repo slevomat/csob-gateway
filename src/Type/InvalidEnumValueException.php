@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Type;
 
@@ -32,7 +32,7 @@ class InvalidEnumValueException extends \InvalidArgumentException
 	}
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
 	public function getValue()
 	{
@@ -42,7 +42,7 @@ class InvalidEnumValueException extends \InvalidArgumentException
 	/**
 	 * @return mixed[]
 	 */
-	public function getAvailableValues()
+	public function getAvailableValues(): array
 	{
 		return $this->availableValues;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -21,7 +21,7 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			->with('payment/recurrent', [
 				'merchantId' => '012345',
 				'origPayId' => 'ef08b6e9f22345c',
-				'totalAmount' => round(99.8 * 100),
+				'totalAmount' => (int) round(99.8 * 100),
 				'currency' => 'CZK',
 				'orderNo' => '5547123',
 				'description' => 'foo description',
@@ -42,7 +42,7 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			'012345',
 			'ef08b6e9f22345c',
 			'5547123',
-			round(99.8 * 100),
+			(int) round(99.8 * 100),
 			new Currency(Currency::CZK),
 			'foo description'
 		);

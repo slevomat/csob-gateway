@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -74,32 +74,18 @@ class InitPaymentRequest
 	 */
 	private $language;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $orderId
-	 * @param PayOperation $payOperation
-	 * @param PayMethod $payMethod
-	 * @param bool $closePayment
-	 * @param string $returnUrl
-	 * @param HttpMethod $returnMethod
-	 * @param Cart $cart
-	 * @param string $description
-	 * @param string|null $merchantData
-	 * @param string|null $customerId
-	 * @param Language|null $language
-	 */
 	public function __construct(
-		$merchantId,
-		$orderId,
+		string $merchantId,
+		string $orderId,
 		PayOperation $payOperation,
 		PayMethod $payMethod,
-		$closePayment,
-		$returnUrl,
+		bool $closePayment,
+		string $returnUrl,
 		HttpMethod $returnMethod,
 		Cart $cart,
-		$description,
-		$merchantData = null,
-		$customerId = null,
+		string $description,
+		string $merchantData = null,
+		string $customerId = null,
 		Language $language = null
 	)
 	{
@@ -127,11 +113,7 @@ class InitPaymentRequest
 		$this->language = $language;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return PaymentResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): PaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,
@@ -215,7 +197,7 @@ class InitPaymentRequest
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
 			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null
+			$data['authCode'] ?? null
 		);
 	}
 

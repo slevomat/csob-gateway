@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway;
 
@@ -25,43 +25,24 @@ class RequestFactory
 	 */
 	private $merchantId;
 
-	/**
-	 * @param string $merchantId
-	 */
-	public function __construct(
-		$merchantId
-	)
+	public function __construct(string $merchantId)
 	{
-		$this->merchantId = (string) $merchantId;
+		$this->merchantId = $merchantId;
 	}
 
-	/**
-	 * @param string $orderId
-	 * @param PayOperation $payOperation
-	 * @param PayMethod $payMethod
-	 * @param bool $closePayment
-	 * @param string $returnUrl
-	 * @param HttpMethod $returnMethod
-	 * @param Cart $cart
-	 * @param string $description
-	 * @param string|null $merchantData
-	 * @param string|null $customerId
-	 * @param Language|null $language
-	 * @return InitPaymentRequest
-	 */
 	public function createInitPayment(
-		$orderId,
+		string $orderId,
 		PayOperation $payOperation,
 		PayMethod $payMethod,
-		$closePayment,
-		$returnUrl,
+		bool $closePayment,
+		string $returnUrl,
 		HttpMethod $returnMethod,
 		Cart $cart,
-		$description,
-		$merchantData = null,
-		$customerId = null,
+		string $description,
+		string $merchantData = null,
+		string $customerId = null,
 		Language $language = null
-	)
+	): InitPaymentRequest
 	{
 		return new InitPaymentRequest(
 			$this->merchantId,
@@ -79,11 +60,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $payId
-	 * @return ProcessPaymentRequest
-	 */
-	public function createProcessPayment($payId)
+	public function createProcessPayment(string $payId): ProcessPaymentRequest
 	{
 		return new ProcessPaymentRequest(
 			$this->merchantId,
@@ -91,11 +68,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $payId
-	 * @return PaymentStatusRequest
-	 */
-	public function createPaymentStatus($payId)
+	public function createPaymentStatus(string $payId): PaymentStatusRequest
 	{
 		return new PaymentStatusRequest(
 			$this->merchantId,
@@ -103,11 +76,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $payId
-	 * @return ReversePaymentRequest
-	 */
-	public function createReversePayment($payId)
+	public function createReversePayment(string $payId): ReversePaymentRequest
 	{
 		return new ReversePaymentRequest(
 			$this->merchantId,
@@ -115,11 +84,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $payId
-	 * @return ClosePaymentRequest
-	 */
-	public function createClosePayment($payId)
+	public function createClosePayment(string $payId): ClosePaymentRequest
 	{
 		return new ClosePaymentRequest(
 			$this->merchantId,
@@ -127,12 +92,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $payId
-	 * @param int $amount
-	 * @return \SlevomatCsobGateway\Call\RefundPaymentRequest
-	 */
-	public function createRefundPayment($payId, $amount = null)
+	public function createRefundPayment(string $payId, int $amount = null): RefundPaymentRequest
 	{
 		return new RefundPaymentRequest(
 			$this->merchantId,
@@ -141,21 +101,13 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param string $origPayId
-	 * @param string $orderId
-	 * @param int|null $totalAmount
-	 * @param Currency|null $currency
-	 * @param string|null $description
-	 * @return RecurrentPaymentRequest
-	 */
 	public function createRecurrentPayment(
-		$origPayId,
-		$orderId,
-		$totalAmount = null,
+		string $origPayId,
+		string $orderId,
+		int $totalAmount = null,
 		Currency $currency = null,
-		$description = null
-	)
+		string $description = null
+	): RecurrentPaymentRequest
 	{
 		return new RecurrentPaymentRequest(
 			$this->merchantId,
@@ -167,31 +119,21 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @return EchoRequest
-	 */
-	public function createEchoRequest()
+	public function createEchoRequest(): EchoRequest
 	{
 		return new EchoRequest(
 			$this->merchantId
 		);
 	}
 
-	/**
-	 * @return PostEchoRequest
-	 */
-	public function createPostEchoRequest()
+	public function createPostEchoRequest(): PostEchoRequest
 	{
 		return new PostEchoRequest(
 			$this->merchantId
 		);
 	}
 
-	/**
-	 * @param string $customerId
-	 * @return CustomerInfoRequest
-	 */
-	public function createCustomerInfo($customerId)
+	public function createCustomerInfo(string $customerId): CustomerInfoRequest
 	{
 		return new CustomerInfoRequest(
 			$this->merchantId,
@@ -199,10 +141,7 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @return ReceivePaymentRequest
-	 */
-	public function createReceivePaymentRequest()
+	public function createReceivePaymentRequest(): ReceivePaymentRequest
 	{
 		return new ReceivePaymentRequest();
 	}

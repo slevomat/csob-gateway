@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Crypto;
 
@@ -10,7 +10,7 @@ class PrivateKeyFileException extends \RuntimeException
 	 */
 	private $privateKeyFile;
 
-	public function __construct($privateKeyFile, \Exception $previous = null)
+	public function __construct(string $privateKeyFile, \Throwable $previous = null)
 	{
 		parent::__construct(sprintf(
 			'Private key could not be loaded from file \'%s\'. Please make sure that the file contains valid private key in PEM format.',
@@ -20,10 +20,7 @@ class PrivateKeyFileException extends \RuntimeException
 		$this->privateKeyFile = $privateKeyFile;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrivateKeyFile()
+	public function getPrivateKeyFile(): string
 	{
 		return $this->privateKeyFile;
 	}

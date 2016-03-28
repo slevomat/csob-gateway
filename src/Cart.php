@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway;
 
@@ -20,13 +20,7 @@ class Cart
 		$this->currency = $currency;
 	}
 
-	/**
-	 * @param string $name
-	 * @param int $quantity
-	 * @param int $amount
-	 * @param string|null $description
-	 */
-	public function addItem($name, $quantity, $amount, $description = null)
+	public function addItem(string $name, int $quantity, int $amount, string $description = null)
 	{
 		$this->items[] = new CartItem($name, $quantity, $amount, $description);
 	}
@@ -34,23 +28,17 @@ class Cart
 	/**
 	 * @return CartItem[]
 	 */
-	public function getItems()
+	public function getItems(): array
 	{
 		return $this->items;
 	}
 
-	/**
-	 * @return Currency
-	 */
-	public function getCurrency()
+	public function getCurrency(): Currency
 	{
 		return $this->currency;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function countTotalAmount()
+	public function countTotalAmount(): int
 	{
 		$totalAmount = 0;
 

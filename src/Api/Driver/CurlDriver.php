@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api\Driver;
 
@@ -21,7 +21,7 @@ class CurlDriver implements ApiClientDriver
 	 * @return Response
 	 * @throws CurlDriverException
 	 */
-	public function request(HttpMethod $method, $url, array $data = null, array $headers = [])
+	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response
 	{
 		$ch = curl_init($url);
 
@@ -55,7 +55,7 @@ class CurlDriver implements ApiClientDriver
 
 		return new Response(
 			$responseCode,
-			json_decode($body, JSON_OBJECT_AS_ARRAY),
+			json_decode($body, true),
 			$this->parseHeaders($headers)
 		);
 	}
@@ -64,7 +64,7 @@ class CurlDriver implements ApiClientDriver
 	 * @param string $rawHeaders
 	 * @return string[]
 	 */
-	private function parseHeaders($rawHeaders)
+	private function parseHeaders(string $rawHeaders): array
 	{
 		$headers = [];
 

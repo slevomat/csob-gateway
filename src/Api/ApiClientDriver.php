@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api;
 
@@ -12,6 +12,6 @@ interface ApiClientDriver
 	 * @param string[] $headers
 	 * @return Response
 	 */
-	public function request(HttpMethod $method, $url, array $data = null, array $headers = []);
+	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response;
 
 }

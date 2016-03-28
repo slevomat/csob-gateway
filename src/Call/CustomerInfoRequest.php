@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -20,13 +20,9 @@ class CustomerInfoRequest
 	 */
 	private $customerId;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $customerId
-	 */
 	public function __construct(
-		$merchantId,
-		$customerId
+		string $merchantId,
+		string $customerId
 	)
 	{
 		Validator::checkCustomerId($customerId);
@@ -35,11 +31,7 @@ class CustomerInfoRequest
 		$this->customerId = $customerId;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return CustomerInfoResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): CustomerInfoResponse
 	{
 		$response = $apiClient->get(
 			'customer/info/{merchantId}/{customerId}/{dttm}/{signature}',
@@ -66,7 +58,7 @@ class CustomerInfoRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['customerId']) ? $data['customerId'] : null
+			$data['customerId'] ?? null
 		);
 	}
 

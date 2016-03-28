@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Crypto;
 
@@ -18,7 +18,7 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function getSignDataData()
+	public function getSignDataData(): array
 	{
 		return [
 			[
@@ -69,7 +69,7 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getSignDataData
 	 */
-	public function testSignData(array $data, $expectedSignature, $valid, SignatureDataFormatter $signatureDataFormatter)
+	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter)
 	{
 		$signature = $this->cryptoService->signData($data, $signatureDataFormatter);
 
@@ -142,7 +142,7 @@ class CryptoServiceTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getSignDataData
 	 */
-	public function testVerifyData(array $data, $signature, $valid, SignatureDataFormatter $signatureDataFormatter)
+	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter)
 	{
 		if ($valid) {
 			$this->assertTrue($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));

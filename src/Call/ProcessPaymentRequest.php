@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -22,13 +22,9 @@ class ProcessPaymentRequest
 	 */
 	private $payId;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $payId
-	 */
 	public function __construct(
-		$merchantId,
-		$payId
+		string $merchantId,
+		string $payId
 	)
 	{
 		Validator::checkPayId($payId);
@@ -37,11 +33,7 @@ class ProcessPaymentRequest
 		$this->payId = $payId;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return ProcessPaymentResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): ProcessPaymentResponse
 	{
 		$response = $apiClient->get(
 			'payment/process/{merchantId}/{payId}/{dttm}/{signature}',

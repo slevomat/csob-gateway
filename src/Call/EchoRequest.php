@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -14,21 +14,12 @@ class EchoRequest
 	 */
 	private $merchantId;
 
-	/**
-	 * @param string $merchantId
-	 */
-	public function __construct(
-		$merchantId
-	)
+	public function __construct(string $merchantId)
 	{
 		$this->merchantId = $merchantId;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return EchoResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): EchoResponse
 	{
 		$response = $apiClient->get(
 			'echo/{merchantId}/{dttm}/{signature}',

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -41,21 +41,13 @@ class RecurrentPaymentRequest
 	 */
 	private $description;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $origPayId
-	 * @param string $orderId
-	 * @param int|null $totalAmount
-	 * @param Currency|null $currency
-	 * @param string|null $description
-	 */
 	public function __construct(
-		$merchantId,
-		$origPayId,
-		$orderId,
-		$totalAmount = null,
+		string $merchantId,
+		string $origPayId,
+		string $orderId,
+		int $totalAmount = null,
 		Currency $currency = null,
-		$description = null
+		string $description = null
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -71,11 +63,7 @@ class RecurrentPaymentRequest
 		$this->description = $description;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return PaymentResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): PaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,
@@ -125,7 +113,7 @@ class RecurrentPaymentRequest
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
 			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null
+			$data['authCode'] ?? null
 		);
 	}
 

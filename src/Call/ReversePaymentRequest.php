@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -25,8 +25,8 @@ class ReversePaymentRequest
 	 * @param string $payId
 	 */
 	public function __construct(
-		$merchantId,
-		$payId
+		string $merchantId,
+		string $payId
 	)
 	{
 		Validator::checkPayId($payId);
@@ -35,11 +35,7 @@ class ReversePaymentRequest
 		$this->payId = $payId;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return PaymentResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): PaymentResponse
 	{
 		$response = $apiClient->put(
 			'payment/reverse',
@@ -70,7 +66,7 @@ class ReversePaymentRequest
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
 			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null
+			$data['authCode'] ?? null
 		);
 	}
 

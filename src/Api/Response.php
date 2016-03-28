@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api;
 
@@ -36,10 +36,7 @@ class Response
 		$this->headers = $headers;
 	}
 
-	/**
-	 * @return ResponseCode
-	 */
-	public function getResponseCode()
+	public function getResponseCode(): ResponseCode
 	{
 		return $this->responseCode;
 	}
@@ -55,7 +52,7 @@ class Response
 	/**
 	 * @return string[]
 	 */
-	public function getHeaders()
+	public function getHeaders(): array
 	{
 		return $this->headers;
 	}

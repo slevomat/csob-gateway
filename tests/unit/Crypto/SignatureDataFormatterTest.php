@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Crypto;
 
@@ -8,7 +8,7 @@ class SignatureDataFormatterTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @return mixed[]
 	 */
-	public function getFormatDataForSignatureData()
+	public function getFormatDataForSignatureData(): array
 	{
 		return [
 			[
@@ -93,7 +93,7 @@ class SignatureDataFormatterTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getFormatDataForSignatureData
 	 */
-	public function testFormatDataForSignature(array $keyPriority, array $data, $expectedData)
+	public function testFormatDataForSignature(array $keyPriority, array $data, string $expectedData)
 	{
 		$signatureDataFormatter = new SignatureDataFormatter($keyPriority);
 
