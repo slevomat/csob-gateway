@@ -10,6 +10,8 @@
 		<exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Typehints.DeclareStrictTypes" />
+	<rule ref="SlevomatCodingStandard.Typehints.ReturnTypehintSpacing" />
 	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
 		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
 	</rule>
