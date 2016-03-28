@@ -24,7 +24,7 @@ class InvalidEnumValueException extends \InvalidArgumentException
 		parent::__construct(sprintf(
 			'Invalid enum value \'%s\'. Available values: %s',
 			$value,
-			join(', ', $availableValues)
+			implode(', ', $availableValues)
 		));
 
 		$this->value = $value;

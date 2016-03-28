@@ -133,7 +133,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData)
 				->willReturn(new Response(
 					$responseCode,
-					($responseData ? $responseData : []) + [
+					($responseData !== null ? $responseData : []) + [
 						'signature' => 'signature',
 					],
 					$responseHeaders
@@ -148,7 +148,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 					])
 				->willReturn(new Response(
 					$responseCode,
-					($responseData ? $responseData : []) + [
+					($responseData !== null ? $responseData : []) + [
 						'signature' => 'signature',
 					],
 					$responseHeaders

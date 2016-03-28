@@ -65,7 +65,7 @@ class ReversePaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
 			$data['authCode'] ?? null
 		);
 	}

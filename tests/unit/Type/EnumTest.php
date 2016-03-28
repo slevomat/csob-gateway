@@ -46,8 +46,8 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($review1->equals($review2));
 		$this->assertFalse($review1->equals($draft));
 
+		$admin = new RoleEnum(RoleEnum::ADMIN);
 		try {
-			$admin = new RoleEnum(RoleEnum::ADMIN);
 			$review1->equals($admin);
 			$this->fail();
 

@@ -47,14 +47,14 @@ class Validator
 	{
 		self::checkWhitespaces($orderId);
 
-		if (preg_match('#^[0-9]+$#', $orderId) === 0) {
+		if (!ctype_digit($orderId)) {
 			throw new \InvalidArgumentException(sprintf(
 				'OrderId must be numeric value. %s given.',
 				$orderId
 			));
 		}
 
-		if (strlen((string) $orderId) > self::ORDER_ID_LENGTH_MAX) {
+		if (strlen($orderId) > self::ORDER_ID_LENGTH_MAX) {
 			throw new \InvalidArgumentException(sprintf('OrderId can have maximum of %d characters.', self::ORDER_ID_LENGTH_MAX));
 		}
 

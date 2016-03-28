@@ -33,9 +33,11 @@ class SignatureDataFormatter
 				}
 
 			} else {
-				$message[] = is_bool($data[$key])
-					? ($data[$key] ? 'true' : 'false')
-					: $data[$key];
+				if (is_bool($data[$key])) {
+					$message[] = $data[$key] ? 'true' : 'false';
+				} else {
+					$message[] = $data[$key];
+				}
 			}
 		}
 

@@ -28,9 +28,9 @@ class ReceivePaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
-			array_key_exists('merchantData', $data) ? base64_decode($data['merchantData']) : null
+			isset($data['merchantData']) ? base64_decode($data['merchantData']) : null
 		);
 	}
 
