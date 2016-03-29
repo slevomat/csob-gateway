@@ -27,7 +27,7 @@ class RecurrentPaymentRequest
 	private $orderId;
 
 	/**
-	 * @var float|null
+	 * @var int|null
 	 */
 	private $totalAmount;
 
@@ -45,7 +45,7 @@ class RecurrentPaymentRequest
 	 * @param string $merchantId
 	 * @param string $origPayId
 	 * @param string $orderId
-	 * @param float|null $totalAmount
+	 * @param int|null $totalAmount
 	 * @param Currency|null $currency
 	 * @param string|null $description
 	 */

@@ -21,7 +21,7 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			->with('payment/recurrent', [
 				'merchantId' => '012345',
 				'origPayId' => 'ef08b6e9f22345c',
-				'totalAmount' => 99.8,
+				'totalAmount' => round(99.8 * 100),
 				'currency' => 'CZK',
 				'orderNo' => '5547123',
 				'description' => 'foo description',
@@ -42,7 +42,7 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			'012345',
 			'ef08b6e9f22345c',
 			'5547123',
-			99.8,
+			round(99.8 * 100),
 			new Currency(Currency::CZK),
 			'foo description'
 		);

@@ -16,7 +16,7 @@ class CartItem
 	private $quantity;
 
 	/**
-	 * @var float
+	 * @var int
 	 */
 	private $amount;
 
@@ -28,7 +28,7 @@ class CartItem
 	/**
 	 * @param string $name
 	 * @param int $quantity
-	 * @param float $amount
+	 * @param int $amount
 	 * @param string|null $description
 	 */
 	public function __construct($name, $quantity, $amount, $description = null)
@@ -62,7 +62,7 @@ class CartItem
 	}
 
 	/**
-	 * @return float
+	 * @return int
 	 */
 	public function getAmount()
 	{

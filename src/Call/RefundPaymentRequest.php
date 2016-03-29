@@ -21,14 +21,14 @@ class RefundPaymentRequest
 	private $payId;
 
 	/**
-	 * @var integer|null
+	 * @var int|null
 	 */
 	private $amount;
 
 	/**
 	 * @param string $merchantId
 	 * @param string $payId
-	 * @param integer|null $amount
+	 * @param int|null $amount
 	 */
 	public function __construct(
 		$merchantId,

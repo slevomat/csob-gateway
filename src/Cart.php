@@ -23,7 +23,7 @@ class Cart
 	/**
 	 * @param string $name
 	 * @param int $quantity
-	 * @param float $amount
+	 * @param int $amount
 	 * @param string|null $description
 	 */
 	public function addItem($name, $quantity, $amount, $description = null)
@@ -48,11 +48,11 @@ class Cart
 	}
 
 	/**
-	 * @return float
+	 * @return int
 	 */
 	public function countTotalAmount()
 	{
-		$totalAmount = 0.0;
+		$totalAmount = 0;
 
 		foreach ($this->items as $item) {
 			$totalAmount += $item->getAmount();

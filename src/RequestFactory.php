@@ -129,7 +129,7 @@ class RequestFactory
 
 	/**
 	 * @param string $payId
-	 * @param integer $amount
+	 * @param int $amount
 	 * @return \SlevomatCsobGateway\Call\RefundPaymentRequest
 	 */
 	public function createRefundPayment($payId, $amount = null)
@@ -144,7 +144,7 @@ class RequestFactory
 	/**
 	 * @param string $origPayId
 	 * @param string $orderId
-	 * @param float|null $totalAmount
+	 * @param int|null $totalAmount
 	 * @param Currency|null $currency
 	 * @param string|null $description
 	 * @return RecurrentPaymentRequest
