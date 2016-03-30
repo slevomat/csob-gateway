@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api\Driver;
 
@@ -29,7 +29,7 @@ class GuzzleDriver implements ApiClientDriver
 	 * @return Response
 	 * @throws GuzzleDriverException
 	 */
-	public function request(HttpMethod $method, $url, array $data = null, array $headers = [])
+	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response
 	{
 		$postData = null;
 		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {
@@ -52,10 +52,10 @@ class GuzzleDriver implements ApiClientDriver
 
 			return new Response(
 				$responseCode,
-				json_decode($httpResponse->getBody(), JSON_OBJECT_AS_ARRAY),
+				json_decode((string) $httpResponse->getBody(), true),
 				$responseHeaders
 			);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			throw new GuzzleDriverException($e);
 		}
 	}

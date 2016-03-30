@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway;
 
@@ -15,10 +15,7 @@ class Validator
 	const CUSTOMER_ID_LENGTH_MAX = 50;
 	const PAY_ID_LENGTH_MAX = 15;
 
-	/**
-	 * @param string $name
-	 */
-	public static function checkCartItemName($name)
+	public static function checkCartItemName(string $name)
 	{
 		self::checkWhitespaces($name);
 
@@ -27,10 +24,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $description
-	 */
-	public static function checkCartItemDescription($description)
+	public static function checkCartItemDescription(string $description)
 	{
 		self::checkWhitespaces($description);
 
@@ -39,10 +33,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param int $quantity
-	 */
-	public static function checkCartItemQuantity($quantity)
+	public static function checkCartItemQuantity(int $quantity)
 	{
 		if ($quantity < 1) {
 			throw new \InvalidArgumentException(sprintf(
@@ -52,30 +43,24 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $orderId
-	 */
-	public static function checkOrderId($orderId)
+	public static function checkOrderId(string $orderId)
 	{
 		self::checkWhitespaces($orderId);
 
-		if (preg_match('#^[0-9]+$#', $orderId) === 0) {
+		if (!ctype_digit($orderId)) {
 			throw new \InvalidArgumentException(sprintf(
 				'OrderId must be numeric value. %s given.',
 				$orderId
 			));
 		}
 
-		if (strlen((string) $orderId) > self::ORDER_ID_LENGTH_MAX) {
+		if (strlen($orderId) > self::ORDER_ID_LENGTH_MAX) {
 			throw new \InvalidArgumentException(sprintf('OrderId can have maximum of %d characters.', self::ORDER_ID_LENGTH_MAX));
 		}
 
 	}
 
-	/**
-	 * @param string $returnUrl
-	 */
-	public static function checkReturnUrl($returnUrl)
+	public static function checkReturnUrl(string $returnUrl)
 	{
 		self::checkWhitespaces($returnUrl);
 
@@ -84,10 +69,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $description
-	 */
-	public static function checkDescription($description)
+	public static function checkDescription(string $description)
 	{
 		self::checkWhitespaces($description);
 
@@ -96,10 +78,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $merchantData
-	 */
-	public static function checkMerchantData($merchantData)
+	public static function checkMerchantData(string $merchantData)
 	{
 		self::checkWhitespaces($merchantData);
 
@@ -108,10 +87,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $customerId
-	 */
-	public static function checkCustomerId($customerId)
+	public static function checkCustomerId(string $customerId)
 	{
 		self::checkWhitespaces($customerId);
 
@@ -120,10 +96,7 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $payId
-	 */
-	public static function checkPayId($payId)
+	public static function checkPayId(string $payId)
 	{
 		self::checkWhitespaces($payId);
 
@@ -132,12 +105,8 @@ class Validator
 		}
 	}
 
-	/**
-	 * @param string $argument
-	 */
-	private static function checkWhitespaces($argument)
+	private static function checkWhitespaces(string $argument)
 	{
-		$argument = (string) $argument;
 		$charlist = preg_quote(" \t\n\r\0\x0B\xC2\xA0", '#');
 		preg_replace('#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '', $argument);
 

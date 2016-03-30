@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -22,15 +22,10 @@ class EchoResponse
 	 */
 	private $resultMessage;
 
-	/**
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 */
 	public function __construct(
 		DateTimeImmutable $responseDateTime,
 		ResultCode $resultCode,
-		$resultMessage
+		string $resultMessage
 	)
 	{
 		$this->responseDateTime = $responseDateTime;
@@ -38,26 +33,17 @@ class EchoResponse
 		$this->resultMessage = $resultMessage;
 	}
 
-	/**
-	 * @return DateTimeImmutable
-	 */
-	public function getResponseDateTime()
+	public function getResponseDateTime(): DateTimeImmutable
 	{
 		return $this->responseDateTime;
 	}
 
-	/**
-	 * @return ResultCode
-	 */
-	public function getResultCode()
+	public function getResultCode(): ResultCode
 	{
 		return $this->resultCode;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getResultMessage()
+	public function getResultMessage(): string
 	{
 		return $this->resultMessage;
 	}

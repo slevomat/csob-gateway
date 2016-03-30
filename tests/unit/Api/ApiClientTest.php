@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api;
 
@@ -106,7 +106,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getRequests
 	 */
-	public function testRequests(HttpMethod $httpMethod, $url, $expectedUrl, array $requestData, array $expectedRequestData = null, $responseData, ResponseCode $responseCode, array $responseHeaders)
+	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, array $expectedRequestData = null, array $responseData = null, ResponseCode $responseCode, array $responseHeaders)
 	{
 		self::markTestIncomplete('Contains imprecise DateTime handling');
 		$currentTime = new \DateTimeImmutable();
@@ -133,7 +133,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData)
 				->willReturn(new Response(
 					$responseCode,
-					($responseData ? $responseData : []) + [
+					($responseData !== null ? $responseData : []) + [
 						'signature' => 'signature',
 					],
 					$responseHeaders
@@ -148,7 +148,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 					])
 				->willReturn(new Response(
 					$responseCode,
-					($responseData ? $responseData : []) + [
+					($responseData !== null ? $responseData : []) + [
 						'signature' => 'signature',
 					],
 					$responseHeaders
@@ -174,7 +174,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($responseData, $response->getData());
 	}
 
-	public function getTestExceptions()
+	public function getTestExceptions(): array
 	{
 		return [
 			[
@@ -235,7 +235,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestExceptions
 	 */
-	public function testExceptions(Response $response, $expectedExceptionClass)
+	public function testExceptions(Response $response, string $expectedExceptionClass)
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()

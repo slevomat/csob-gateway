@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -9,12 +9,7 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class ReceivePaymentRequest
 {
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @param mixed[] $data
-	 * @return PaymentResponse
-	 */
-	public function send(ApiClient $apiClient, array $data)
+	public function send(ApiClient $apiClient, array $data): PaymentResponse
 	{
 		$response = $apiClient->createResponseByData($data, new SignatureDataFormatter([
 			'payId' => null,
@@ -33,9 +28,9 @@ class ReceivePaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null,
-			array_key_exists('merchantData', $data) ? base64_decode($data['merchantData']) : null
+			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
+			$data['authCode'] ?? null,
+			isset($data['merchantData']) ? base64_decode($data['merchantData']) : null
 		);
 	}
 

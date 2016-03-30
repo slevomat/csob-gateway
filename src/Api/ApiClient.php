@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api;
 
@@ -28,15 +28,10 @@ class ApiClient
 	 */
 	private $apiUrl;
 
-	/**
-	 * @param ApiClientDriver $driver
-	 * @param CryptoService $cryptoService
-	 * @param string|null $apiUrl
-	 */
 	public function __construct(
 		ApiClientDriver $driver,
 		CryptoService $cryptoService,
-		$apiUrl = null
+		string $apiUrl = null
 	)
 	{
 		$this->driver = $driver;
@@ -60,12 +55,12 @@ class ApiClient
 	 * @throws ApiClientDriverException
 	 */
 	public function get(
-		$url,
+		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
 		\Closure $responseValidityCallback = null
-	)
+	): Response
 	{
 		return $this->request(
 			new HttpMethod(HttpMethod::GET),
@@ -92,11 +87,11 @@ class ApiClient
 	 * @throws ApiClientDriverException
 	 */
 	public function post(
-		$url,
+		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter
-	)
+	): Response
 	{
 		return $this->request(
 			new HttpMethod(HttpMethod::POST),
@@ -122,11 +117,11 @@ class ApiClient
 	 * @throws ApiClientDriverException
 	 */
 	public function put(
-		$url,
+		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter
-	)
+	): Response
 	{
 		return $this->request(
 			new HttpMethod(HttpMethod::PUT),
@@ -155,16 +150,16 @@ class ApiClient
 	 */
 	public function request(
 		HttpMethod $method,
-		$url,
+		string $url,
 		array $queries = [],
 		array $data = null,
 		SignatureDataFormatter $responseSignatureDataFormatter,
 		\Closure $responseValidityCallback = null
-	)
+	): Response
 	{
 		foreach ($queries as $key => $value) {
 			if (strpos($url, '{' . $key . '}') !== false) {
-				$url = str_replace('{' . $key . '}', urlencode($value), $url);
+				$url = str_replace('{' . $key . '}', urlencode((string) $value), $url);
 				unset($queries[$key]);
 			}
 		}
@@ -230,7 +225,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 */
-	public function createResponseByData(array $data, SignatureDataFormatter $responseSignatureDataFormatter)
+	public function createResponseByData(array $data, SignatureDataFormatter $responseSignatureDataFormatter): Response
 	{
 		$response = new Response(
 			new ResponseCode(ResponseCode::S200_OK),
@@ -252,7 +247,7 @@ class ApiClient
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 */
-	private function prepareData(array $data, SignatureDataFormatter $signatureDataFormatter)
+	private function prepareData(array $data, SignatureDataFormatter $signatureDataFormatter): array
 	{
 		$data['dttm'] = (new DateTimeImmutable())->format('YmdHis');
 		$data['signature'] = $this->cryptoService->signData($data, $signatureDataFormatter);
@@ -269,7 +264,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 */
-	private function decodeData(Response $response, SignatureDataFormatter $signatureDataFormatter)
+	private function decodeData(Response $response, SignatureDataFormatter $signatureDataFormatter): array
 	{
 		$data = $response->getData();
 

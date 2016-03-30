@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway;
 
@@ -25,13 +25,7 @@ class CartItem
 	 */
 	private $description;
 
-	/**
-	 * @param string $name
-	 * @param int $quantity
-	 * @param int $amount
-	 * @param string|null $description
-	 */
-	public function __construct($name, $quantity, $amount, $description = null)
+	public function __construct(string $name, int $quantity, int $amount, string $description = null)
 	{
 		Validator::checkCartItemName($name);
 		if ($description !== null) {
@@ -45,26 +39,17 @@ class CartItem
 		$this->description = $description;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getQuantity()
+	public function getQuantity(): int
 	{
 		return $this->quantity;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getAmount()
+	public function getAmount(): int
 	{
 		return $this->amount;
 	}

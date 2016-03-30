@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -10,18 +10,12 @@ class ProcessPaymentResponse
 	 */
 	private $gatewayLocationUrl;
 
-	/**
-	 * @param string $gatewayLocationUrl
-	 */
-	public function __construct($gatewayLocationUrl)
+	public function __construct(string $gatewayLocationUrl)
 	{
-		$this->gatewayLocationUrl = (string) $gatewayLocationUrl;
+		$this->gatewayLocationUrl = $gatewayLocationUrl;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getGatewayLocationUrl()
+	public function getGatewayLocationUrl(): string
 	{
 		return $this->gatewayLocationUrl;
 	}

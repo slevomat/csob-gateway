@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Crypto;
 
@@ -28,14 +28,14 @@ class CryptoService
 	 * @param string $privateKeyPassword
 	 */
 	public function __construct(
-		$privateKeyFile,
-		$bankPublicKeyFile,
-		$privateKeyPassword = ''
+		string $privateKeyFile,
+		string $bankPublicKeyFile,
+		string $privateKeyPassword = ''
 	)
 	{
-		$this->privateKeyFile = (string) $privateKeyFile;
-		$this->bankPublicKeyFile = (string) $bankPublicKeyFile;
-		$this->privateKeyPassword = (string) $privateKeyPassword;
+		$this->privateKeyFile = $privateKeyFile;
+		$this->bankPublicKeyFile = $bankPublicKeyFile;
+		$this->privateKeyPassword = $privateKeyPassword;
 	}
 
 	/**
@@ -45,7 +45,7 @@ class CryptoService
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 */
-	public function signData(array $data, SignatureDataFormatter $signatureDataFormatter)
+	public function signData(array $data, SignatureDataFormatter $signatureDataFormatter): string
 	{
 		$message = $signatureDataFormatter->formatDataForSignature($data);
 
@@ -74,7 +74,7 @@ class CryptoService
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 */
-	public function verifyData(array $data, $signature, SignatureDataFormatter $signatureDataFormatter)
+	public function verifyData(array $data, string $signature, SignatureDataFormatter $signatureDataFormatter): bool
 	{
 		$message = $signatureDataFormatter->formatDataForSignature($data);
 

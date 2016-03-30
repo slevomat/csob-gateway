@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -43,23 +43,14 @@ class PaymentResponse
 	 */
 	private $merchantData;
 
-	/**
-	 * @param string $payId
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param PaymentStatus|null $paymentStatus
-	 * @param string|null $authCode
-	 * @param string|null $merchantData
-	 */
 	public function __construct(
-		$payId,
+		string $payId,
 		DateTimeImmutable $responseDateTime,
 		ResultCode $resultCode,
-		$resultMessage,
+		string $resultMessage,
 		PaymentStatus $paymentStatus = null,
-		$authCode = null,
-		$merchantData = null
+		string $authCode = null,
+		string $merchantData = null
 	)
 	{
 		Validator::checkPayId($payId);
@@ -76,34 +67,22 @@ class PaymentResponse
 		$this->merchantData = $merchantData;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPayId()
+	public function getPayId(): string
 	{
 		return $this->payId;
 	}
 
-	/**
-	 * @return DateTimeImmutable
-	 */
-	public function getResponseDateTime()
+	public function getResponseDateTime(): DateTimeImmutable
 	{
 		return $this->responseDateTime;
 	}
 
-	/**
-	 * @return ResultCode
-	 */
-	public function getResultCode()
+	public function getResultCode(): ResultCode
 	{
 		return $this->resultCode;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getResultMessage()
+	public function getResultMessage(): string
 	{
 		return $this->resultMessage;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Api;
 
@@ -10,21 +10,14 @@ abstract class RequestException extends \RuntimeException
 	 */
 	private $response;
 
-	/**
-	 * @param string $message
-	 * @param Response $response
-	 */
-	public function __construct($message, Response $response)
+	public function __construct(string $message, Response $response)
 	{
 		parent::__construct($message);
 
 		$this->response = $response;
 	}
 
-	/**
-	 * @return Response
-	 */
-	public function getResponse()
+	public function getResponse(): Response
 	{
 		return $this->response;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Type;
 
@@ -47,11 +47,7 @@ abstract class Enum
 		return $this->value;
 	}
 
-	/**
-	 * @param Enum $enum
-	 * @return bool
-	 */
-	public function equals(self $enum)
+	public function equals(self $enum): bool
 	{
 		if (get_class($this) !== get_class($enum)) {
 			throw new InvalidEnumTypeException($enum, get_class($this));
@@ -60,11 +56,7 @@ abstract class Enum
 		return $this->equalsValue($enum->getValue());
 	}
 
-	/**
-	 * @param mixed $value
-	 * @return bool
-	 */
-	public function equalsValue($value)
+	public function equalsValue($value): bool
 	{
 		self::checkValue($value);
 
@@ -75,15 +67,12 @@ abstract class Enum
 	 * @param mixed $value
 	 * @return bool
 	 */
-	private static function isValidValue($value)
+	private static function isValidValue($value): bool
 	{
 		return in_array($value, self::getAvailableValues(), true);
 	}
 
-	/**
-	 * @return mixed[]
-	 */
-	private static function getAvailableValues()
+	private static function getAvailableValues(): array
 	{
 		$index = get_called_class();
 		if (!isset(self::$availableValues[$index])) {

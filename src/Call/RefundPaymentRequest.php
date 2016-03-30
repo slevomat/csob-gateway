@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -25,15 +25,10 @@ class RefundPaymentRequest
 	 */
 	private $amount;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $payId
-	 * @param int|null $amount
-	 */
 	public function __construct(
-		$merchantId,
-		$payId,
-		$amount = null
+		string $merchantId,
+		string $payId,
+		int $amount = null
 	)
 	{
 		Validator::checkPayId($payId);
@@ -43,11 +38,7 @@ class RefundPaymentRequest
 		$this->amount = $amount;
 	}
 
-	/**
-	 * @param ApiClient $apiClient
-	 * @return PaymentResponse
-	 */
-	public function send(ApiClient $apiClient)
+	public function send(ApiClient $apiClient): PaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,
@@ -82,8 +73,8 @@ class RefundPaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? new PaymentStatus($data['paymentStatus']) : null,
-			array_key_exists('authCode', $data) ? $data['authCode'] : null
+			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
+			$data['authCode'] ?? null
 		);
 	}
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Crypto;
 
@@ -10,7 +10,7 @@ class PublicKeyFileException extends \RuntimeException
 	 */
 	private $publicKeyFile;
 
-	public function __construct($publicKeyFile, \Exception $previous = null)
+	public function __construct(string $publicKeyFile, \Throwable $previous = null)
 	{
 		parent::__construct(sprintf(
 			'Public key could not be loaded from file \'%s\'. Please make sure that the file contains valid public key.',
@@ -20,10 +20,7 @@ class PublicKeyFileException extends \RuntimeException
 		$this->publicKeyFile = $publicKeyFile;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPublicKeyFile()
+	public function getPublicKeyFile(): string
 	{
 		return $this->publicKeyFile;
 	}

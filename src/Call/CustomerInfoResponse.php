@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SlevomatCsobGateway\Call;
 
@@ -28,17 +28,11 @@ class CustomerInfoResponse
 	 */
 	private $customerId;
 
-	/**
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param string|null $customerId
-	 */
 	public function __construct(
 		DateTimeImmutable $responseDateTime,
 		ResultCode $resultCode,
-		$resultMessage,
-		$customerId
+		string $resultMessage,
+		string $customerId = null
 	)
 	{
 		Validator::checkCustomerId($customerId);
@@ -49,26 +43,17 @@ class CustomerInfoResponse
 		$this->customerId = $customerId;
 	}
 
-	/**
-	 * @return DateTimeImmutable
-	 */
-	public function getResponseDateTime()
+	public function getResponseDateTime(): DateTimeImmutable
 	{
 		return $this->responseDateTime;
 	}
 
-	/**
-	 * @return ResultCode
-	 */
-	public function getResultCode()
+	public function getResultCode(): ResultCode
 	{
 		return $this->resultCode;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getResultMessage()
+	public function getResultMessage(): string
 	{
 		return $this->resultMessage;
 	}
