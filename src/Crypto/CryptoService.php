@@ -85,6 +85,9 @@ class CryptoService
 		}
 
 		$signature = base64_decode($signature);
+		if ($signature === false) {
+			throw new VerificationFailedException($data, 'Unable to decode signature.');
+		}
 
 		$verifyResult = openssl_verify($message, $signature, $publicKeyId, self::HASH_METHOD);
 		openssl_free_key($publicKeyId);
