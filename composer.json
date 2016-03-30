@@ -39,5 +39,10 @@
 		"psr-4": {
 			"SlevomatCsobGateway\\": "tests/unit"
 		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0.x-dev"
+		}
 	}
 }
