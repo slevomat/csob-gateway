@@ -2,6 +2,7 @@
 <ruleset name="SlevomatCsobGateway">
 	<rule ref="vendor/consistence/coding-standard/Consistence/ruleset.xml">
 		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterBracket"/><!-- conflicts with return typehints in anonymous functions -->
 	</rule>
 	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
 		<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
