@@ -16,7 +16,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			[
 				new HttpMethod(HttpMethod::GET),
 				'fooUrl/{dttm}/{signature}',
-				'fooUrl/' . date('YmdHis') . '/signature',
+				'fooUrl/\\d{14}/signature',
 				[],
 				null,
 				[
@@ -30,7 +30,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			[
 				new HttpMethod(HttpMethod::GET),
 				'fooUrl/{fooId}/{dttm}/{signature}',
-				'fooUrl/3/' . date('YmdHis') . '/signature',
+				'fooUrl/3/\\d{14}/signature',
 				[
 					'fooId' => 3,
 				],
@@ -82,7 +82,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			[
 				new HttpMethod(HttpMethod::GET),
 				'fooUrl/{dttm}/{signature}',
-				'fooUrl/' . date('YmdHis') . '/signature',
+				'fooUrl/\\d{14}/signature',
 				[],
 				null,
 				null,
@@ -108,9 +108,6 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, array $expectedRequestData = null, array $responseData = null, ResponseCode $responseCode, array $responseHeaders)
 	{
-		self::markTestIncomplete('Contains imprecise DateTime handling');
-		$currentTime = new \DateTimeImmutable();
-
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -130,7 +127,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData)
+				->with($httpMethod, $this->matchesRegularExpression(sprintf('~^%s/%s$~', preg_quote(self::API_URL, '~'), $expectedUrl)), $expectedRequestData)
 				->willReturn(new Response(
 					$responseCode,
 					($responseData !== null ? $responseData : []) + [
@@ -142,17 +139,22 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		} else {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, self::API_URL . '/' . $expectedUrl, $expectedRequestData + [
-						'signature' => $cryptoService->signData($requestData, new SignatureDataFormatter([])),
-						'dttm' => $currentTime->format('YmdHis'),
-					])
-				->willReturn(new Response(
-					$responseCode,
-					($responseData !== null ? $responseData : []) + [
-						'signature' => 'signature',
-					],
-					$responseHeaders
-				));
+				->willReturnCallback(function (HttpMethod $method, string $url, array $requestData) use ($httpMethod, $expectedUrl, $expectedRequestData, $responseCode, $responseData, $responseHeaders): Response {
+					$this->assertEquals($httpMethod, $method);
+					$this->assertSame(sprintf('%s/%s', self::API_URL, $expectedUrl), $url);
+					$dttm = $requestData['dttm'];
+					$this->assertRegExp('~^\\d{14}$~', $dttm);
+					unset($requestData['dttm']);
+					$this->assertEquals($expectedRequestData + ['signature' => 'signature'], $requestData);
+
+					return new Response(
+						$responseCode,
+						($responseData !== null ? $responseData : []) + [
+							'signature' => 'signature',
+						],
+						$responseHeaders
+					);
+				});
 		}
 
 		/** @var ApiClientDriver $apiClientDriver */
