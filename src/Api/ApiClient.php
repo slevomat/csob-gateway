@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Api;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Call\ResponseExtensionHandler;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\PrivateKeyFileException;
 use SlevomatCsobGateway\Crypto\PublicKeyFileException;
@@ -45,6 +46,7 @@ class ApiClient
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param \Closure|null $responseValidityCallback
+	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -53,13 +55,15 @@ class ApiClient
 	 * @throws VerificationFailedException
 	 * @throws RequestException
 	 * @throws ApiClientDriverException
+	 * @throws InvalidSignatureException
 	 */
 	public function get(
 		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		\Closure $responseValidityCallback = null
+		\Closure $responseValidityCallback = null,
+		array $extensions = []
 	): Response
 	{
 		return $this->request(
@@ -68,7 +72,8 @@ class ApiClient
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			null,
 			$responseSignatureDataFormatter,
-			$responseValidityCallback
+			$responseValidityCallback,
+			$extensions
 		);
 	}
 
@@ -77,6 +82,7 @@ class ApiClient
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
+	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -85,12 +91,14 @@ class ApiClient
 	 * @throws VerificationFailedException
 	 * @throws RequestException
 	 * @throws ApiClientDriverException
+	 * @throws InvalidSignatureException
 	 */
 	public function post(
 		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
-		SignatureDataFormatter $responseSignatureDataFormatter
+		SignatureDataFormatter $responseSignatureDataFormatter,
+		array $extensions = []
 	): Response
 	{
 		return $this->request(
@@ -98,7 +106,9 @@ class ApiClient
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
-			$responseSignatureDataFormatter
+			$responseSignatureDataFormatter,
+			null,
+			$extensions
 		);
 	}
 
@@ -107,6 +117,7 @@ class ApiClient
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
+	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -115,12 +126,14 @@ class ApiClient
 	 * @throws VerificationFailedException
 	 * @throws RequestException
 	 * @throws ApiClientDriverException
+	 * @throws InvalidSignatureException
 	 */
 	public function put(
 		string $url,
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
-		SignatureDataFormatter $responseSignatureDataFormatter
+		SignatureDataFormatter $responseSignatureDataFormatter,
+		array $extensions = []
 	): Response
 	{
 		return $this->request(
@@ -128,7 +141,9 @@ class ApiClient
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
-			$responseSignatureDataFormatter
+			$responseSignatureDataFormatter,
+			null,
+			$extensions
 		);
 	}
 
@@ -139,6 +154,7 @@ class ApiClient
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param \Closure|null $responseValidityCallback
+	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
@@ -147,6 +163,7 @@ class ApiClient
 	 * @throws VerificationFailedException
 	 * @throws RequestException
 	 * @throws ApiClientDriverException
+	 * @throws InvalidSignatureException
 	 */
 	public function request(
 		HttpMethod $method,
@@ -154,7 +171,8 @@ class ApiClient
 		array $queries = [],
 		array $data = null,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		\Closure $responseValidityCallback = null
+		\Closure $responseValidityCallback = null,
+		array $extensions = []
 	): Response
 	{
 		foreach ($queries as $key => $value) {
@@ -179,10 +197,24 @@ class ApiClient
 		}
 
 		if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
+			$decodedExtensions = [];
+			if ($extensions !== [] && array_key_exists('extensions', $response->getData())) {
+				foreach ($response->getData()['extensions'] as $extensionData) {
+					$name = $extensionData['extension'];
+					if (isset($extensions[$name])) {
+						$handler = $extensions[$name];
+						$decodedExtensions[$name] = $handler->createResponse($this->decodeData($extensionData, $handler->getSignatureDataFormatter()));
+					}
+				}
+			}
+			$responseData = $this->decodeData($response->getData(), $responseSignatureDataFormatter);
+			unset($responseData['extensions']);
+
 			return new Response(
 				$response->getResponseCode(),
-				$this->decodeData($response, $responseSignatureDataFormatter),
-				$response->getHeaders()
+				$responseData,
+				$response->getHeaders(),
+				$decodedExtensions
 			);
 
 		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S303_SEE_OTHER)) {
@@ -234,7 +266,7 @@ class ApiClient
 
 		return new Response(
 			$response->getResponseCode(),
-			$this->decodeData($response, $responseSignatureDataFormatter),
+			$this->decodeData($data, $responseSignatureDataFormatter),
 			$response->getHeaders()
 		);
 	}
@@ -256,7 +288,7 @@ class ApiClient
 	}
 
 	/**
-	 * @param Response $response
+	 * @param mixed[] $responseData
 	 * @param SignatureDataFormatter $signatureDataFormatter
 	 * @return mixed[]
 	 *
@@ -264,22 +296,20 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 */
-	private function decodeData(Response $response, SignatureDataFormatter $signatureDataFormatter): array
+	private function decodeData(array $responseData, SignatureDataFormatter $signatureDataFormatter): array
 	{
-		$data = $response->getData();
-
-		if (!array_key_exists('signature', $data)) {
-			throw new InvalidSignatureException($response);
+		if (!array_key_exists('signature', $responseData)) {
+			throw new InvalidSignatureException($responseData);
 		}
 
-		$signature = $data['signature'];
-		unset($data['signature']);
+		$signature = $responseData['signature'];
+		unset($responseData['signature']);
 
-		if (!$this->cryptoService->verifyData($data, $signature, $signatureDataFormatter)) {
-			throw new InvalidSignatureException($response);
+		if (!$this->cryptoService->verifyData($responseData, $signature, $signatureDataFormatter)) {
+			throw new InvalidSignatureException($responseData);
 		}
 
-		return $data;
+		return $responseData;
 	}
 
 }

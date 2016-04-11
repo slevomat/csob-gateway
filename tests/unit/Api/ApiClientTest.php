@@ -303,7 +303,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (InvalidSignatureException $e) {
-			$this->assertSame($response, $e->getResponse());
+			$this->assertSame($response->getData(), $e->getResponseData());
 		}
 	}
 
@@ -344,7 +344,9 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (InvalidSignatureException $e) {
-			$this->assertSame($response, $e->getResponse());
+			$responseData = $response->getData();
+			unset($responseData['signature']);
+			$this->assertSame($responseData, $e->getResponseData());
 		}
 	}
 
@@ -379,6 +381,63 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
 		$this->assertEquals([], $response->getHeaders());
 		$this->assertEquals($data, $response->getData());
+	}
+
+	public function testRequestWithExtension()
+	{
+		$cryptoService = $this->getMockBuilder(CryptoService::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$cryptoService->expects(self::once())
+			->method('signData')
+			->willReturn('signature');
+
+		$cryptoService->expects(self::exactly(2))
+			->method('verifyData')
+			->willReturn(true);
+
+		/** @var CryptoService $cryptoService */
+		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
+			->getMock();
+
+		$apiClientDriver->expects(self::once())
+			->method('request')
+			->willReturn(new Response(
+				new ResponseCode(ResponseCode::S200_OK),
+				['id' => '123', 'signature' => 'signature', 'extensions' => [['extension' => 'foo', 'foo' => 'bar', 'signature' => 'signatureExtension']]],
+				[]
+			));
+
+		/** @var ApiClientDriver $apiClientDriver */
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
+
+		// @codingStandardsIgnoreStart
+		$extensions = [
+			'foo' => new class implements \SlevomatCsobGateway\Call\ResponseExtensionHandler {
+
+				public function createResponse(array $decodeData): \stdClass
+				{
+					return (object) ['foo' => 'bar'];
+				}
+
+				public function getSignatureDataFormatter(): SignatureDataFormatter
+				{
+					return new SignatureDataFormatter([]);
+				}
+			},
+		];
+		// @codingStandardsIgnoreEnd
+
+		$response = $apiClient->get('payment/status/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]), null, $extensions);
+
+		$this->assertInstanceOf(Response::class, $response);
+		$this->assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		$this->assertEquals([], $response->getHeaders());
+		$this->assertEquals(['id' => '123'], $response->getData());
+		$this->assertCount(1, $response->getExtensions());
+		$this->assertInstanceOf(\stdClass::class, $response->getExtensions()['foo']);
+		$this->assertSame('bar', $response->getExtensions()['foo']->foo);
 	}
 
 }

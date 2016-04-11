@@ -20,20 +20,26 @@ class Response
 	 */
 	private $headers;
 
+	/** @var mixed[] */
+	private $extensions;
+
 	/**
 	 * @param ResponseCode $responseCode
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
+	 * @param mixed[] $extensions
 	 */
 	public function __construct(
 		ResponseCode $responseCode,
 		array $data = null,
-		array $headers = []
+		array $headers = [],
+		array $extensions = []
 	)
 	{
 		$this->responseCode = $responseCode;
 		$this->data = $data;
 		$this->headers = $headers;
+		$this->extensions = $extensions;
 	}
 
 	public function getResponseCode(): ResponseCode
@@ -55,6 +61,14 @@ class Response
 	public function getHeaders(): array
 	{
 		return $this->headers;
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function getExtensions(): array
+	{
+		return $this->extensions;
 	}
 
 }

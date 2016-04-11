@@ -20,6 +20,9 @@ class PaymentStatusRequest
 	 */
 	private $payId;
 
+	/** @var ResponseExtensionHandler[] */
+	private $extensions = [];
+
 	public function __construct(
 		string $merchantId,
 		string $payId
@@ -51,7 +54,9 @@ class PaymentStatusRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
-			])
+			]),
+			null,
+			$this->extensions
 		);
 
 		$data = $response->getData();
@@ -62,8 +67,15 @@ class PaymentStatusRequest
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			$data['authCode'] ?? null,
+			null,
+			$response->getExtensions()
 		);
+	}
+
+	public function registerExtension(string $name, ResponseExtensionHandler $extensionHandler)
+	{
+		$this->extensions[$name] = $extensionHandler;
 	}
 
 }

@@ -2,12 +2,21 @@
 
 namespace SlevomatCsobGateway\Api;
 
-class InvalidSignatureException extends RequestException
+class InvalidSignatureException extends \RuntimeException
 {
 
-	public function __construct(Response $response)
+	/** @var mixed[] */
+	private $responseData;
+
+	public function __construct(array $responseData)
 	{
-		parent::__construct('Invalid signature.', $response);
+		parent::__construct('Invalid signature.');
+		$this->responseData = $responseData;
+	}
+
+	public function getResponseData(): array
+	{
+		return $this->responseData;
 	}
 
 }
