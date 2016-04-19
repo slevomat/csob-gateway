@@ -52,7 +52,7 @@ $paymentResponse = $requestFactory->createInitPayment(
 )->send($apiClient);
 $payId = $paymentResponse->getPayId();
 
-$processPaymentResponse = $requestFactory->createProcessPayment($payId);
+$processPaymentResponse = $requestFactory->createProcessPayment($payId)->send($apiClient);
 
 // redirect to gateway
 header('Location: ' . $processPaymentResponse->getGatewayLocationUrl());
