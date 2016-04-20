@@ -64,12 +64,25 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (InvalidEnumValueException $e) {
+			$this->assertSame('Invalid enum value \'10\' (integer). Available values: 1, 2, 3', $e->getMessage());
 			$this->assertSame(10, $e->getValue());
 			$this->assertEquals([
 				'DRAFT' => StatusEnum::DRAFT,
 				'REVIEW' => StatusEnum::REVIEW,
 				'PUBLISHED' => StatusEnum::PUBLISHED,
 			], $e->getAvailableValues());
+		}
+	}
+
+	public function testInvalidEnumValueType()
+	{
+		try {
+			new StatusEnum('10');
+			$this->fail();
+
+		} catch (InvalidEnumValueException $e) {
+			$this->assertSame('Invalid enum value \'10\' (string). Available values: 1, 2, 3', $e->getMessage());
+			$this->assertSame('10', $e->getValue());
 		}
 	}
 

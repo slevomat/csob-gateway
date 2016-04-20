@@ -22,8 +22,9 @@ class InvalidEnumValueException extends \InvalidArgumentException
 	public function __construct($value, array $availableValues)
 	{
 		parent::__construct(sprintf(
-			'Invalid enum value \'%s\'. Available values: %s',
+			'Invalid enum value \'%s\' (%s). Available values: %s',
 			$value,
+			is_object($value) ? get_class($value) : gettype($value),
 			implode(', ', $availableValues)
 		));
 
