@@ -11,7 +11,7 @@ This repository provides a client library for ČSOB Payment Gateway.
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
 - [CSOB eAPI 1.5](https://github.com/csob/paymentgateway/wiki/eAPI-1.5)
 
-Library supports all endpoints of eAPI 1.5 and response extensions introduced in eAPI 1.6 (they actually works also in 1.5).
+Library supports all endpoints of eAPI 1.5 and response extensions introduced in eAPI 1.6 (they actually work also in 1.5).
 
 ## Installation
 
