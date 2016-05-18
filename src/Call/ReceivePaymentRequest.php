@@ -11,6 +11,14 @@ class ReceivePaymentRequest
 
 	public function send(ApiClient $apiClient, array $data): PaymentResponse
 	{
+		if (array_key_exists('resultCode', $data) && is_numeric($data['resultCode'])) {
+			$data['resultCode'] = (int) $data['resultCode'];
+		}
+
+		if (array_key_exists('paymentStatus', $data) && is_numeric($data['paymentStatus'])) {
+			$data['paymentStatus'] = (int) $data['paymentStatus'];
+		}
+
 		$response = $apiClient->createResponseByData($data, new SignatureDataFormatter([
 			'payId' => null,
 			'dttm' => null,
