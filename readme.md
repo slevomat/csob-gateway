@@ -13,6 +13,8 @@ This repository provides a client library for ČSOB Payment Gateway.
 
 Library supports all endpoints of eAPI 1.5.
 
+This branch (1.0) contains version with support of PHP 5.6. If you use PHP 7, take a look at master branch and versions 2.*. Not all bugfixes and new features are backported here from version 2, if you are missing something, feel free to create a pull request.
+
 ## Installation
 
 The best way to install slevomat/csob-gateway is using [Composer](http://getcomposer.org/):
