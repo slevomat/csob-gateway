@@ -108,7 +108,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			$this->fail();
 
 		} catch (\InvalidArgumentException $e) {
-			$this->assertSame('MerchantData can have maximum of 255 characters.', $e->getMessage());
+			$this->assertSame('MerchantData can have maximum of 255 characters in encoded state.', $e->getMessage());
 		}
 	}
 

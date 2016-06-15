@@ -82,8 +82,8 @@ class Validator
 	{
 		self::checkWhitespaces($merchantData);
 
-		if (strlen(utf8_decode($merchantData)) > self::MERCHANT_DATA_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('MerchantData can have maximum of %d characters.', self::MERCHANT_DATA_LENGTH_MAX));
+		if (strlen(utf8_decode(base64_encode($merchantData))) > self::MERCHANT_DATA_LENGTH_MAX) {
+			throw new \InvalidArgumentException(sprintf('MerchantData can have maximum of %d characters in encoded state.', self::MERCHANT_DATA_LENGTH_MAX));
 		}
 	}
 
