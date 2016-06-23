@@ -23,11 +23,13 @@
 		"phing/phing": "~2.12",
 		"phpunit/phpunit": "^5.2.12",
 		"slevomat/coding-standard": "^1.0.5",
-		"guzzlehttp/guzzle": "^6.1"
+		"guzzlehttp/guzzle": "^6.1",
+		"psr/log": "^1.0"
 	},
 	"suggest": {
 		"guzzlehttp/guzzle": "HTTP client for usage of GuzzleHttpClient",
-		"ext-curl": "cURL driver for usage of CurlDriver"
+		"ext-curl": "cURL driver for usage of CurlDriver",
+		"psr/log": "Common interface for logging of requests - implementations: https://packagist.org/providers/psr/log-implementation"
 	},
 	"autoload": {
 		"psr-4": {

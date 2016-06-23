@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Api;
 
 use DateTimeImmutable;
+use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Call\ResponseExtensionHandler;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\PrivateKeyFileException;
@@ -25,6 +26,11 @@ class ApiClient
 	private $cryptoService;
 
 	/**
+	 * @var LoggerInterface|null
+	 */
+	private $logger;
+
+	/**
 	 * @var string
 	 */
 	private $apiUrl;
@@ -38,6 +44,11 @@ class ApiClient
 		$this->driver = $driver;
 		$this->cryptoService = $cryptoService;
 		$this->apiUrl = $apiUrl;
+	}
+
+	public function setLogger(LoggerInterface $logger = null)
+	{
+		$this->logger = $logger;
 	}
 
 	/**
@@ -175,6 +186,10 @@ class ApiClient
 		array $extensions = []
 	): Response
 	{
+		$urlFirstQueryPosition = strpos($url, '{');
+		$endpointName = ($urlFirstQueryPosition !== false ? substr($url, 0, $urlFirstQueryPosition - 1) : $url);
+		$originalQueries = $queries;
+
 		foreach ($queries as $key => $value) {
 			if (strpos($url, '{' . $key . '}') !== false) {
 				$url = str_replace('{' . $key . '}', urlencode((string) $value), $url);
@@ -191,6 +206,8 @@ class ApiClient
 			$this->apiUrl . '/' . $url,
 			$data
 		);
+
+		$this->logRequest($method, $endpointName, $originalQueries, $data, $response);
 
 		if ($responseValidityCallback !== null) {
 			$responseValidityCallback($response);
@@ -264,6 +281,8 @@ class ApiClient
 			$data
 		);
 
+		$this->logRequest(new HttpMethod(HttpMethod::GET), 'payment/response', [], [], $response);
+
 		return new Response(
 			$response->getResponseCode(),
 			$this->decodeData($data, $responseSignatureDataFormatter),
@@ -310,6 +329,38 @@ class ApiClient
 		}
 
 		return $responseData;
+	}
+
+	private function logRequest(HttpMethod $method, string $url, array $queries, array $requestData = null, Response $response)
+	{
+		if ($this->logger === null) {
+			return;
+		}
+
+		$responseData = $response->getData();
+
+		unset($requestData['signature']);
+		unset($queries['signature']);
+		unset($responseData['signature']);
+
+		if (isset($responseData['extensions'])) {
+			foreach ($responseData['extensions'] as $key => $extensionData) {
+				unset($responseData['extensions'][$key]['signature']);
+			}
+		}
+		$context = [
+			'request' => [
+				'method' => $method->getValue(),
+				'queries' => $queries,
+				'data' => $requestData,
+			],
+			'response' => [
+				'code' => $response->getResponseCode()->getValue(),
+				'data' => $responseData,
+			],
+		];
+
+		$this->logger->info($url, $context);
 	}
 
 }
