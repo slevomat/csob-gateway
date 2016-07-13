@@ -9,10 +9,6 @@ coding_style:
             around_operators:
                 concatenation: true
         braces:
-            classes_functions:
-                class: new-line
-                function: new-line
-                closure: end-of-line
             if:
                 opening: end-of-line
             for:
@@ -91,3 +87,6 @@ filter:
     excluded_paths:
         - vendor/*
         - tests/*/*Mock*
+
+tools:
+    external_code_coverage: true

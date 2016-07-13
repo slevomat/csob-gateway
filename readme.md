@@ -1,7 +1,7 @@
 # CSOB gateway
 
 [![Build Status](https://img.shields.io/travis/slevomat/csob-gateway/master.svg?style=flat-square)](https://travis-ci.org/slevomat/csob-gateway)
-[![Code Coverage](https://img.shields.io/coveralls/slevomat/csob-gateway.svg?style=flat-square)](https://coveralls.io/r/slevomat/csob-gateway)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/slevomat/csob-gateway.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/csob-gateway/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/slevomat/csob-gateway.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/csob-gateway/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)
 [![Composer Downloads](https://img.shields.io/packagist/dt/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)

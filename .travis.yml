@@ -21,4 +21,5 @@ script:
   - vendor/bin/phing
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi
