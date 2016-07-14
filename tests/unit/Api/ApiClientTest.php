@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
@@ -157,8 +158,18 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				});
 		}
 
+		$logger = $this->getMockBuilder(LoggerInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$logger->expects(self::once())
+			->method('info')
+			->with($this->isType('string'), $this->isType('array'));
+
 		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
+		/** @var LoggerInterface $logger */
+		$apiClient->setLogger($logger);
 
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$response = $apiClient->get($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
