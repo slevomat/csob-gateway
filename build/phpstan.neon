@@ -1,0 +1,4 @@
+parameters:
+	ignoreErrors:
+		- '#Function SlevomatCsobGateway\\Crypto\\openssl_sign not found#'
+		- '#Function SlevomatCsobGateway\\Api\\Driver\\curl_init not found#'
