@@ -26,7 +26,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'orderNo' => '5547',
 				'payOperation' => 'payment',
 				'payMethod' => 'card',
-				'totalAmount' => 1789600.0,
+				'totalAmount' => 1789600,
 				'currency' => 'CZK',
 				'closePayment' => true,
 				'returnUrl' => 'https://vasobchod.cz/gateway-return',
@@ -49,6 +49,9 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'merchantData' => base64_encode('some-base64-encoded-merchant-data'),
 				'customerId' => '123',
 				'language' => 'CZ',
+				'ttlSec' => 1800,
+				'logoVersion' => 1,
+				'colorSchemeVersion' => 2,
 			])
 			->willReturn(
 				new Response(new ResponseCode(ResponseCode::S200_OK), [
@@ -79,7 +82,10 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 			'123',
-			new Language(Language::CZ)
+			new Language(Language::CZ),
+			1800,
+			1,
+			2
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

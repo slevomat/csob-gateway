@@ -7,8 +7,9 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Price;
 
-class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
+class OneclickInitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 {
 
 	public function testSend()
@@ -18,13 +19,13 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('post')
-			->with('payment/recurrent', [
+			->with('payment/oneclick/init', [
 				'merchantId' => '012345',
 				'origPayId' => 'ef08b6e9f22345c',
-				'totalAmount' => (int) round(99.8 * 100),
+				'orderNo' => '5547',
+				'totalAmount' => 1789600,
 				'currency' => 'CZK',
-				'orderNo' => '5547123',
-				'description' => 'foo description',
+				'description' => 'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			])
 			->willReturn(
 				new Response(new ResponseCode(ResponseCode::S200_OK), [
@@ -32,30 +33,28 @@ class RecurrentPaymentRequestTest extends \PHPUnit_Framework_TestCase
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
-					'paymentStatus' => 7,
-					'authCode' => '123456',
+					'paymentStatus' => 1,
 				])
 			);
 
-		/** @var ApiClient $apiClient */
-		$recurrentPaymentRequest = new RecurrentPaymentRequest(
+		$initPaymentRequest = new OneclickInitPaymentRequest(
 			'012345',
 			'ef08b6e9f22345c',
-			'5547123',
-			(int) round(99.8 * 100),
-			new Currency(Currency::CZK),
-			'foo description'
+			'5547',
+			new Price(1789600, new Currency(Currency::CZK)),
+			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
 
-		$paymentResponse = $recurrentPaymentRequest->send($apiClient);
+		/** @var ApiClient $apiClient */
+		$paymentResponse = $initPaymentRequest->send($apiClient);
 
 		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
 		$this->assertSame('123456789', $paymentResponse->getPayId());
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
 		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $paymentResponse->getResultCode());
 		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(new PaymentStatus(PaymentStatus::S7_AWAITING_SETTLEMENT), $paymentResponse->getPaymentStatus());
-		$this->assertSame('123456', $paymentResponse->getAuthCode());
+		$this->assertEquals(new PaymentStatus(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		$this->assertNull($paymentResponse->getAuthCode());
 	}
 
 }

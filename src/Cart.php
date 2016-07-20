@@ -33,12 +33,15 @@ class Cart
 		return $this->items;
 	}
 
-	public function getCurrency(): Currency
+	public function getCurrentPrice(): Price
 	{
-		return $this->currency;
+		return new Price(
+			$this->countTotalAmount(),
+			$this->currency
+		);
 	}
 
-	public function countTotalAmount(): int
+	private function countTotalAmount(): int
 	{
 		$totalAmount = 0;
 

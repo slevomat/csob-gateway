@@ -7,13 +7,14 @@ use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
+use SlevomatCsobGateway\Call\OneclickInitPaymentRequest;
+use SlevomatCsobGateway\Call\OneclickStartPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
 use SlevomatCsobGateway\Call\PostEchoRequest;
 use SlevomatCsobGateway\Call\ProcessPaymentRequest;
 use SlevomatCsobGateway\Call\ReceivePaymentRequest;
-use SlevomatCsobGateway\Call\RecurrentPaymentRequest;
 use SlevomatCsobGateway\Call\RefundPaymentRequest;
 use SlevomatCsobGateway\Call\ReversePaymentRequest;
 
@@ -49,7 +50,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 			'123',
-			new Language(Language::CZ)
+			new Language(Language::CZ),
+			1800,
+			1,
+			1
 		);
 
 		$this->assertInstanceOf(InitPaymentRequest::class, $request);
@@ -90,16 +94,6 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(RefundPaymentRequest::class, $request);
 	}
 
-	public function testCreateRecurrentPayment()
-	{
-		$request = $this->requestFactory->createRecurrentPayment(
-			'ef08b6e9f22345c',
-			'5547123'
-		);
-
-		$this->assertInstanceOf(RecurrentPaymentRequest::class, $request);
-	}
-
 	public function testCreateEchoRequest()
 	{
 		$request = $this->requestFactory->createEchoRequest();
@@ -126,6 +120,25 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 		$request = $this->requestFactory->createReceivePaymentRequest();
 
 		$this->assertInstanceOf(ReceivePaymentRequest::class, $request);
+	}
+
+	public function testCreateOneclickInitPayment()
+	{
+		$request = $this->requestFactory->createOneclickInitPayment(
+			'ef08b6e9f22345c',
+			'5547123',
+			new Price(1789600, new Currency(Currency::CZK)),
+			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
+		);
+
+		$this->assertInstanceOf(OneclickInitPaymentRequest::class, $request);
+	}
+
+	public function testCreateOneclickStartPayment()
+	{
+		$request = $this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
+
+		$this->assertInstanceOf(OneclickStartPaymentRequest::class, $request);
 	}
 
 }

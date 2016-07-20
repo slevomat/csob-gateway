@@ -70,9 +70,24 @@ class InitPaymentRequest
 	private $customerId;
 
 	/**
-	 * @var Language|null
+	 * @var Language
 	 */
 	private $language;
+
+	/**
+	 * @var int|null
+	 */
+	private $ttlSec;
+
+	/**
+	 * @var int|null
+	 */
+	private $logoVersion;
+
+	/**
+	 * @var int|null
+	 */
+	private $colorSchemeVersion;
 
 	public function __construct(
 		string $merchantId,
@@ -86,7 +101,10 @@ class InitPaymentRequest
 		string $description,
 		string $merchantData = null,
 		string $customerId = null,
-		Language $language = null
+		Language $language,
+		int $ttlSec = null,
+		int $logoVersion = null,
+		int $colorSchemeVersion = null
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -97,6 +115,9 @@ class InitPaymentRequest
 		}
 		if ($customerId !== null) {
 			Validator::checkCustomerId($customerId);
+		}
+		if ($ttlSec !== null) {
+			Validator::checkTtlSec($ttlSec);
 		}
 
 		$this->merchantId = $merchantId;
@@ -111,17 +132,22 @@ class InitPaymentRequest
 		$this->merchantData = $merchantData;
 		$this->customerId = $customerId;
 		$this->language = $language;
+		$this->ttlSec = $ttlSec;
+		$this->logoVersion = $logoVersion;
+		$this->colorSchemeVersion = $colorSchemeVersion;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
 	{
+		$price = $this->cart->getCurrentPrice();
+
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'payOperation' => $this->payOperation->getValue(),
 			'payMethod' => $this->payMethod->getValue(),
-			'totalAmount' => $this->cart->countTotalAmount(),
-			'currency' => $this->cart->getCurrency()->getValue(),
+			'totalAmount' => $price->getAmount(),
+			'currency' => $price->getCurrency()->getValue(),
 			'closePayment' => $this->closePayment,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->getValue(),
@@ -140,6 +166,7 @@ class InitPaymentRequest
 
 			}, $this->cart->getItems()),
 			'description' => $this->description,
+			'language' => $this->language->getValue(),
 		];
 
 		if ($this->merchantData !== null) {
@@ -150,8 +177,16 @@ class InitPaymentRequest
 			$requestData['customerId'] = $this->customerId;
 		}
 
-		if ($this->language !== null) {
-			$requestData['language'] = $this->language->getValue();
+		if ($this->ttlSec !== null) {
+			$requestData['ttlSec'] = $this->ttlSec;
+		}
+
+		if ($this->logoVersion !== null) {
+			$requestData['logoVersion'] = $this->logoVersion;
+		}
+
+		if ($this->colorSchemeVersion !== null) {
+			$requestData['colorSchemeVersion'] = $this->colorSchemeVersion;
 		}
 
 		$response = $apiClient->post(
@@ -178,6 +213,9 @@ class InitPaymentRequest
 				'merchantData' => null,
 				'customerId' => null,
 				'language' => null,
+				'ttlSec' => null,
+				'logoVersion' => null,
+				'colorSchemeVersion' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,

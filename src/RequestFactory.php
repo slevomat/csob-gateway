@@ -7,13 +7,14 @@ use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
+use SlevomatCsobGateway\Call\OneclickInitPaymentRequest;
+use SlevomatCsobGateway\Call\OneclickStartPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
 use SlevomatCsobGateway\Call\PostEchoRequest;
 use SlevomatCsobGateway\Call\ProcessPaymentRequest;
 use SlevomatCsobGateway\Call\ReceivePaymentRequest;
-use SlevomatCsobGateway\Call\RecurrentPaymentRequest;
 use SlevomatCsobGateway\Call\RefundPaymentRequest;
 use SlevomatCsobGateway\Call\ReversePaymentRequest;
 
@@ -41,7 +42,10 @@ class RequestFactory
 		string $description,
 		string $merchantData = null,
 		string $customerId = null,
-		Language $language = null
+		Language $language,
+		int $ttlSec = null,
+		int $logoVersion = null,
+		int $colorSchemeVersion = null
 	): InitPaymentRequest
 	{
 		return new InitPaymentRequest(
@@ -56,7 +60,10 @@ class RequestFactory
 			$description,
 			$merchantData,
 			$customerId,
-			$language
+			$language,
+			$ttlSec,
+			$logoVersion,
+			$colorSchemeVersion
 		);
 	}
 
@@ -101,24 +108,6 @@ class RequestFactory
 		);
 	}
 
-	public function createRecurrentPayment(
-		string $origPayId,
-		string $orderId,
-		int $totalAmount = null,
-		Currency $currency = null,
-		string $description = null
-	): RecurrentPaymentRequest
-	{
-		return new RecurrentPaymentRequest(
-			$this->merchantId,
-			$origPayId,
-			$orderId,
-			$totalAmount,
-			$currency,
-			$description
-		);
-	}
-
 	public function createEchoRequest(): EchoRequest
 	{
 		return new EchoRequest(
@@ -144,6 +133,30 @@ class RequestFactory
 	public function createReceivePaymentRequest(): ReceivePaymentRequest
 	{
 		return new ReceivePaymentRequest();
+	}
+
+	public function createOneclickInitPayment(
+		string $origPayId,
+		string $orderId,
+		Price $price = null,
+		string $description = null
+	): OneclickInitPaymentRequest
+	{
+		return new OneclickInitPaymentRequest(
+			$this->merchantId,
+			$origPayId,
+			$orderId,
+			$price,
+			$description
+		);
+	}
+
+	public function createOneclickStartPayment(string $payId): OneclickStartPaymentRequest
+	{
+		return new OneclickStartPaymentRequest(
+			$this->merchantId,
+			$payId
+		);
 	}
 
 }

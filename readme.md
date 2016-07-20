@@ -9,10 +9,12 @@
 This repository provides a client library for ČSOB Payment Gateway.
 
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
-- [CSOB eAPI 1.5](https://github.com/csob/paymentgateway/wiki/eAPI-1.5)
+- [CSOB eAPI 1.6](https://github.com/csob/paymentgateway/wiki/eAPI-1.6)
 
-Library supports all endpoints of eAPI 1.5 and response extensions introduced in eAPI 1.6 (they actually work also in 1.5). 
-Version 2.* supports PHP 7 or higher only. If you need support for PHP 5.6, use version 1.*.
+Library supports **all endpoints of eAPI 1.6** and **response extensions**.
+
+- Version 3.* supports eAPI 1.6. If you need eAPI 1.5, use version 2.*.
+- Version 2.* supports PHP 7 or higher only. If you need support for PHP 5.6, use version 1.*.
 
 ## Installation
 

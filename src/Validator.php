@@ -15,6 +15,9 @@ class Validator
 	const CUSTOMER_ID_LENGTH_MAX = 50;
 	const PAY_ID_LENGTH_MAX = 15;
 
+	const TTL_SEC_MIN = 300;
+	const TTL_SEC_MAX = 1800;
+
 	public static function checkCartItemName(string $name)
 	{
 		self::checkWhitespaces($name);
@@ -112,6 +115,13 @@ class Validator
 
 		if ($argument !== preg_replace('#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '', $argument)) {
 			throw new \InvalidArgumentException('Argument starts or ends with whitespace.');
+		}
+	}
+
+	public static function checkTtlSec(int $ttlSec)
+	{
+		if ($ttlSec < self::TTL_SEC_MIN || $ttlSec > self::TTL_SEC_MAX) {
+			throw new \InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::TTL_SEC_MIN, self::TTL_SEC_MAX, $ttlSec));
 		}
 	}
 

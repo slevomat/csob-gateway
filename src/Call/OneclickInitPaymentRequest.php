@@ -5,10 +5,10 @@ namespace SlevomatCsobGateway\Call;
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
-use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 
-class RecurrentPaymentRequest
+class OneclickInitPaymentRequest
 {
 
 	/**
@@ -27,14 +27,9 @@ class RecurrentPaymentRequest
 	private $orderId;
 
 	/**
-	 * @var int|null
+	 * @var Price|null
 	 */
-	private $totalAmount;
-
-	/**
-	 * @var Currency|null
-	 */
-	private $currency;
+	private $price;
 
 	/**
 	 * @var string|null
@@ -45,11 +40,11 @@ class RecurrentPaymentRequest
 		string $merchantId,
 		string $origPayId,
 		string $orderId,
-		int $totalAmount = null,
-		Currency $currency = null,
+		Price $price = null,
 		string $description = null
 	)
 	{
+		Validator::checkPayId($origPayId);
 		Validator::checkOrderId($orderId);
 		if ($description !== null) {
 			Validator::checkDescription($description);
@@ -58,8 +53,7 @@ class RecurrentPaymentRequest
 		$this->merchantId = $merchantId;
 		$this->origPayId = $origPayId;
 		$this->orderId = $orderId;
-		$this->totalAmount = $totalAmount;
-		$this->currency = $currency;
+		$this->price = $price;
 		$this->description = $description;
 	}
 
@@ -71,12 +65,9 @@ class RecurrentPaymentRequest
 			'orderNo' => $this->orderId,
 		];
 
-		if ($this->totalAmount !== null) {
-			$requestData['totalAmount'] = $this->totalAmount;
-		}
-
-		if ($this->currency !== null) {
-			$requestData['currency'] = $this->currency->getValue();
+		if ($this->price !== null) {
+			$requestData['totalAmount'] = $this->price->getAmount();
+			$requestData['currency'] = $this->price->getCurrency()->getValue();
 		}
 
 		if ($this->description !== null) {
@@ -84,7 +75,7 @@ class RecurrentPaymentRequest
 		}
 
 		$response = $apiClient->post(
-			'payment/recurrent',
+			'payment/oneclick/init',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
@@ -101,7 +92,6 @@ class RecurrentPaymentRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-				'authCode' => null,
 			])
 		);
 
@@ -112,8 +102,7 @@ class RecurrentPaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			new ResultCode($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null
 		);
 	}
 

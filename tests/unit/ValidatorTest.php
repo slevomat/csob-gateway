@@ -138,4 +138,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function testTtlSec()
+	{
+		Validator::checkTtlSec(500);
+
+		try {
+			Validator::checkTtlSec(200);
+			$this->fail();
+
+		} catch (\InvalidArgumentException $e) {
+			$this->assertSame('TTL sec is out of range (300 - 1800). Current value is 200.', $e->getMessage());
+		}
+
+		try {
+			Validator::checkTtlSec(3000);
+			$this->fail();
+
+		} catch (\InvalidArgumentException $e) {
+			$this->assertSame('TTL sec is out of range (300 - 1800). Current value is 3000.', $e->getMessage());
+		}
+	}
+
 }
