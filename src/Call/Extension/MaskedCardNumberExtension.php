@@ -22,7 +22,7 @@ class MaskedCardNumberExtension implements ResponseExtensionHandler
 
 	public function getSignatureDataFormatter(): SignatureDataFormatter
 	{
-		return new SignatureDataFormatter(array_flip(['extension', 'dttm', 'longMaskedCln', 'maskedCln', 'expiration']));
+		return new SignatureDataFormatter(array_flip(['extension', 'dttm', 'maskedCln', 'expiration', 'longMaskedCln']));
 	}
 
 	private function parseExpiration(string $expiration): DateTimeImmutable
