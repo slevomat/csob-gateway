@@ -20,29 +20,43 @@ class ClosePaymentRequest
 	 */
 	private $payId;
 
+	/**
+	 * @var int|null
+	 */
+	private $totalAmount;
+
 	public function __construct(
 		string $merchantId,
-		string $payId
+		string $payId,
+		int $totalAmount = null
 	)
 	{
 		Validator::checkPayId($payId);
 
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
+		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
 	{
+		$data = [
+			'merchantId' => $this->merchantId,
+			'payId' => $this->payId,
+		];
+
+		if ($this->totalAmount !== null) {
+			$data['totalAmount'] = $this->totalAmount;
+		}
+
 		$response = $apiClient->put(
 			'payment/close',
-			[
-				'merchantId' => $this->merchantId,
-				'payId' => $this->payId,
-			],
+			$data,
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'payId' => null,
 				'dttm' => null,
+				'totalAmount' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,
