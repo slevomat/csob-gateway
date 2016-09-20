@@ -91,11 +91,12 @@ class RequestFactory
 		);
 	}
 
-	public function createClosePayment(string $payId): ClosePaymentRequest
+	public function createClosePayment(string $payId, int $totalAmount = null): ClosePaymentRequest
 	{
 		return new ClosePaymentRequest(
 			$this->merchantId,
-			$payId
+			$payId,
+			$totalAmount
 		);
 	}
 
