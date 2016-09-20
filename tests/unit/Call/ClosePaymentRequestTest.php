@@ -20,7 +20,7 @@ class ClosePaymentRequestTest extends \PHPUnit_Framework_TestCase
 			->with('payment/close', [
 				'merchantId' => '012345',
 				'payId' => '123456789',
-				'totalAmount' => 987
+				'totalAmount' => 987,
 			])
 			->willReturn(
 				new Response(new ResponseCode(ResponseCode::S200_OK), [
