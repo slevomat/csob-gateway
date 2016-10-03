@@ -357,6 +357,7 @@ class ApiClient
 			'response' => [
 				'code' => $response->getResponseCode()->getValue(),
 				'data' => $responseData,
+				'headers' => $response->getHeaders(),
 			],
 		];
 
