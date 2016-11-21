@@ -1,4 +1,5 @@
 parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/unit/Crypto/GlobalFunctionsMock.php
 	ignoreErrors:
-		- '#Function SlevomatCsobGateway\\Crypto\\openssl_sign not found#'
 		- '#Function SlevomatCsobGateway\\Api\\Driver\\curl_init not found#'
