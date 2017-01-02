@@ -161,7 +161,7 @@ class ApiClient
 	/**
 	 * @param HttpMethod $method
 	 * @param string $url
-	 * @param string[] $queries
+	 * @param mixed[] $queries
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param \Closure|null $responseValidityCallback

@@ -3,3 +3,4 @@ parameters:
 		- %rootDir%/../../../tests/unit/Crypto/GlobalFunctionsMock.php
 	ignoreErrors:
 		- '#Function SlevomatCsobGateway\\Api\\Driver\\curl_init not found#'
+		- '#PHPUnit_Framework_MockObject_MockObject given#'
