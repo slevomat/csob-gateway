@@ -38,7 +38,7 @@ class ApiClient
 	public function __construct(
 		ApiClientDriver $driver,
 		CryptoService $cryptoService,
-		string $apiUrl = null
+		string $apiUrl
 	)
 	{
 		$this->driver = $driver;

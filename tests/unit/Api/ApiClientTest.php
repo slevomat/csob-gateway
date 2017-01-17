@@ -271,7 +271,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 
 		/** @var CryptoService $cryptoService */
 		/** @var ApiClientDriver $apiClientDriver */
-		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
@@ -307,7 +307,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 
 		/** @var CryptoService $cryptoService */
 		/** @var ApiClientDriver $apiClientDriver */
-		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
@@ -348,7 +348,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 
 		/** @var CryptoService $cryptoService */
 		/** @var ApiClientDriver $apiClientDriver */
-		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
@@ -382,7 +382,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 
 		/** @var CryptoService $cryptoService */
 		/** @var ApiClientDriver $apiClientDriver */
-		$apiClient = new ApiClient($apiClientDriver, $cryptoService);
+		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		$response = $apiClient->createResponseByData($data, new SignatureDataFormatter([]));
 

@@ -35,7 +35,8 @@ $apiClient = new ApiClient(
 	new CryptoService(
 		$privateKeyFile,
 		$bankPublicKeyFile
-	)
+	),
+	'https://api.platebnibrana.csob.cz/api/v1.6/'
 );
 
 $requestFactory = new RequestFactory('012345');
