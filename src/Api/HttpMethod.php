@@ -2,9 +2,7 @@
 
 namespace SlevomatCsobGateway\Api;
 
-use SlevomatCsobGateway\Type\Enum;
-
-class HttpMethod extends Enum
+class HttpMethod extends \Consistence\Enum\Enum
 {
 
 	const GET = 'GET';

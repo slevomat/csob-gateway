@@ -23,7 +23,7 @@ class ClosePaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'totalAmount' => 987,
 			])
 			->willReturn(
-				new Response(new ResponseCode(ResponseCode::S200_OK), [
+				new Response(ResponseCode::get(ResponseCode::S200_OK), [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -44,9 +44,9 @@ class ClosePaymentRequestTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(PaymentResponse::class, $closePaymentResponse);
 		$this->assertSame('123456789', $closePaymentResponse->getPayId());
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $closePaymentResponse->getResponseDateTime());
-		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $closePaymentResponse->getResultCode());
+		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $closePaymentResponse->getResultCode());
 		$this->assertSame('OK', $closePaymentResponse->getResultMessage());
-		$this->assertEquals(new PaymentStatus(PaymentStatus::S7_AWAITING_SETTLEMENT), $closePaymentResponse->getPaymentStatus());
+		$this->assertEquals(PaymentStatus::get(PaymentStatus::S7_AWAITING_SETTLEMENT), $closePaymentResponse->getPaymentStatus());
 		$this->assertNull($closePaymentResponse->getAuthCode());
 	}
 

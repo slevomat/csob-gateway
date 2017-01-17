@@ -22,7 +22,7 @@ class CustomerInfoRequestTest extends \PHPUnit_Framework_TestCase
 				'customerId' => 'cust123@mail.com',
 			])
 			->willReturn(
-				new Response(new ResponseCode(ResponseCode::S200_OK), [
+				new Response(ResponseCode::get(ResponseCode::S200_OK), [
 					'customerId' => 'cust123@mail.com',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -41,7 +41,7 @@ class CustomerInfoRequestTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(CustomerInfoResponse::class, $customerInfoResponse);
 		$this->assertSame('cust123@mail.com', $customerInfoResponse->getCustomerId());
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $customerInfoResponse->getResponseDateTime());
-		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $customerInfoResponse->getResultCode());
+		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $customerInfoResponse->getResultCode());
 		$this->assertSame('OK', $customerInfoResponse->getResultMessage());
 	}
 

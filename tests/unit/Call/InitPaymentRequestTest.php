@@ -54,7 +54,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'colorSchemeVersion' => 2,
 			])
 			->willReturn(
-				new Response(new ResponseCode(ResponseCode::S200_OK), [
+				new Response(ResponseCode::get(ResponseCode::S200_OK), [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -65,7 +65,7 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 
 		/** @var ApiClient $apiClient */
 		$cart = new Cart(
-			new Currency(Currency::CZK)
+			Currency::get(Currency::CZK)
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
@@ -73,16 +73,16 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 		$initPaymentRequest = new InitPaymentRequest(
 			'012345',
 			'5547',
-			new PayOperation(PayOperation::PAYMENT),
-			new PayMethod(PayMethod::CARD),
+			PayOperation::get(PayOperation::PAYMENT),
+			PayMethod::get(PayMethod::CARD),
 			true,
 			'https://vasobchod.cz/gateway-return',
-			new HttpMethod(HttpMethod::POST),
+			HttpMethod::get(HttpMethod::POST),
 			$cart,
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 			'123',
-			new Language(Language::CZ),
+			Language::get(Language::CZ),
 			1800,
 			1,
 			2
@@ -93,9 +93,9 @@ class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
 		$this->assertSame('123456789', $paymentResponse->getPayId());
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
 		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(new PaymentStatus(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		$this->assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
 		$this->assertNull($paymentResponse->getAuthCode());
 	}
 

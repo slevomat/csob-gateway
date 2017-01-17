@@ -21,7 +21,7 @@ class PostEchoRequestTest extends \PHPUnit_Framework_TestCase
 				'merchantId' => '012345',
 			])
 			->willReturn(
-				new Response(new ResponseCode(ResponseCode::S200_OK), [
+				new Response(ResponseCode::get(ResponseCode::S200_OK), [
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
@@ -37,7 +37,7 @@ class PostEchoRequestTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf(EchoResponse::class, $echoResponse);
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $echoResponse->getResponseDateTime());
-		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $echoResponse->getResultCode());
+		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $echoResponse->getResultCode());
 		$this->assertSame('OK', $echoResponse->getResultMessage());
 	}
 

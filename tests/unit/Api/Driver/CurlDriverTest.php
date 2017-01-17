@@ -20,7 +20,7 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 		$curlDriver = new CurlDriver();
 
 		$response = $curlDriver->request(
-			new HttpMethod(HttpMethod::POST),
+			HttpMethod::get(HttpMethod::POST),
 			'foo/url',
 			null,
 			[
@@ -49,7 +49,7 @@ class CurlDriverTest extends \PHPUnit_Framework_TestCase
 
 		try {
 			$curlDriver->request(
-				new HttpMethod(HttpMethod::POST),
+				HttpMethod::get(HttpMethod::POST),
 				'foo/url',
 				null,
 				[
