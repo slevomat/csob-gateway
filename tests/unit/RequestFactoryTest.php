@@ -34,23 +34,23 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 	public function testCreateInitPayment()
 	{
 		$cart = new Cart(
-			new Currency(Currency::CZK)
+			Currency::get(Currency::CZK)
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
 		$request = $this->requestFactory->createInitPayment(
 			'5547',
-			new PayOperation(PayOperation::PAYMENT),
-			new PayMethod(PayMethod::CARD),
+			PayOperation::get(PayOperation::PAYMENT),
+			PayMethod::get(PayMethod::CARD),
 			true,
 			'https://vasobchod.cz/gateway-return',
-			new HttpMethod(HttpMethod::POST),
+			HttpMethod::get(HttpMethod::POST),
 			$cart,
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 			'123',
-			new Language(Language::CZ),
+			Language::get(Language::CZ),
 			1800,
 			1,
 			1
@@ -127,7 +127,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 		$request = $this->requestFactory->createOneclickInitPayment(
 			'ef08b6e9f22345c',
 			'5547123',
-			new Price(1789600, new Currency(Currency::CZK)),
+			new Price(1789600, Currency::get(Currency::CZK)),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
 

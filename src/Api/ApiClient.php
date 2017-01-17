@@ -78,7 +78,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			new HttpMethod(HttpMethod::GET),
+			HttpMethod::get(HttpMethod::GET),
 			$url,
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			null,
@@ -113,7 +113,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			new HttpMethod(HttpMethod::POST),
+			HttpMethod::get(HttpMethod::POST),
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
@@ -148,7 +148,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			new HttpMethod(HttpMethod::PUT),
+			HttpMethod::get(HttpMethod::PUT),
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
@@ -277,11 +277,11 @@ class ApiClient
 	public function createResponseByData(array $data, SignatureDataFormatter $responseSignatureDataFormatter): Response
 	{
 		$response = new Response(
-			new ResponseCode(ResponseCode::S200_OK),
+			ResponseCode::get(ResponseCode::S200_OK),
 			$data
 		);
 
-		$this->logRequest(new HttpMethod(HttpMethod::GET), 'payment/response', [], [], $response);
+		$this->logRequest(HttpMethod::get(HttpMethod::GET), 'payment/response', [], [], $response);
 
 		return new Response(
 			$response->getResponseCode(),

@@ -15,7 +15,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 			[
-				new HttpMethod(HttpMethod::GET),
+				HttpMethod::get(HttpMethod::GET),
 				'fooUrl/{dttm}/{signature}',
 				'fooUrl/\\d{14}/signature',
 				[],
@@ -23,13 +23,13 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				[
 					'bar' => 2,
 				],
-				new ResponseCode(ResponseCode::S200_OK),
+				ResponseCode::get(ResponseCode::S200_OK),
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				new HttpMethod(HttpMethod::GET),
+				HttpMethod::get(HttpMethod::GET),
 				'fooUrl/{fooId}/{dttm}/{signature}',
 				'fooUrl/3/\\d{14}/signature',
 				[
@@ -39,13 +39,13 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				[
 					'bar' => 2,
 				],
-				new ResponseCode(ResponseCode::S200_OK),
+				ResponseCode::get(ResponseCode::S200_OK),
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				new HttpMethod(HttpMethod::POST),
+				HttpMethod::get(HttpMethod::POST),
 				'fooUrl',
 				'fooUrl',
 				[
@@ -57,13 +57,13 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				[
 					'bar' => 2,
 				],
-				new ResponseCode(ResponseCode::S200_OK),
+				ResponseCode::get(ResponseCode::S200_OK),
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				new HttpMethod(HttpMethod::PUT),
+				HttpMethod::get(HttpMethod::PUT),
 				'fooUrl',
 				'fooUrl',
 				[
@@ -75,19 +75,19 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 				[
 					'bar' => 2,
 				],
-				new ResponseCode(ResponseCode::S200_OK),
+				ResponseCode::get(ResponseCode::S200_OK),
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				new HttpMethod(HttpMethod::GET),
+				HttpMethod::get(HttpMethod::GET),
 				'fooUrl/{dttm}/{signature}',
 				'fooUrl/\\d{14}/signature',
 				[],
 				null,
 				null,
-				new ResponseCode(ResponseCode::S303_SEE_OTHER),
+				ResponseCode::get(ResponseCode::S303_SEE_OTHER),
 				[
 					'header' => 'value',
 				],
@@ -192,49 +192,49 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		return [
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S400_BAD_REQUEST),
+					ResponseCode::get(ResponseCode::S400_BAD_REQUEST),
 					[]
 				),
 				BadRequestException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S403_FORBIDDEN),
+					ResponseCode::get(ResponseCode::S403_FORBIDDEN),
 					[]
 				),
 				ForbiddenException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S404_NOT_FOUND),
+					ResponseCode::get(ResponseCode::S404_NOT_FOUND),
 					[]
 				),
 				NotFoundException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S405_METHOD_NOT_ALLOWED),
+					ResponseCode::get(ResponseCode::S405_METHOD_NOT_ALLOWED),
 					[]
 				),
 				MethodNotAllowedException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S429_TOO_MANY_REQUESTS),
+					ResponseCode::get(ResponseCode::S429_TOO_MANY_REQUESTS),
 					[]
 				),
 				TooManyRequestsException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S503_SERVICE_UNAVAILABLE),
+					ResponseCode::get(ResponseCode::S503_SERVICE_UNAVAILABLE),
 					[]
 				),
 				ServiceUnavailableException::class,
 			],
 			[
 				new Response(
-					new ResponseCode(ResponseCode::S500_INTERNAL_ERROR),
+					ResponseCode::get(ResponseCode::S500_INTERNAL_ERROR),
 					[]
 				),
 				InternalErrorException::class,
@@ -286,7 +286,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	public function testMissingSignature()
 	{
 		$response = new Response(
-			new ResponseCode(ResponseCode::S200_OK),
+			ResponseCode::get(ResponseCode::S200_OK),
 			[]
 		);
 
@@ -321,7 +321,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 	public function testInvalidSignature()
 	{
 		$response = new Response(
-			new ResponseCode(ResponseCode::S200_OK),
+			ResponseCode::get(ResponseCode::S200_OK),
 			[
 				'signature' => 'invalidSignature',
 			]
@@ -415,7 +415,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
 		$apiClientDriver->expects(self::once())
 			->method('request')
 			->willReturn(new Response(
-				new ResponseCode(ResponseCode::S200_OK),
+				ResponseCode::get(ResponseCode::S200_OK),
 				['id' => '123', 'signature' => 'signature', 'extensions' => [['extension' => 'foo', 'foo' => 'bar', 'signature' => 'signatureExtension']]],
 				[]
 			));

@@ -232,9 +232,9 @@ class InitPaymentRequest
 		return new PaymentResponse(
 			$data['payId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			new ResultCode($data['resultCode']),
+			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? new PaymentStatus($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$data['authCode'] ?? null
 		);
 	}

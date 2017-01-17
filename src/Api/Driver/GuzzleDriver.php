@@ -44,7 +44,7 @@ class GuzzleDriver implements ApiClientDriver
 				RequestOptions::ALLOW_REDIRECTS => false,
 			]);
 
-			$responseCode = new ResponseCode($httpResponse->getStatusCode());
+			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
 
 			$responseHeaders = array_map(function ($item) {
 				return !is_array($item) || count($item) > 1 ? $item : array_shift($item);

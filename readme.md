@@ -41,16 +41,16 @@ $apiClient = new ApiClient(
 $requestFactory = new RequestFactory('012345');
 
 // cart has to have at least 1 but most of 2 items
-$cart = new Cart(new Currency(Currency::EUR));
+$cart = new Cart(Currency::get(Currency::EUR));
 $cart->addItem('Nákup', 1, 1.9 * 100);
 
 $paymentResponse = $requestFactory->createInitPayment(
 	123,
-	new PayOperation(PayOperation::PAYMENT),
-	new PayMethod(PayMethod::CARD),
+	PayOperation::get(PayOperation::PAYMENT),
+	PayMethod::get(PayMethod::CARD),
 	true,
 	$returnUrl,
-	new HttpMethod(HttpMethod::POST),
+	HttpMethod::get(HttpMethod::POST),
 	$cart
 )->send($apiClient);
 $payId = $paymentResponse->getPayId();

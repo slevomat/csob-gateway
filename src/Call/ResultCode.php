@@ -2,9 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Type\Enum;
-
-class ResultCode extends Enum
+class ResultCode extends \Consistence\Enum\Enum
 {
 
 	const C0_OK = 0;

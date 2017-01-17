@@ -22,7 +22,7 @@ class OneclickStartPaymentRequestTest extends \PHPUnit_Framework_TestCase
 				'payId' => 'ef08b6e9f22345c',
 			])
 			->willReturn(
-				new Response(new ResponseCode(ResponseCode::S200_OK), [
+				new Response(ResponseCode::get(ResponseCode::S200_OK), [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -41,9 +41,9 @@ class OneclickStartPaymentRequestTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
 		$this->assertSame('123456789', $paymentResponse->getPayId());
 		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		$this->assertEquals(new ResultCode(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
 		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(new PaymentStatus(PaymentStatus::S2_IN_PROGRESS), $paymentResponse->getPaymentStatus());
+		$this->assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $paymentResponse->getPaymentStatus());
 		$this->assertNull($paymentResponse->getAuthCode());
 	}
 

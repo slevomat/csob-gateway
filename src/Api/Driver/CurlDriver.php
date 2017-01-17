@@ -49,7 +49,7 @@ class CurlDriver implements ApiClientDriver
 		$headers = substr($output, 0, $headerSize);
 		$body = substr($output, $headerSize);
 
-		$responseCode = new ResponseCode(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+		$responseCode = ResponseCode::get(curl_getinfo($ch, CURLINFO_HTTP_CODE));
 
 		curl_close($ch);
 

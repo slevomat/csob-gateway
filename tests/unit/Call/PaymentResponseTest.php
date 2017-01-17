@@ -12,7 +12,7 @@ class PaymentResponseTest extends \PHPUnit_Framework_TestCase
 		$paymentResponse = new PaymentResponse(
 			'123',
 			new DateTimeImmutable(),
-			new ResultCode(ResultCode::C0_OK),
+			ResultCode::get(ResultCode::C0_OK),
 			'foo message',
 			null,
 			null,
