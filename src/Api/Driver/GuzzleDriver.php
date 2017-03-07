@@ -42,6 +42,7 @@ class GuzzleDriver implements ApiClientDriver
 			$httpResponse = $this->client->send($request, [
 				RequestOptions::HTTP_ERRORS => false,
 				RequestOptions::ALLOW_REDIRECTS => false,
+				RequestOptions::TIMEOUT => 20,
 			]);
 
 			$responseCode = new ResponseCode($httpResponse->getStatusCode());
