@@ -15,6 +15,10 @@ class VerificationFailedException extends \RuntimeException
 	 */
 	private $errorMessage;
 
+	/**
+	 * @param mixed[] $data
+	 * @param string $errorMessage
+	 */
 	public function __construct(array $data, string $errorMessage)
 	{
 		parent::__construct(sprintf(
@@ -26,6 +30,9 @@ class VerificationFailedException extends \RuntimeException
 		$this->errorMessage = $errorMessage;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getData(): array
 	{
 		return $this->data;

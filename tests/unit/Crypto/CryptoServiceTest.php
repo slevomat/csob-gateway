@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-class CryptoServiceTest extends \PHPUnit_Framework_TestCase
+class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**

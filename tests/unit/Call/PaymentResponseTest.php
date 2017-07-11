@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
 
-class PaymentResponseTest extends \PHPUnit_Framework_TestCase
+class PaymentResponseTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testMerchantData()

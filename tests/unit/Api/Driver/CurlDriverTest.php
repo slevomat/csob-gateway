@@ -7,7 +7,7 @@ use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class CurlDriverTest extends \PHPUnit_Framework_TestCase
+class CurlDriverTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**

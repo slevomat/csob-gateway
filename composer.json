@@ -19,13 +19,13 @@
 		"consistence/consistence": "^1.0.0"
 	},
 	"require-dev": {
-		"consistence/coding-standard": "^0.10.0",
-		"jakub-onderka/php-parallel-lint": "^0.9",
-		"phing/phing": "~2.12",
-		"phpstan/phpstan": "^0.5.1",
-		"phpunit/phpunit": "^5.2.12",
-		"slevomat/coding-standard": "^1.0.5",
-		"guzzlehttp/guzzle": "^6.1",
+		"consistence/coding-standard": "^2.0.0",
+		"jakub-onderka/php-parallel-lint": "^0.9.2",
+		"slevomat/coding-standard": "^3.0",
+		"phing/phing": "^2.16",
+		"phpstan/phpstan": "^0.7.0",
+		"phpunit/phpunit": "^6.2.0",
+		"guzzlehttp/guzzle": "^6.2",
 		"psr/log": "^1.0"
 	},
 	"suggest": {

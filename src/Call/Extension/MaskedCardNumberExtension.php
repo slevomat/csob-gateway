@@ -11,6 +11,10 @@ class MaskedCardNumberExtension implements ResponseExtensionHandler
 
 	const NAME = 'maskClnRP';
 
+	/**
+	 * @param mixed[] $data
+	 * @return \SlevomatCsobGateway\Call\Extension\MaskedCardNumberResponse
+	 */
 	public function createResponse(array $data): MaskedCardNumberResponse
 	{
 		return new MaskedCardNumberResponse(

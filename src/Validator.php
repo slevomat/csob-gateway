@@ -60,7 +60,6 @@ class Validator
 		if (strlen($orderId) > self::ORDER_ID_LENGTH_MAX) {
 			throw new \InvalidArgumentException(sprintf('OrderId can have maximum of %d characters.', self::ORDER_ID_LENGTH_MAX));
 		}
-
 	}
 
 	public static function checkReturnUrl(string $returnUrl)

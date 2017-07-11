@@ -22,11 +22,6 @@ class CryptoService
 	 */
 	private $privateKeyPassword;
 
-	/**
-	 * @param string $privateKeyFile
-	 * @param string $bankPublicKeyFile
-	 * @param string $privateKeyPassword
-	 */
 	public function __construct(
 		string $privateKeyFile,
 		string $bankPublicKeyFile,

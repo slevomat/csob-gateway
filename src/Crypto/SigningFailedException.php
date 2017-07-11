@@ -10,6 +10,9 @@ class SigningFailedException extends \RuntimeException
 	 */
 	private $data;
 
+	/**
+	 * @param mixed[] $data
+	 */
 	public function __construct(array $data)
 	{
 		parent::__construct('Signing failed');
@@ -17,6 +20,9 @@ class SigningFailedException extends \RuntimeException
 		$this->data = $data;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getData(): array
 	{
 		return $this->data;

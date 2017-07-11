@@ -7,7 +7,7 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class PaymentStatusRequestTest extends \PHPUnit_Framework_TestCase
+class PaymentStatusRequestTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSend()

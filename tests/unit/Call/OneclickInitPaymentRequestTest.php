@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Price;
 
-class OneclickInitPaymentRequestTest extends \PHPUnit_Framework_TestCase
+class OneclickInitPaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSend()

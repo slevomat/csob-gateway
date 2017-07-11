@@ -1,6 +1,8 @@
 parameters:
 	autoload_files:
 		- %rootDir%/../../../tests/unit/Crypto/GlobalFunctionsMock.php
+	excludes_analyse:
+		- *tests/unit/Api/Driver/CurlMock.php
+		- *tests/unit/Api/Driver/Curl_exec_false_Mock.php
 	ignoreErrors:
-		- '#Function SlevomatCsobGateway\\Api\\Driver\\curl_init not found#'
 		- '#PHPUnit_Framework_MockObject_MockObject given#'

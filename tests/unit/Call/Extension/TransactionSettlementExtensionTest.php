@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\Extension;
 
-class TransactionSettlementExtensionTest extends \PHPUnit_Framework_TestCase
+class TransactionSettlementExtensionTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testCreateResponse()
@@ -15,8 +15,14 @@ class TransactionSettlementExtensionTest extends \PHPUnit_Framework_TestCase
 		]);
 
 		$this->assertSame('2016-04-12 12:06:20 848000', $transactionSettlementResponse->getCreatedDate()->format('Y-m-d H:i:s u'));
-		$this->assertSame('2016-04-12 10:06:35', $transactionSettlementResponse->getAuthDate()->format('Y-m-d H:i:s'));
-		$this->assertSame('2016-04-12', $transactionSettlementResponse->getSettlementDate()->format('Y-m-d'));
+		/** @var \DateTimeImmutable $authDate */
+		$authDate = $transactionSettlementResponse->getAuthDate();
+		$this->assertNotNull($authDate);
+		$this->assertSame('2016-04-12 10:06:35', $authDate->format('Y-m-d H:i:s'));
+		/** @var \DateTimeImmutable $settlementDate */
+		$settlementDate = $transactionSettlementResponse->getSettlementDate();
+		$this->assertNotNull($settlementDate);
+		$this->assertSame('2016-04-12', $settlementDate->format('Y-m-d'));
 	}
 
 }

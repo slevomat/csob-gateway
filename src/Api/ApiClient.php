@@ -31,7 +31,7 @@ class ApiClient
 	private $logger;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $apiUrl;
 
@@ -53,7 +53,7 @@ class ApiClient
 
 	/**
 	 * @param string $url
-	 * @param mixed[]|null $data
+	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param \Closure|null $responseValidityCallback
@@ -90,7 +90,7 @@ class ApiClient
 
 	/**
 	 * @param string $url
-	 * @param mixed[]|null $data
+	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
@@ -125,7 +125,7 @@ class ApiClient
 
 	/**
 	 * @param string $url
-	 * @param mixed[]|null $data
+	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
@@ -224,7 +224,7 @@ class ApiClient
 					}
 				}
 			}
-			$responseData = $this->decodeData($response->getData(), $responseSignatureDataFormatter);
+			$responseData = $this->decodeData($response->getData() ?: [], $responseSignatureDataFormatter);
 			unset($responseData['extensions']);
 
 			return new Response(
@@ -331,6 +331,13 @@ class ApiClient
 		return $responseData;
 	}
 
+	/**
+	 * @param \SlevomatCsobGateway\Api\HttpMethod $method
+	 * @param string $url
+	 * @param mixed[] $queries
+	 * @param mixed[]|null $requestData
+	 * @param \SlevomatCsobGateway\Api\Response $response
+	 */
 	private function logRequest(HttpMethod $method, string $url, array $queries, array $requestData = null, Response $response)
 	{
 		if ($this->logger === null) {

@@ -11,6 +11,10 @@ class TransactionSettlementExtension implements ResponseExtensionHandler
 
 	const NAME = 'trxDates';
 
+	/**
+	 * @param mixed[] $data
+	 * @return \SlevomatCsobGateway\Call\Extension\TransactionSettlementResponse
+	 */
 	public function createResponse(array $data): TransactionSettlementResponse
 	{
 		return new TransactionSettlementResponse(

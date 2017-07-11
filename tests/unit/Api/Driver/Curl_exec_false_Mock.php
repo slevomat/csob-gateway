@@ -34,5 +34,4 @@ function curl_getinfo($ch, $opt = null)
 
 function curl_close($ch)
 {
-
 }

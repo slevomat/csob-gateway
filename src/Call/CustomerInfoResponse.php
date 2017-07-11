@@ -35,7 +35,9 @@ class CustomerInfoResponse
 		string $customerId = null
 	)
 	{
-		Validator::checkCustomerId($customerId);
+		if ($customerId !== null) {
+			Validator::checkCustomerId($customerId);
+		}
 
 		$this->responseDateTime = $responseDateTime;
 		$this->resultCode = $resultCode;

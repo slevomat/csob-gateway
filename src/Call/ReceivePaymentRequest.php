@@ -9,6 +9,11 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class ReceivePaymentRequest
 {
 
+	/**
+	 * @param \SlevomatCsobGateway\Api\ApiClient $apiClient
+	 * @param mixed[] $data
+	 * @return \SlevomatCsobGateway\Call\PaymentResponse
+	 */
 	public function send(ApiClient $apiClient, array $data): PaymentResponse
 	{
 		if (array_key_exists('resultCode', $data) && is_numeric($data['resultCode'])) {
