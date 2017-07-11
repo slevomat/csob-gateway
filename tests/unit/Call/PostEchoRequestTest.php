@@ -7,7 +7,7 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class PostEchoRequestTest extends \PHPUnit_Framework_TestCase
+class PostEchoRequestTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSend()

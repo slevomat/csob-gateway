@@ -8,7 +8,7 @@ interface ResponseExtensionHandler
 {
 
 	/**
-	 * @param array $decodeData
+	 * @param mixed[] $decodeData
 	 * @return mixed
 	 */
 	public function createResponse(array $decodeData);

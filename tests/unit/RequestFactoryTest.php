@@ -18,7 +18,7 @@ use SlevomatCsobGateway\Call\ReceivePaymentRequest;
 use SlevomatCsobGateway\Call\RefundPaymentRequest;
 use SlevomatCsobGateway\Call\ReversePaymentRequest;
 
-class RequestFactoryTest extends \PHPUnit_Framework_TestCase
+class RequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**

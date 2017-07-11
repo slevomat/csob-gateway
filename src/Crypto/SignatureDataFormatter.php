@@ -8,16 +8,28 @@ class SignatureDataFormatter
 	/** @var mixed[] */
 	private $keysPriority;
 
+	/**
+	 * @param mixed[] $keysPriority
+	 */
 	public function __construct(array $keysPriority)
 	{
 		$this->keysPriority = $keysPriority;
 	}
 
+	/**
+	 * @param mixed[] $data
+	 * @return string
+	 */
 	public function formatDataForSignature(array $data): string
 	{
 		return implode('|', $this->generateMessage($data, $this->keysPriority));
 	}
 
+	/**
+	 * @param mixed[] $data
+	 * @param string[] $keys
+	 * @return mixed[]
+	 */
 	private function generateMessage(array $data, array $keys): array
 	{
 		$message = [];

@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway;
 
-class CartItemTest extends \PHPUnit_Framework_TestCase
+class CartItemTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testNullDescription()

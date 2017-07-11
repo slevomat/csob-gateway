@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway;
 
-class PriceTest extends \PHPUnit_Framework_TestCase
+class PriceTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testGetters()

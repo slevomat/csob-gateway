@@ -11,7 +11,7 @@ use SlevomatCsobGateway\Cart;
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Language;
 
-class InitPaymentRequestTest extends \PHPUnit_Framework_TestCase
+class InitPaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSend()

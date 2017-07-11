@@ -7,7 +7,7 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class OneclickStartPaymentRequestTest extends \PHPUnit_Framework_TestCase
+class OneclickStartPaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSend()

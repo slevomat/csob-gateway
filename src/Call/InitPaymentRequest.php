@@ -163,7 +163,6 @@ class InitPaymentRequest
 				}
 
 				return $cartItemValues;
-
 			}, $this->cart->getItems()),
 			'description' => $this->description,
 			'language' => $this->language->getValue(),

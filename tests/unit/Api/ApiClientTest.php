@@ -6,12 +6,15 @@ use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
-class ApiClientTest extends \PHPUnit_Framework_TestCase
+class ApiClientTest extends \PHPUnit\Framework\TestCase
 {
 
 	const API_URL = 'http://foo.csob.cz';
 
-	public function getRequests()
+	/**
+	 * @return mixed[]
+	 */
+	public function getRequests(): array
 	{
 		return [
 			[

@@ -46,6 +46,16 @@ class PaymentResponse
 	/** @var mixed[] */
 	private $extensions;
 
+	/**
+	 * @param string $payId
+	 * @param \DateTimeImmutable $responseDateTime
+	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
+	 * @param string $resultMessage
+	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
+	 * @param string|null $authCode
+	 * @param string|null $merchantData
+	 * @param mixed[] $extensions
+	 */
 	public function __construct(
 		string $payId,
 		DateTimeImmutable $responseDateTime,
@@ -116,6 +126,9 @@ class PaymentResponse
 		return $this->merchantData;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getExtensions(): array
 	{
 		return $this->extensions;

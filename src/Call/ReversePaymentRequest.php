@@ -20,10 +20,6 @@ class ReversePaymentRequest
 	 */
 	private $payId;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $payId
-	 */
 	public function __construct(
 		string $merchantId,
 		string $payId
