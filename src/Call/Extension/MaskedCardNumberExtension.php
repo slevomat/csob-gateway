@@ -31,7 +31,7 @@ class MaskedCardNumberExtension implements ResponseExtensionHandler
 
 	private function parseExpiration(string $expiration): DateTimeImmutable
 	{
-		return DateTimeImmutable::createFromFormat('m/y', $expiration)->modify('last day of this month today');
+		return DateTimeImmutable::createFromFormat('d/m/y', '01/' . $expiration)->modify('last day of this month today');
 	}
 
 }
