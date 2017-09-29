@@ -10,7 +10,7 @@ use SlevomatCsobGateway\Api\ResponseCode;
 class ReversePaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testSend()
+	public function testSend(): void
 	{
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()

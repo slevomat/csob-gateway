@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class ApiClientTest extends \PHPUnit\Framework\TestCase
 {
 
-	const API_URL = 'http://foo.csob.cz';
+	private const API_URL = 'http://foo.csob.cz';
 
 	/**
 	 * @return mixed[]
@@ -110,7 +110,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getRequests
 	 */
-	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, array $expectedRequestData = null, array $responseData = null, ResponseCode $responseCode, array $responseHeaders)
+	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData = null, ?array $responseData = null, ResponseCode $responseCode, array $responseHeaders): void
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
@@ -251,7 +251,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getTestExceptions
 	 */
-	public function testExceptions(Response $response, string $expectedExceptionClass)
+	public function testExceptions(Response $response, string $expectedExceptionClass): void
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
@@ -286,7 +286,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testMissingSignature()
+	public function testMissingSignature(): void
 	{
 		$response = new Response(
 			ResponseCode::get(ResponseCode::S200_OK),
@@ -321,7 +321,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testInvalidSignature()
+	public function testInvalidSignature(): void
 	{
 		$response = new Response(
 			ResponseCode::get(ResponseCode::S200_OK),
@@ -364,7 +364,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCreateResponseByData()
+	public function testCreateResponseByData(): void
 	{
 		$data = [
 			'signature' => 'abc',
@@ -397,7 +397,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($data, $response->getData());
 	}
 
-	public function testRequestWithExtension()
+	public function testRequestWithExtension(): void
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()

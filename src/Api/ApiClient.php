@@ -46,7 +46,7 @@ class ApiClient
 		$this->apiUrl = $apiUrl;
 	}
 
-	public function setLogger(LoggerInterface $logger = null)
+	public function setLogger(?LoggerInterface $logger): void
 	{
 		$this->logger = $logger;
 	}
@@ -73,7 +73,7 @@ class ApiClient
 		array $data = [],
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		\Closure $responseValidityCallback = null,
+		?\Closure $responseValidityCallback = null,
 		array $extensions = []
 	): Response
 	{
@@ -176,13 +176,13 @@ class ApiClient
 	 * @throws ApiClientDriverException
 	 * @throws InvalidSignatureException
 	 */
-	public function request(
+	private function request(
 		HttpMethod $method,
 		string $url,
 		array $queries = [],
-		array $data = null,
+		?array $data,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		\Closure $responseValidityCallback = null,
+		?\Closure $responseValidityCallback,
 		array $extensions = []
 	): Response
 	{
@@ -338,7 +338,7 @@ class ApiClient
 	 * @param mixed[]|null $requestData
 	 * @param \SlevomatCsobGateway\Api\Response $response
 	 */
-	private function logRequest(HttpMethod $method, string $url, array $queries, array $requestData = null, Response $response)
+	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response): void
 	{
 		if ($this->logger === null) {
 			return;

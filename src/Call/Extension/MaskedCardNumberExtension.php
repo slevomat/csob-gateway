@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class MaskedCardNumberExtension implements ResponseExtensionHandler
 {
 
-	const NAME = 'maskClnRP';
+	public const NAME = 'maskClnRP';
 
 	/**
 	 * @param mixed[] $data

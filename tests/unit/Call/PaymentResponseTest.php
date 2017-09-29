@@ -7,7 +7,7 @@ use DateTimeImmutable;
 class PaymentResponseTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testMerchantData()
+	public function testMerchantData(): void
 	{
 		$paymentResponse = new PaymentResponse(
 			'123',

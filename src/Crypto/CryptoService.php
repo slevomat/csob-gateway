@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway\Crypto;
 class CryptoService
 {
 
-	const HASH_METHOD = OPENSSL_ALGO_SHA1;
+	public const HASH_METHOD = OPENSSL_ALGO_SHA1;
 
 	/**
 	 * @var string

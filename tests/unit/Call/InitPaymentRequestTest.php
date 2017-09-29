@@ -14,7 +14,7 @@ use SlevomatCsobGateway\Language;
 class InitPaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testSend()
+	public function testSend(): void
 	{
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()

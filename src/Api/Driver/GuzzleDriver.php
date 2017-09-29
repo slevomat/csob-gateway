@@ -29,7 +29,7 @@ class GuzzleDriver implements ApiClientDriver
 	 * @return Response
 	 * @throws GuzzleDriverException
 	 */
-	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response
+	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response
 	{
 		$postData = null;
 		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {

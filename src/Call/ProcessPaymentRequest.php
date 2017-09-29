@@ -54,7 +54,7 @@ class ProcessPaymentRequest
 				'paymentStatus' => null,
 				'authCode' => null,
 			]),
-			function (Response $response) {
+			function (Response $response): void {
 				// This handles edge case when provided payId is missing or already expired on gateway
 				// In this case gateway responds with HTTP 200 and HTML content. Bad API.
 				// See https://github.com/csob/paymentgateway/issues/135

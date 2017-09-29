@@ -21,7 +21,7 @@ class CurlDriver implements ApiClientDriver
 	 * @return Response
 	 * @throws CurlDriverException
 	 */
-	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response
+	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response
 	{
 		$ch = curl_init($url);
 

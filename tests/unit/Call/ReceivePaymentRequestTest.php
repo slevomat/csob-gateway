@@ -10,7 +10,7 @@ use SlevomatCsobGateway\Api\ResponseCode;
 class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testSend()
+	public function testSend(): void
 	{
 		$postData = [
 			'payId' => '123456789',
@@ -43,7 +43,7 @@ class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 		$this->assertNull($paymentResponse->getAuthCode());
 	}
 
-	public function testSendWithStringValues()
+	public function testSendWithStringValues(): void
 	{
 		$postData = [
 			'payId' => '123456789',

@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway;
 class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testCheckCartItemName()
+	public function testCheckCartItemName(): void
 	{
 		Validator::checkCartItemName('foo name');
 
@@ -26,7 +26,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCheckCartItemDescription()
+	public function testCheckCartItemDescription(): void
 	{
 		Validator::checkCartItemDescription('foo description');
 
@@ -39,7 +39,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCheckCartItemQuantity()
+	public function testCheckCartItemQuantity(): void
 	{
 		Validator::checkCartItemQuantity(2);
 
@@ -52,7 +52,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCheckOrderId()
+	public function testCheckOrderId(): void
 	{
 		Validator::checkOrderId('123');
 
@@ -73,7 +73,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCheckReturnUrl()
+	public function testCheckReturnUrl(): void
 	{
 		Validator::checkReturnUrl('https://example.com');
 
@@ -86,7 +86,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testDescription()
+	public function testDescription(): void
 	{
 		Validator::checkDescription('foo description');
 
@@ -99,7 +99,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testMerchantData()
+	public function testMerchantData(): void
 	{
 		Validator::checkMerchantData('foo merchant data');
 
@@ -112,7 +112,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testCustomerId()
+	public function testCustomerId(): void
 	{
 		Validator::checkCustomerId('foo customerId');
 
@@ -125,7 +125,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testPayId()
+	public function testPayId(): void
 	{
 		Validator::checkPayId('foo payId');
 
@@ -138,7 +138,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testTtlSec()
+	public function testTtlSec(): void
 	{
 		Validator::checkTtlSec(500);
 

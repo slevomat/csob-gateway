@@ -32,7 +32,7 @@ class CustomerInfoResponse
 		DateTimeImmutable $responseDateTime,
 		ResultCode $resultCode,
 		string $resultMessage,
-		string $customerId = null
+		?string $customerId = null
 	)
 	{
 		if ($customerId !== null) {
@@ -60,10 +60,7 @@ class CustomerInfoResponse
 		return $this->resultMessage;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getCustomerId()
+	public function getCustomerId(): ?string
 	{
 		return $this->customerId;
 	}

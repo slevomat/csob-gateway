@@ -93,7 +93,7 @@ class SignatureDataFormatterTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getFormatDataForSignatureData
 	 */
-	public function testFormatDataForSignature(array $keyPriority, array $data, string $expectedData)
+	public function testFormatDataForSignature(array $keyPriority, array $data, string $expectedData): void
 	{
 		$signatureDataFormatter = new SignatureDataFormatter($keyPriority);
 

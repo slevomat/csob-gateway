@@ -20,7 +20,7 @@ class Cart
 		$this->currency = $currency;
 	}
 
-	public function addItem(string $name, int $quantity, int $amount, string $description = null)
+	public function addItem(string $name, int $quantity, int $amount, ?string $description = null): void
 	{
 		$this->items[] = new CartItem($name, $quantity, $amount, $description);
 	}

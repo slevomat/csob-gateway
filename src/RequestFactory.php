@@ -40,12 +40,12 @@ class RequestFactory
 		HttpMethod $returnMethod,
 		Cart $cart,
 		string $description,
-		string $merchantData = null,
-		string $customerId = null,
+		?string $merchantData,
+		?string $customerId,
 		Language $language,
-		int $ttlSec = null,
-		int $logoVersion = null,
-		int $colorSchemeVersion = null
+		?int $ttlSec = null,
+		?int $logoVersion = null,
+		?int $colorSchemeVersion = null
 	): InitPaymentRequest
 	{
 		return new InitPaymentRequest(
@@ -91,7 +91,7 @@ class RequestFactory
 		);
 	}
 
-	public function createClosePayment(string $payId, int $totalAmount = null): ClosePaymentRequest
+	public function createClosePayment(string $payId, ?int $totalAmount = null): ClosePaymentRequest
 	{
 		return new ClosePaymentRequest(
 			$this->merchantId,
@@ -100,7 +100,7 @@ class RequestFactory
 		);
 	}
 
-	public function createRefundPayment(string $payId, int $amount = null): RefundPaymentRequest
+	public function createRefundPayment(string $payId, ?int $amount = null): RefundPaymentRequest
 	{
 		return new RefundPaymentRequest(
 			$this->merchantId,
@@ -139,8 +139,8 @@ class RequestFactory
 	public function createOneclickInitPayment(
 		string $origPayId,
 		string $orderId,
-		Price $price = null,
-		string $description = null
+		?Price $price = null,
+		?string $description = null
 	): OneclickInitPaymentRequest
 	{
 		return new OneclickInitPaymentRequest(

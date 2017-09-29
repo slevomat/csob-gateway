@@ -13,7 +13,7 @@ class CurlDriverTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testRequest()
+	public function testRequest(): void
 	{
 		include __DIR__ . '/CurlMock.php';
 
@@ -41,7 +41,7 @@ class CurlDriverTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testCurlDriverException()
+	public function testCurlDriverException(): void
 	{
 		include __DIR__ . '/Curl_exec_false_Mock.php';
 

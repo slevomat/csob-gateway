@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway\Call\Extension;
 class MaskedCardNumberExtensionTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testCreateResponse()
+	public function testCreateResponse(): void
 	{
 		$maskedCardNumberExtension = new MaskedCardNumberExtension();
 		$maskedCardNumberResponse = $maskedCardNumberExtension->createResponse([

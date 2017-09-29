@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway\Call\Extension;
 class TransactionSettlementExtensionTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testCreateResponse()
+	public function testCreateResponse(): void
 	{
 		$transactionSettlementExtension = new TransactionSettlementExtension();
 		$transactionSettlementResponse = $transactionSettlementExtension->createResponse([

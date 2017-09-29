@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class TransactionSettlementExtension implements ResponseExtensionHandler
 {
 
-	const NAME = 'trxDates';
+	public const NAME = 'trxDates';
 
 	/**
 	 * @param mixed[] $data

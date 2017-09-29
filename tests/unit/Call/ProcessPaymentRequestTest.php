@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Api\ResponseCode;
 class ProcessPaymentRequestTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testSend()
+	public function testSend(): void
 	{
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()

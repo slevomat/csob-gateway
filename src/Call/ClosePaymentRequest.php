@@ -28,7 +28,7 @@ class ClosePaymentRequest
 	public function __construct(
 		string $merchantId,
 		string $payId,
-		int $totalAmount = null
+		?int $totalAmount = null
 	)
 	{
 		Validator::checkPayId($payId);

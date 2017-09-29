@@ -10,7 +10,7 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	 */
 	private $cryptoService;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->cryptoService = new CryptoService(
 			__DIR__ . '/../../keys/client.key',
@@ -69,7 +69,7 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getSignDataData
 	 */
-	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter)
+	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{
 		$signature = $this->cryptoService->signData($data, $signatureDataFormatter);
 
@@ -80,7 +80,7 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	public function testExceptions()
+	public function testExceptions(): void
 	{
 		$cryptoService = new CryptoService(
 			__DIR__ . '/invalid-key.key',
@@ -107,7 +107,7 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testExceptions2()
+	public function testExceptions2(): void
 	{
 		include __DIR__ . '/GlobalFunctionsMock.php';
 
@@ -142,7 +142,7 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getSignDataData
 	 */
-	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter)
+	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{
 		if ($valid) {
 			$this->assertTrue($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));

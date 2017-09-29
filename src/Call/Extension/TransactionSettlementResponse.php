@@ -24,8 +24,8 @@ class TransactionSettlementResponse
 
 	public function __construct(
 		DateTimeImmutable $createdDate,
-		DateTimeImmutable $authDate = null,
-		DateTimeImmutable $settlementDate = null
+		?DateTimeImmutable $authDate,
+		?DateTimeImmutable $settlementDate
 	)
 	{
 		$this->createdDate = $createdDate;
@@ -38,18 +38,12 @@ class TransactionSettlementResponse
 		return $this->createdDate;
 	}
 
-	/**
-	 * @return DateTimeImmutable|null
-	 */
-	public function getAuthDate()
+	public function getAuthDate(): ?DateTimeImmutable
 	{
 		return $this->authDate;
 	}
 
-	/**
-	 * @return DateTimeImmutable|null
-	 */
-	public function getSettlementDate()
+	public function getSettlementDate(): ?DateTimeImmutable
 	{
 		return $this->settlementDate;
 	}

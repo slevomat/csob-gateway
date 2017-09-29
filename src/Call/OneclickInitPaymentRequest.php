@@ -40,8 +40,8 @@ class OneclickInitPaymentRequest
 		string $merchantId,
 		string $origPayId,
 		string $orderId,
-		Price $price = null,
-		string $description = null
+		?Price $price = null,
+		?string $description = null
 	)
 	{
 		Validator::checkPayId($origPayId);

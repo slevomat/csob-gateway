@@ -5,20 +5,20 @@ namespace SlevomatCsobGateway;
 class Validator
 {
 
-	const CART_ITEM_NAME_LENGTH_MAX = 20;
-	const CART_ITEM_DESCRIPTION_LENGTH_MAX = 40;
+	private const CART_ITEM_NAME_LENGTH_MAX = 20;
+	private const CART_ITEM_DESCRIPTION_LENGTH_MAX = 40;
 
-	const ORDER_ID_LENGTH_MAX = 10;
-	const RETURN_URL_LENGTH_MAX = 300;
-	const DESCRIPTION_LENGTH_MAX = 255;
-	const MERCHANT_DATA_LENGTH_MAX = 255;
-	const CUSTOMER_ID_LENGTH_MAX = 50;
-	const PAY_ID_LENGTH_MAX = 15;
+	private const ORDER_ID_LENGTH_MAX = 10;
+	private const RETURN_URL_LENGTH_MAX = 300;
+	private const DESCRIPTION_LENGTH_MAX = 255;
+	private const MERCHANT_DATA_LENGTH_MAX = 255;
+	private const CUSTOMER_ID_LENGTH_MAX = 50;
+	private const PAY_ID_LENGTH_MAX = 15;
 
-	const TTL_SEC_MIN = 300;
-	const TTL_SEC_MAX = 1800;
+	private const TTL_SEC_MIN = 300;
+	private const TTL_SEC_MAX = 1800;
 
-	public static function checkCartItemName(string $name)
+	public static function checkCartItemName(string $name): void
 	{
 		self::checkWhitespaces($name);
 
@@ -27,7 +27,7 @@ class Validator
 		}
 	}
 
-	public static function checkCartItemDescription(string $description)
+	public static function checkCartItemDescription(string $description): void
 	{
 		self::checkWhitespaces($description);
 
@@ -36,7 +36,7 @@ class Validator
 		}
 	}
 
-	public static function checkCartItemQuantity(int $quantity)
+	public static function checkCartItemQuantity(int $quantity): void
 	{
 		if ($quantity < 1) {
 			throw new \InvalidArgumentException(sprintf(
@@ -46,7 +46,7 @@ class Validator
 		}
 	}
 
-	public static function checkOrderId(string $orderId)
+	public static function checkOrderId(string $orderId): void
 	{
 		self::checkWhitespaces($orderId);
 
@@ -62,7 +62,7 @@ class Validator
 		}
 	}
 
-	public static function checkReturnUrl(string $returnUrl)
+	public static function checkReturnUrl(string $returnUrl): void
 	{
 		self::checkWhitespaces($returnUrl);
 
@@ -71,7 +71,7 @@ class Validator
 		}
 	}
 
-	public static function checkDescription(string $description)
+	public static function checkDescription(string $description): void
 	{
 		self::checkWhitespaces($description);
 
@@ -80,7 +80,7 @@ class Validator
 		}
 	}
 
-	public static function checkMerchantData(string $merchantData)
+	public static function checkMerchantData(string $merchantData): void
 	{
 		self::checkWhitespaces($merchantData);
 
@@ -89,7 +89,7 @@ class Validator
 		}
 	}
 
-	public static function checkCustomerId(string $customerId)
+	public static function checkCustomerId(string $customerId): void
 	{
 		self::checkWhitespaces($customerId);
 
@@ -98,7 +98,7 @@ class Validator
 		}
 	}
 
-	public static function checkPayId(string $payId)
+	public static function checkPayId(string $payId): void
 	{
 		self::checkWhitespaces($payId);
 
@@ -107,7 +107,7 @@ class Validator
 		}
 	}
 
-	private static function checkWhitespaces(string $argument)
+	private static function checkWhitespaces(string $argument): void
 	{
 		$charlist = preg_quote(" \t\n\r\0\x0B\xC2\xA0", '#');
 		preg_replace('#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '', $argument);
@@ -117,7 +117,7 @@ class Validator
 		}
 	}
 
-	public static function checkTtlSec(int $ttlSec)
+	public static function checkTtlSec(int $ttlSec): void
 	{
 		if ($ttlSec < self::TTL_SEC_MIN || $ttlSec > self::TTL_SEC_MAX) {
 			throw new \InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::TTL_SEC_MIN, self::TTL_SEC_MAX, $ttlSec));

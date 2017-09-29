@@ -73,7 +73,7 @@ class PaymentStatusRequest
 		);
 	}
 
-	public function registerExtension(string $name, ResponseExtensionHandler $extensionHandler)
+	public function registerExtension(string $name, ResponseExtensionHandler $extensionHandler): void
 	{
 		$this->extensions[$name] = $extensionHandler;
 	}

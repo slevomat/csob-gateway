@@ -5,9 +5,9 @@ namespace SlevomatCsobGateway;
 class Currency extends \Consistence\Enum\Enum
 {
 
-	const CZK = 'CZK';
-	const EUR = 'EUR';
-	const USD = 'USD';
-	const GBP = 'GBP';
+	public const CZK = 'CZK';
+	public const EUR = 'EUR';
+	public const USD = 'USD';
+	public const GBP = 'GBP';
 
 }

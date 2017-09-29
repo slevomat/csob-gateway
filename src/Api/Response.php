@@ -31,7 +31,7 @@ class Response
 	 */
 	public function __construct(
 		ResponseCode $responseCode,
-		array $data = null,
+		?array $data,
 		array $headers = [],
 		array $extensions = []
 	)
@@ -50,7 +50,7 @@ class Response
 	/**
 	 * @return mixed[]|null
 	 */
-	public function getData()
+	public function getData(): ?array
 	{
 		return $this->data;
 	}

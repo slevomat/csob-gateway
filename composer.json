@@ -15,7 +15,7 @@
 	},
 	"require": {
 		"ext-openssl": "*",
-		"php": "^7.0",
+		"php": "^7.1",
 		"consistence/consistence": "^1.0.0"
 	},
 	"require-dev": {

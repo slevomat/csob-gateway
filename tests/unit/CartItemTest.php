@@ -5,14 +5,14 @@ namespace SlevomatCsobGateway;
 class CartItemTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testNullDescription()
+	public function testNullDescription(): void
 	{
 		$cartItem = new CartItem('foo name', 1, 99);
 
 		$this->assertNull($cartItem->getDescription());
 	}
 
-	public function testValidation()
+	public function testValidation(): void
 	{
 		try {
 			new CartItem('foo name', 0, 99);

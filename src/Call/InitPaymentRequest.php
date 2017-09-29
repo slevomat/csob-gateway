@@ -99,12 +99,12 @@ class InitPaymentRequest
 		HttpMethod $returnMethod,
 		Cart $cart,
 		string $description,
-		string $merchantData = null,
-		string $customerId = null,
+		?string $merchantData,
+		?string $customerId,
 		Language $language,
-		int $ttlSec = null,
-		int $logoVersion = null,
-		int $colorSchemeVersion = null
+		?int $ttlSec = null,
+		?int $logoVersion = null,
+		?int $colorSchemeVersion = null
 	)
 	{
 		Validator::checkOrderId($orderId);

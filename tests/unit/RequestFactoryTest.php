@@ -26,12 +26,12 @@ class RequestFactoryTest extends \PHPUnit\Framework\TestCase
 	 */
 	private $requestFactory;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->requestFactory = new RequestFactory('012345');
 	}
 
-	public function testCreateInitPayment()
+	public function testCreateInitPayment(): void
 	{
 		$cart = new Cart(
 			Currency::get(Currency::CZK)
@@ -59,70 +59,70 @@ class RequestFactoryTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf(InitPaymentRequest::class, $request);
 	}
 
-	public function testCreateProcessPayment()
+	public function testCreateProcessPayment(): void
 	{
 		$request = $this->requestFactory->createProcessPayment('123456789');
 
 		$this->assertInstanceOf(ProcessPaymentRequest::class, $request);
 	}
 
-	public function testCreatePaymentStatus()
+	public function testCreatePaymentStatus(): void
 	{
 		$request = $this->requestFactory->createPaymentStatus('123456789');
 
 		$this->assertInstanceOf(PaymentStatusRequest::class, $request);
 	}
 
-	public function testCreateReversePayment()
+	public function testCreateReversePayment(): void
 	{
 		$request = $this->requestFactory->createReversePayment('123456789');
 
 		$this->assertInstanceOf(ReversePaymentRequest::class, $request);
 	}
 
-	public function testCreateClosePayment()
+	public function testCreateClosePayment(): void
 	{
 		$request = $this->requestFactory->createClosePayment('123456789');
 
 		$this->assertInstanceOf(ClosePaymentRequest::class, $request);
 	}
 
-	public function testCreateRefundPayment()
+	public function testCreateRefundPayment(): void
 	{
 		$request = $this->requestFactory->createRefundPayment('123456789');
 
 		$this->assertInstanceOf(RefundPaymentRequest::class, $request);
 	}
 
-	public function testCreateEchoRequest()
+	public function testCreateEchoRequest(): void
 	{
 		$request = $this->requestFactory->createEchoRequest();
 
 		$this->assertInstanceOf(EchoRequest::class, $request);
 	}
 
-	public function testCreatePostEchoRequest()
+	public function testCreatePostEchoRequest(): void
 	{
 		$request = $this->requestFactory->createPostEchoRequest();
 
 		$this->assertInstanceOf(PostEchoRequest::class, $request);
 	}
 
-	public function testCreateCustomerInfo()
+	public function testCreateCustomerInfo(): void
 	{
 		$request = $this->requestFactory->createCustomerInfo('cust123@mail.com');
 
 		$this->assertInstanceOf(CustomerInfoRequest::class, $request);
 	}
 
-	public function testCreateReceivePayment()
+	public function testCreateReceivePayment(): void
 	{
 		$request = $this->requestFactory->createReceivePaymentRequest();
 
 		$this->assertInstanceOf(ReceivePaymentRequest::class, $request);
 	}
 
-	public function testCreateOneclickInitPayment()
+	public function testCreateOneclickInitPayment(): void
 	{
 		$request = $this->requestFactory->createOneclickInitPayment(
 			'ef08b6e9f22345c',
@@ -134,7 +134,7 @@ class RequestFactoryTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf(OneclickInitPaymentRequest::class, $request);
 	}
 
-	public function testCreateOneclickStartPayment()
+	public function testCreateOneclickStartPayment(): void
 	{
 		$request = $this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
 

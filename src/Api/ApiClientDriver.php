@@ -12,6 +12,6 @@ interface ApiClientDriver
 	 * @param string[] $headers
 	 * @return Response
 	 */
-	public function request(HttpMethod $method, string $url, array $data = null, array $headers = []): Response;
+	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response;
 
 }

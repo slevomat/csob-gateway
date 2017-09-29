@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway\Call;
 class PayOperation extends \Consistence\Enum\Enum
 {
 
-	const PAYMENT = 'payment';
-	const ONECLICK_PAYMENT = 'oneclickPayment';
+	public const PAYMENT = 'payment';
+	public const ONECLICK_PAYMENT = 'oneclickPayment';
 
 }

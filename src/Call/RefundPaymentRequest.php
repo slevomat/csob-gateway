@@ -28,7 +28,7 @@ class RefundPaymentRequest
 	public function __construct(
 		string $merchantId,
 		string $payId,
-		int $amount = null
+		?int $amount = null
 	)
 	{
 		Validator::checkPayId($payId);

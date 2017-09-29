@@ -61,9 +61,9 @@ class PaymentResponse
 		DateTimeImmutable $responseDateTime,
 		ResultCode $resultCode,
 		string $resultMessage,
-		PaymentStatus $paymentStatus = null,
-		string $authCode = null,
-		string $merchantData = null,
+		?PaymentStatus $paymentStatus,
+		?string $authCode = null,
+		?string $merchantData = null,
 		array $extensions = []
 	)
 	{
@@ -102,26 +102,17 @@ class PaymentResponse
 		return $this->resultMessage;
 	}
 
-	/**
-	 * @return PaymentStatus|null
-	 */
-	public function getPaymentStatus()
+	public function getPaymentStatus(): ?PaymentStatus
 	{
 		return $this->paymentStatus;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getAuthCode()
+	public function getAuthCode(): ?string
 	{
 		return $this->authCode;
 	}
 
-	/**
-	 * @return null|string
-	 */
-	public function getMerchantData()
+	public function getMerchantData(): ?string
 	{
 		return $this->merchantData;
 	}

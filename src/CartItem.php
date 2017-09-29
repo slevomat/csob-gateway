@@ -25,7 +25,7 @@ class CartItem
 	 */
 	private $description;
 
-	public function __construct(string $name, int $quantity, int $amount, string $description = null)
+	public function __construct(string $name, int $quantity, int $amount, ?string $description = null)
 	{
 		Validator::checkCartItemName($name);
 		if ($description !== null) {
@@ -54,10 +54,7 @@ class CartItem
 		return $this->amount;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getDescription()
+	public function getDescription(): ?string
 	{
 		return $this->description;
 	}

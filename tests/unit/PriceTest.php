@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway;
 class PriceTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testGetters()
+	public function testGetters(): void
 	{
 		$cartItem = new Price(123, Currency::get(Currency::USD));
 

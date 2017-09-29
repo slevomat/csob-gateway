@@ -5,20 +5,20 @@ namespace SlevomatCsobGateway;
 class Language extends \Consistence\Enum\Enum
 {
 
-	const CZ = 'CZ';
-	const EN = 'EN';
-	const DE = 'DE';
-	const SK = 'SK';
-	const FR = 'FR';
-	const HU = 'HU';
-	const IT = 'IT';
-	const JP = 'JP';
-	const PL = 'PL';
-	const PT = 'PT';
-	const RO = 'RO';
-	const RU = 'RU';
-	const ES = 'ES';
-	const TR = 'TR';
-	const VN = 'VN';
+	public const CZ = 'CZ';
+	public const EN = 'EN';
+	public const DE = 'DE';
+	public const SK = 'SK';
+	public const FR = 'FR';
+	public const HU = 'HU';
+	public const IT = 'IT';
+	public const JP = 'JP';
+	public const PL = 'PL';
+	public const PT = 'PT';
+	public const RO = 'RO';
+	public const RU = 'RU';
+	public const ES = 'ES';
+	public const TR = 'TR';
+	public const VN = 'VN';
 
 }

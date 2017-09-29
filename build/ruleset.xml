@@ -6,7 +6,6 @@
 		<exclude name="Consistence.Exceptions.ExceptionDeclaration.NotChainable"/>
 	</rule>
 	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
-		<exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility"/><!-- PHP >= 7.1 only -->
 		<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
@@ -15,7 +14,6 @@
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
-		<exclude name="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/><!-- PHP >= 7.1 only -->
 		<exclude name="SlevomatCodingStandard.ControlStructures.RequireYodaComparison"/>
 	</rule>
 	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
@@ -56,5 +54,15 @@
 		<exclude-pattern>tests/unit/Api/Driver/CurlMock.php</exclude-pattern>
 		<exclude-pattern>tests/unit/Api/Driver/Curl_exec_false_Mock.php</exclude-pattern>
 		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">
+		<properties>
+			<property name="enableNullableTypeHints" value="true"/>
+			<property name="enableVoidTypeHint" value="true"/>
+			<property name="traversableTypeHints" type="array" value="
+				Traversable,
+				Generator
+			"/>
+		</properties>
 	</rule>
 </ruleset>
