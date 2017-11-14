@@ -11,6 +11,7 @@ class Language extends \Consistence\Enum\Enum
 	public const SK = 'SK';
 	public const FR = 'FR';
 	public const HU = 'HU';
+	public const HR = 'HR';
 	public const IT = 'IT';
 	public const JP = 'JP';
 	public const PL = 'PL';
@@ -19,6 +20,7 @@ class Language extends \Consistence\Enum\Enum
 	public const RU = 'RU';
 	public const ES = 'ES';
 	public const TR = 'TR';
+	public const SI = 'SI';
 	public const VN = 'VN';
 
 }

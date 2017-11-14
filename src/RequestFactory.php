@@ -7,8 +7,15 @@ use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
+use SlevomatCsobGateway\Call\Masterpass\BasicCheckoutRequest;
+use SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest;
+use SlevomatCsobGateway\Call\Masterpass\StandardCheckoutRequest;
+use SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest;
+use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
 use SlevomatCsobGateway\Call\OneclickInitPaymentRequest;
 use SlevomatCsobGateway\Call\OneclickStartPaymentRequest;
+use SlevomatCsobGateway\Call\PaymentButtonBrand;
+use SlevomatCsobGateway\Call\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
@@ -157,6 +164,63 @@ class RequestFactory
 		return new OneclickStartPaymentRequest(
 			$this->merchantId,
 			$payId
+		);
+	}
+
+	public function createMasterpassBasicCheckoutRequest(string $payId, string $callbackUrl): BasicCheckoutRequest
+	{
+		return new BasicCheckoutRequest(
+			$this->merchantId,
+			$payId,
+			$callbackUrl
+		);
+	}
+
+	/**
+	 * @param string $payId
+	 * @param mixed[] $callbackParams
+	 * @return \SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest
+	 */
+	public function createMasterpassBasicFinishRequest(string $payId, array $callbackParams): BasicFinishRequest
+	{
+		return new BasicFinishRequest(
+			$this->merchantId,
+			$payId,
+			$callbackParams
+		);
+	}
+
+	public function createMasterpassStandardCheckoutRequest(string $payId, string $callbackUrl, ?string $shippingLocationProfile = null): StandardCheckoutRequest
+	{
+		return new StandardCheckoutRequest($this->merchantId, $payId, $callbackUrl, $shippingLocationProfile);
+	}
+
+	/**
+	 * @param string $payId
+	 * @param mixed[] $callbackParams
+	 * @return \SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest
+	 */
+	public function createMasterpassStandardExtractRequest(string $payId, array $callbackParams): StandardExtractRequest
+	{
+		return new StandardExtractRequest($this->merchantId, $payId, $callbackParams);
+	}
+
+	public function createMasterpassStandardFinishRequest(string $payId, string $oauthToken, int $totalAmount): StandardFinishRequest
+	{
+		return new StandardFinishRequest(
+			$this->merchantId,
+			$payId,
+			$oauthToken,
+			$totalAmount
+		);
+	}
+
+	public function createPaymentButtonRequest(string $payId, PaymentButtonBrand $brand): PaymentButtonRequest
+	{
+		return new PaymentButtonRequest(
+			$this->merchantId,
+			$payId,
+			$brand
 		);
 	}
 
