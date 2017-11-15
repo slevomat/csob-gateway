@@ -24,3 +24,6 @@ script:
 after_script:
   - if [[ $TRAVIS_PHP_VERSION = '7.1' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
   - if [[ $TRAVIS_PHP_VERSION = '7.1' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi
+
+notifications:
+  email: false
