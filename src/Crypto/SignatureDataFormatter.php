@@ -27,7 +27,7 @@ class SignatureDataFormatter
 
 	/**
 	 * @param mixed[] $data
-	 * @param string[] $keys
+	 * @param mixed[] $keys
 	 * @return mixed[]
 	 */
 	private function generateMessage(array $data, array $keys): array
@@ -35,15 +35,18 @@ class SignatureDataFormatter
 		$message = [];
 
 		foreach ($keys as $key => $values) {
+			if (is_int($key)) {
+				foreach ($data as $items) {
+					$message = array_merge($message, $this->generateMessage($items, $values));
+				}
+				continue;
+			}
 			if (!array_key_exists($key, $data)) {
 				continue;
 			}
 
 			if (is_array($values)) {
-				foreach ($data[$key] as $subData) {
-					$message = array_merge($message, $this->generateMessage($subData, $values));
-				}
-
+				$message = array_merge($message, $this->generateMessage($data[$key], $values));
 			} else {
 				if (is_bool($data[$key])) {
 					$message[] = $data[$key] ? 'true' : 'false';

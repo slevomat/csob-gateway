@@ -42,8 +42,10 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 					'id' => null,
 					'name' => null,
 					'cart' => [
-						'name' => null,
-						'price' => null,
+						[
+							'name' => null,
+							'price' => null,
+						],
 					],
 					'description' => null,
 				]),

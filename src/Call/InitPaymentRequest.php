@@ -203,10 +203,12 @@ class InitPaymentRequest
 				'returnUrl' => null,
 				'returnMethod' => null,
 				'cart' => [
-					'name' => null,
-					'quantity' => null,
-					'amount' => null,
-					'description' => null,
+					[
+						'name' => null,
+						'quantity' => null,
+						'amount' => null,
+						'description' => null,
+					],
 				],
 				'description' => null,
 				'merchantData' => null,
