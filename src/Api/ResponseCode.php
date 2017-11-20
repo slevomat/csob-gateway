@@ -18,5 +18,6 @@ class ResponseCode extends \Consistence\Enum\Enum
 	public const S500_INTERNAL_ERROR = 500;
 	public const S502_BAD_GATEWAY = 502;
 	public const S503_SERVICE_UNAVAILABLE = 503;
+	public const S504_GATEWAY_TIMEOUT = 504;
 
 }

@@ -7,7 +7,7 @@ class InternalErrorException extends RequestException
 
 	public function __construct(Response $response)
 	{
-		parent::__construct('Internal Error Exception', $response);
+		parent::__construct(sprintf('Internal Error - response code %d', $response->getResponseCode()->getValue()), $response);
 	}
 
 }
