@@ -201,13 +201,15 @@ class ApiClient
 			throw new \InvalidArgumentException('Arguments are missing URL placeholders: ' . json_encode($queries));
 		}
 
+		$requestStartTime = microtime(true);
+
 		$response = $this->driver->request(
 			$method,
 			$this->apiUrl . '/' . $url,
 			$data
 		);
 
-		$this->logRequest($method, $endpointName, $originalQueries, $data, $response);
+		$this->logRequest($method, $endpointName, $originalQueries, $data, $response, microtime(true) - $requestStartTime);
 
 		if ($responseValidityCallback !== null) {
 			$responseValidityCallback($response);
@@ -281,7 +283,7 @@ class ApiClient
 			$data
 		);
 
-		$this->logRequest(HttpMethod::get(HttpMethod::GET), 'payment/response', [], [], $response);
+		$this->logRequest(HttpMethod::get(HttpMethod::GET), 'payment/response', [], [], $response, 0.0);
 
 		return new Response(
 			$response->getResponseCode(),
@@ -337,8 +339,9 @@ class ApiClient
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $requestData
 	 * @param \SlevomatCsobGateway\Api\Response $response
+	 * @param float $responseTime
 	 */
-	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response): void
+	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response, float $responseTime): void
 	{
 		if ($this->logger === null) {
 			return;
@@ -365,6 +368,7 @@ class ApiClient
 				'code' => $response->getResponseCode()->getValue(),
 				'data' => $responseData,
 				'headers' => $response->getHeaders(),
+				'time' => $responseTime,
 			],
 		];
 
