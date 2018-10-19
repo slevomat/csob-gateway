@@ -8,39 +8,25 @@ use SlevomatCsobGateway\Validator;
 class PaymentResponse
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $responseDateTime;
 
-	/**
-	 * @var ResultCode
-	 */
+	/** @var ResultCode */
 	private $resultCode;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $resultMessage;
 
-	/**
-	 * @var PaymentStatus|null
-	 */
+	/** @var PaymentStatus|null */
 	private $paymentStatus;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $authCode;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $merchantData;
 
 	/** @var mixed[] */

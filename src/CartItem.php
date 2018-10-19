@@ -5,24 +5,16 @@ namespace SlevomatCsobGateway;
 class CartItem
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $name;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $quantity;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $amount;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $description;
 
 	public function __construct(string $name, int $quantity, int $amount, ?string $description = null)

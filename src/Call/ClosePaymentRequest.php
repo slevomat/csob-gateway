@@ -10,19 +10,13 @@ use SlevomatCsobGateway\Validator;
 class ClosePaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
-	/**
-	 * @var int|null
-	 */
+	/** @var int|null */
 	private $totalAmount;
 
 	public function __construct(

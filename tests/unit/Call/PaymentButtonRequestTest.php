@@ -46,15 +46,15 @@ class PaymentButtonRequestTest extends \PHPUnit\Framework\TestCase
 
 		$paymentButtonResponse = $paymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(PaymentButtonResponse::class, $paymentButtonResponse);
-		$this->assertSame('123456789', $paymentButtonResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentButtonResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentButtonResponse->getResultCode());
-		$this->assertSame('OK', $paymentButtonResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentButtonResponse->getPaymentStatus());
-		$this->assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob', $paymentButtonResponse->getRedirectUrl());
-		$this->assertSame(HttpMethod::get(HttpMethod::GET), $paymentButtonResponse->getRedirectMethod());
-		$this->assertNull($paymentButtonResponse->getRedirectParams());
+		self::assertInstanceOf(PaymentButtonResponse::class, $paymentButtonResponse);
+		self::assertSame('123456789', $paymentButtonResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentButtonResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentButtonResponse->getResultCode());
+		self::assertSame('OK', $paymentButtonResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentButtonResponse->getPaymentStatus());
+		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob', $paymentButtonResponse->getRedirectUrl());
+		self::assertSame(HttpMethod::get(HttpMethod::GET), $paymentButtonResponse->getRedirectMethod());
+		self::assertNull($paymentButtonResponse->getRedirectParams());
 	}
 
 }

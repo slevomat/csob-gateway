@@ -5,14 +5,10 @@ namespace SlevomatCsobGateway\Crypto;
 class VerificationFailedException extends \RuntimeException
 {
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $data;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $errorMessage;
 
 	/**

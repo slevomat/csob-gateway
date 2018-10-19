@@ -25,7 +25,7 @@ class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(function (array $postData) {
+			->willReturnCallback(static function (array $postData) {
 				return new Response(ResponseCode::get(ResponseCode::S200_OK), $postData);
 			});
 
@@ -34,13 +34,13 @@ class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 
 		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
 
-		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
-		$this->assertSame('123456789', $paymentResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
-		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
-		$this->assertNull($paymentResponse->getAuthCode());
+		self::assertInstanceOf(PaymentResponse::class, $paymentResponse);
+		self::assertSame('123456789', $paymentResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertSame('OK', $paymentResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
+		self::assertNull($paymentResponse->getAuthCode());
 	}
 
 	public function testSendWithStringValues(): void
@@ -58,7 +58,7 @@ class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(function (array $postData) {
+			->willReturnCallback(static function (array $postData) {
 				return new Response(ResponseCode::get(ResponseCode::S200_OK), $postData);
 			});
 
@@ -67,13 +67,13 @@ class ReceivePaymentRequestTest extends \PHPUnit\Framework\TestCase
 
 		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
 
-		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
-		$this->assertSame('123456789', $paymentResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
-		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
-		$this->assertNull($paymentResponse->getAuthCode());
+		self::assertInstanceOf(PaymentResponse::class, $paymentResponse);
+		self::assertSame('123456789', $paymentResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertSame('OK', $paymentResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
+		self::assertNull($paymentResponse->getAuthCode());
 	}
 
 }

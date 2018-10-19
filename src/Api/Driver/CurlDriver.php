@@ -36,8 +36,8 @@ class CurlDriver implements ApiClientDriver
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers + [
-				'Content-Type: application/json',
-			]);
+			'Content-Type: application/json',
+		]);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 		$output = curl_exec($ch);
 
@@ -46,8 +46,8 @@ class CurlDriver implements ApiClientDriver
 		}
 
 		$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-		$headers = substr($output, 0, $headerSize);
-		$body = substr($output, $headerSize);
+		$headers = substr((string) $output, 0, $headerSize);
+		$body = substr((string) $output, $headerSize);
 
 		$responseCode = ResponseCode::get(curl_getinfo($ch, CURLINFO_HTTP_CODE));
 
@@ -71,9 +71,11 @@ class CurlDriver implements ApiClientDriver
 		foreach (explode("\n", $rawHeaders) as $line) {
 			$line = explode(':', $line, 2);
 
-			if (isset($line[1])) {
-				$headers[$line[0]] = trim($line[1]);
+			if (!isset($line[1])) {
+				continue;
 			}
+
+			$headers[$line[0]] = trim($line[1]);
 		}
 
 		return $headers;

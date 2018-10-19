@@ -5,9 +5,7 @@ namespace SlevomatCsobGateway\Crypto;
 class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 {
 
-	/**
-	 * @var CryptoService
-	 */
+	/** @var CryptoService */
 	private $cryptoService;
 
 	protected function setUp(): void
@@ -68,7 +66,6 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	 * @param string $expectedSignature
 	 * @param bool $valid
 	 * @param SignatureDataFormatter $signatureDataFormatter
-	 *
 	 * @dataProvider getSignDataData
 	 */
 	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
@@ -76,9 +73,9 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 		$signature = $this->cryptoService->signData($data, $signatureDataFormatter);
 
 		if ($valid) {
-			$this->assertSame($expectedSignature, $signature);
+			self::assertSame($expectedSignature, $signature);
 		} else {
-			$this->assertNotSame($expectedSignature, $signature);
+			self::assertNotSame($expectedSignature, $signature);
 		}
 	}
 
@@ -91,18 +88,18 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 
 		try {
 			$cryptoService->signData([], new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (PrivateKeyFileException $e) {
-			$this->assertSame(__DIR__ . '/invalid-key.key', $e->getPrivateKeyFile());
+			self::assertSame(__DIR__ . '/invalid-key.key', $e->getPrivateKeyFile());
 		}
 
 		try {
 			$cryptoService->verifyData([], 'fooSignature', new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (PublicKeyFileException $e) {
-			$this->assertSame(__DIR__ . '/invalid-key.key', $e->getPublicKeyFile());
+			self::assertSame(__DIR__ . '/invalid-key.key', $e->getPublicKeyFile());
 		}
 	}
 
@@ -120,19 +117,19 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 
 		try {
 			$cryptoService->signData([], new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (SigningFailedException $e) {
-			$this->assertSame([], $e->getData());
+			self::assertSame([], $e->getData());
 		}
 
 		try {
 			$cryptoService->verifyData([], 'fooSignature', new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (VerificationFailedException $e) {
-			$this->assertSame([], $e->getData());
-			$this->assertSame('error_message', $e->getErrorMessage());
+			self::assertSame([], $e->getData());
+			self::assertSame('error_message', $e->getErrorMessage());
 		}
 	}
 
@@ -141,15 +138,14 @@ class CryptoServiceTest extends \PHPUnit\Framework\TestCase
 	 * @param string $signature
 	 * @param bool $valid
 	 * @param SignatureDataFormatter $signatureDataFormatter
-	 *
 	 * @dataProvider getSignDataData
 	 */
 	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{
 		if ($valid) {
-			$this->assertTrue($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));
+			self::assertTrue($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));
 		} else {
-			$this->assertFalse($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));
+			self::assertFalse($this->cryptoService->verifyData($data, $signature, $signatureDataFormatter));
 		}
 	}
 

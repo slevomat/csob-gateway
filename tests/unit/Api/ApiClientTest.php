@@ -107,10 +107,9 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 	 * @param mixed[]|null $responseData
 	 * @param ResponseCode $responseCode
 	 * @param mixed[] $responseHeaders
-	 *
 	 * @dataProvider getRequests
 	 */
-	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData = null, ?array $responseData = null, ResponseCode $responseCode, array $responseHeaders): void
+	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData, ?array $responseData, ResponseCode $responseCode, array $responseHeaders): void
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
@@ -131,10 +130,10 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->with($httpMethod, $this->matchesRegularExpression(sprintf('~^%s/%s$~', preg_quote(self::API_URL, '~'), $expectedUrl)), $expectedRequestData)
+				->with($httpMethod, self::matchesRegularExpression(sprintf('~^%s/%s$~', preg_quote(self::API_URL, '~'), $expectedUrl)), $expectedRequestData)
 				->willReturn(new Response(
 					$responseCode,
-					($responseData !== null ? $responseData : []) + [
+					($responseData ?? []) + [
 						'signature' => 'signature',
 					],
 					$responseHeaders
@@ -143,17 +142,17 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		} else {
 			$apiClientDriver->expects(self::once())
 				->method('request')
-				->willReturnCallback(function (HttpMethod $method, string $url, array $requestData) use ($httpMethod, $expectedUrl, $expectedRequestData, $responseCode, $responseData, $responseHeaders): Response {
-					$this->assertEquals($httpMethod, $method);
-					$this->assertSame(sprintf('%s/%s', self::API_URL, $expectedUrl), $url);
+				->willReturnCallback(static function (HttpMethod $method, string $url, array $requestData) use ($httpMethod, $expectedUrl, $expectedRequestData, $responseCode, $responseData, $responseHeaders): Response {
+					self::assertEquals($httpMethod, $method);
+					self::assertSame(sprintf('%s/%s', self::API_URL, $expectedUrl), $url);
 					$dttm = $requestData['dttm'];
-					$this->assertRegExp('~^\\d{14}$~', $dttm);
+					self::assertRegExp('~^\\d{14}$~', $dttm);
 					unset($requestData['dttm']);
-					$this->assertEquals($expectedRequestData + ['signature' => 'signature'], $requestData);
+					self::assertEquals(((array) $expectedRequestData) + ['signature' => 'signature'], $requestData);
 
 					return new Response(
 						$responseCode,
-						($responseData !== null ? $responseData : []) + [
+						($responseData ?? []) + [
 							'signature' => 'signature',
 						],
 						$responseHeaders
@@ -167,7 +166,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		$logger->expects(self::once())
 			->method('info')
-			->with($this->isType('string'), $this->isType('array'));
+			->with(self::isType('string'), self::isType('array'));
 
 		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
@@ -184,10 +183,10 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 			$response = $apiClient->put($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 		}
 
-		$this->assertInstanceOf(Response::class, $response);
-		$this->assertSame($responseCode->getValue(), $response->getResponseCode()->getValue());
-		$this->assertEquals($responseHeaders, $response->getHeaders());
-		$this->assertEquals($responseData, $response->getData());
+		self::assertInstanceOf(Response::class, $response);
+		self::assertSame($responseCode->getValue(), $response->getResponseCode()->getValue());
+		self::assertEquals($responseHeaders, $response->getHeaders());
+		self::assertEquals($responseData, $response->getData());
 	}
 
 	public function getTestExceptions(): array
@@ -248,7 +247,6 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @param Response $response
 	 * @param string $expectedExceptionClass
-	 *
 	 * @dataProvider getTestExceptions
 	 */
 	public function testExceptions(Response $response, string $expectedExceptionClass): void
@@ -278,11 +276,11 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (RequestException $e) {
-			$this->assertInstanceOf($expectedExceptionClass, $e);
-			$this->assertSame($response, $e->getResponse());
+			self::assertInstanceOf($expectedExceptionClass, $e);
+			self::assertSame($response, $e->getResponse());
 		}
 	}
 
@@ -314,10 +312,10 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (InvalidSignatureException $e) {
-			$this->assertSame($response->getData(), $e->getResponseData());
+			self::assertSame($response->getData(), $e->getResponseData());
 		}
 	}
 
@@ -355,12 +353,12 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		try {
 			$apiClient->get('foo/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]));
-			$this->fail();
+			self::fail();
 
 		} catch (InvalidSignatureException $e) {
 			$responseData = $response->getData();
 			unset($responseData['signature']);
-			$this->assertSame($responseData, $e->getResponseData());
+			self::assertSame($responseData, $e->getResponseData());
 		}
 	}
 
@@ -391,10 +389,10 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		unset($data['signature']);
 
-		$this->assertInstanceOf(Response::class, $response);
-		$this->assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
-		$this->assertEquals([], $response->getHeaders());
-		$this->assertEquals($data, $response->getData());
+		self::assertInstanceOf(Response::class, $response);
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertEquals([], $response->getHeaders());
+		self::assertEquals($data, $response->getData());
 	}
 
 	public function testRequestWithExtension(): void
@@ -445,13 +443,13 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 
 		$response = $apiClient->get('payment/status/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]), null, $extensions);
 
-		$this->assertInstanceOf(Response::class, $response);
-		$this->assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
-		$this->assertEquals([], $response->getHeaders());
-		$this->assertEquals(['id' => '123'], $response->getData());
-		$this->assertCount(1, $response->getExtensions());
-		$this->assertInstanceOf(\stdClass::class, $response->getExtensions()['foo']);
-		$this->assertSame('bar', $response->getExtensions()['foo']->foo);
+		self::assertInstanceOf(Response::class, $response);
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertEquals([], $response->getHeaders());
+		self::assertEquals(['id' => '123'], $response->getData());
+		self::assertCount(1, $response->getExtensions());
+		self::assertInstanceOf(\stdClass::class, $response->getExtensions()['foo']);
+		self::assertSame('bar', $response->getExtensions()['foo']->foo);
 	}
 
 }

@@ -28,9 +28,7 @@ use SlevomatCsobGateway\Call\ReversePaymentRequest;
 class RequestFactory
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
 	public function __construct(string $merchantId)

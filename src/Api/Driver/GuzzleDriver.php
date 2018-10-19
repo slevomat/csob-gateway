@@ -33,7 +33,7 @@ class GuzzleDriver implements ApiClientDriver
 	{
 		$postData = null;
 		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {
-			$postData = json_encode($data);
+			$postData = (string) json_encode($data);
 		}
 		$headers += ['Content-Type' => 'application/json'];
 		$request = new Request($method->getValue(), $url, $headers, $postData);
@@ -46,8 +46,10 @@ class GuzzleDriver implements ApiClientDriver
 
 			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
 
-			$responseHeaders = array_map(function ($item) {
-				return !is_array($item) || count($item) > 1 ? $item : array_shift($item);
+			$responseHeaders = array_map(static function ($item) {
+				return !is_array($item) || count($item) > 1
+					? $item
+					: array_shift($item);
 			}, $httpResponse->getHeaders());
 
 			return new Response(

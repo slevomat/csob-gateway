@@ -34,8 +34,8 @@ class ProcessPaymentRequestTest extends \PHPUnit\Framework\TestCase
 
 		$processPaymentResponse = $processPaymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(ProcessPaymentResponse::class, $processPaymentResponse);
-		$this->assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/', $processPaymentResponse->getGatewayLocationUrl());
+		self::assertInstanceOf(ProcessPaymentResponse::class, $processPaymentResponse);
+		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/', $processPaymentResponse->getGatewayLocationUrl());
 	}
 
 }

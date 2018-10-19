@@ -15,6 +15,9 @@
 		<exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
 		<exclude name="SlevomatCodingStandard.ControlStructures.RequireYodaComparison"/>
+		<exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
+		<exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
+		<exclude name="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses"/>
 	</rule>
 	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
 		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
@@ -63,6 +66,26 @@
 				Traversable,
 				Generator
 			"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
+		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
+		<exclude-pattern>tests/unit/Api/Driver/*Mock.php</exclude-pattern>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+		<properties>
+			<property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing">
+		<properties>
+			<property name="tokensToCheck" type="array">
+				<element value="T_GOTO"/>
+				<element value="T_SWITCH"/>
+				<element value="T_THROW"/>
+				<element value="T_YIELD"/>
+				<element value="T_YIELD_FROM"/>
+			</property>
 		</properties>
 	</rule>
 </ruleset>

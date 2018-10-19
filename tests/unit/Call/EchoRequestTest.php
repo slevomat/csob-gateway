@@ -35,10 +35,10 @@ class EchoRequestTest extends \PHPUnit\Framework\TestCase
 
 		$echoResponse = $echoRequest->send($apiClient);
 
-		$this->assertInstanceOf(EchoResponse::class, $echoResponse);
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $echoResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $echoResponse->getResultCode());
-		$this->assertSame('OK', $echoResponse->getResultMessage());
+		self::assertInstanceOf(EchoResponse::class, $echoResponse);
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $echoResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $echoResponse->getResultCode());
+		self::assertSame('OK', $echoResponse->getResultMessage());
 	}
 
 }

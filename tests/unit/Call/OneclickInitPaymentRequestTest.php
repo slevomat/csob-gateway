@@ -48,13 +48,13 @@ class OneclickInitPaymentRequestTest extends \PHPUnit\Framework\TestCase
 		/** @var ApiClient $apiClient */
 		$paymentResponse = $initPaymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(PaymentResponse::class, $paymentResponse);
-		$this->assertSame('123456789', $paymentResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
-		$this->assertSame('OK', $paymentResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
-		$this->assertNull($paymentResponse->getAuthCode());
+		self::assertInstanceOf(PaymentResponse::class, $paymentResponse);
+		self::assertSame('123456789', $paymentResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertSame('OK', $paymentResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		self::assertNull($paymentResponse->getAuthCode());
 	}
 
 }

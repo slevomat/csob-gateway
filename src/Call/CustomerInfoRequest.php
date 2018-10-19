@@ -10,14 +10,10 @@ use SlevomatCsobGateway\Validator;
 class CustomerInfoRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $customerId;
 
 	public function __construct(

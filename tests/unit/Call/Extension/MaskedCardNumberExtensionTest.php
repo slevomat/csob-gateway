@@ -14,9 +14,9 @@ class MaskedCardNumberExtensionTest extends \PHPUnit\Framework\TestCase
 			'expiration' => '11/16',
 		]);
 
-		$this->assertSame('415461****0209', $maskedCardNumberResponse->getLongMaskedCln());
-		$this->assertSame('****0209', $maskedCardNumberResponse->getMaskedCln());
-		$this->assertSame('2016-11-30', $maskedCardNumberResponse->getExpiration()->format('Y-m-d'));
+		self::assertSame('415461****0209', $maskedCardNumberResponse->getLongMaskedCln());
+		self::assertSame('****0209', $maskedCardNumberResponse->getMaskedCln());
+		self::assertSame('2016-11-30', $maskedCardNumberResponse->getExpiration()->format('Y-m-d'));
 	}
 
 }

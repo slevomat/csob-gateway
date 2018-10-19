@@ -7,19 +7,13 @@ use DateTimeImmutable;
 class TransactionSettlementResponse
 {
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $createdDate;
 
-	/**
-	 * @var DateTimeImmutable|null
-	 */
+	/** @var DateTimeImmutable|null */
 	private $authDate;
 
-	/**
-	 * @var DateTimeImmutable|null
-	 */
+	/** @var DateTimeImmutable|null */
 	private $settlementDate;
 
 	public function __construct(

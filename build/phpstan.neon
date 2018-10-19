@@ -1,8 +1,18 @@
+includes:
+	- ../vendor/phpstan/phpstan-strict-rules/rules.neon
+	- ../vendor/phpstan/phpstan-phpunit/extension.neon
+	- ../vendor/phpstan/phpstan-phpunit/rules.neon
+
 parameters:
 	autoload_files:
 		- %rootDir%/../../../tests/unit/Crypto/GlobalFunctionsMock.php
 	excludes_analyse:
 		- *tests/unit/Api/Driver/CurlMock.php
 		- *tests/unit/Api/Driver/Curl_exec_false_Mock.php
+		- *tests/unit/Crypto/GlobalFunctionsMock.php
 	ignoreErrors:
-		- '#PHPUnit_Framework_MockObject_MockObject given#'
+		- '#Call to static method PHPUnit\\Framework\\Assert::assertInstanceOf\(\) with .+ will always evaluate to true.#'
+		- '#Call to static method PHPUnit\\Framework\\Assert::assertNotNull\(\) with .+ will always evaluate to true.#'
+		- '#expects DateTimeImmutable, DateTimeImmutable\|false given#'
+		- '#should return DateTimeImmutable but returns DateTimeImmutable\|false#'
+		- '#Cannot call method .+ on DateTimeImmutable\|false.#'

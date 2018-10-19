@@ -129,14 +129,13 @@ class SignatureDataFormatterTest extends \PHPUnit\Framework\TestCase
 	 * @param mixed[] $keyPriority
 	 * @param mixed[] $data
 	 * @param string $expectedData
-	 *
 	 * @dataProvider getFormatDataForSignatureData
 	 */
 	public function testFormatDataForSignature(array $keyPriority, array $data, string $expectedData): void
 	{
 		$signatureDataFormatter = new SignatureDataFormatter($keyPriority);
 
-		$this->assertSame($expectedData, $signatureDataFormatter->formatDataForSignature($data));
+		self::assertSame($expectedData, $signatureDataFormatter->formatDataForSignature($data));
 	}
 
 }

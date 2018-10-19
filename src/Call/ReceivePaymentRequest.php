@@ -43,7 +43,7 @@ class ReceivePaymentRequest
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
-			isset($data['merchantData']) ? base64_decode($data['merchantData']) : null
+			isset($data['merchantData']) ? (string) base64_decode($data['merchantData'], true) : null
 		);
 	}
 

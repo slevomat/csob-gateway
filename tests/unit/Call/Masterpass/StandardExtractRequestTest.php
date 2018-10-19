@@ -37,16 +37,16 @@ class StandardExtractRequestTest extends \PHPUnit\Framework\TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 2,
 					'checkoutParams' => ['card' => [
-							'maskedCln' => '****4145',
-							'expiration' => '11/19',
-							'billingAddress' =>
+						'maskedCln' => '****4145',
+						'expiration' => '11/19',
+						'billingAddress' =>
 								[
 									'city' => 'Praha 1',
 									'country' => 'CZ',
 									'line1' => 'Jindřišská 16',
 									'postalCode' => '11150',
 								],
-						],
+					],
 						'shippingAddress' =>
 							[
 								'recipientName' => 'Jan Novák',
@@ -74,13 +74,13 @@ class StandardExtractRequestTest extends \PHPUnit\Framework\TestCase
 
 		$extractResponse = $paymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(ExtractResponse::class, $extractResponse);
-		$this->assertSame('123456789', $extractResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $extractResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $extractResponse->getResultCode());
-		$this->assertSame('OK', $extractResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $extractResponse->getPaymentStatus());
-		$this->assertNotNull($extractResponse->getCheckoutParams());
+		self::assertInstanceOf(ExtractResponse::class, $extractResponse);
+		self::assertSame('123456789', $extractResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $extractResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $extractResponse->getResultCode());
+		self::assertSame('OK', $extractResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $extractResponse->getPaymentStatus());
+		self::assertNotNull($extractResponse->getCheckoutParams());
 	}
 
 }

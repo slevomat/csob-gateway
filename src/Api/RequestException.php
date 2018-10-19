@@ -5,9 +5,7 @@ namespace SlevomatCsobGateway\Api;
 abstract class RequestException extends \RuntimeException
 {
 
-	/**
-	 * @var Response
-	 */
+	/** @var Response */
 	private $response;
 
 	public function __construct(string $message, Response $response)

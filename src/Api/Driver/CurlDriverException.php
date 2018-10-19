@@ -7,9 +7,7 @@ use SlevomatCsobGateway\Api\ApiClientDriverException;
 class CurlDriverException extends \RuntimeException implements ApiClientDriverException
 {
 
-	/**
-	 * @var mixed
-	 */
+	/** @var mixed */
 	private $info;
 
 	/**

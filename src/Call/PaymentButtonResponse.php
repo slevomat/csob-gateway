@@ -9,35 +9,25 @@ use SlevomatCsobGateway\Validator;
 class PaymentButtonResponse
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $responseDateTime;
 
-	/**
-	 * @var ResultCode
-	 */
+	/** @var ResultCode */
 	private $resultCode;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $resultMessage;
 
-	/**
-	 * @var PaymentStatus|null
-	 */
+	/** @var PaymentStatus|null */
 	private $paymentStatus;
 
-	/** @var null|\SlevomatCsobGateway\Api\HttpMethod */
+	/** @var \SlevomatCsobGateway\Api\HttpMethod|null */
 	private $redirectMethod;
 
-	/** @var null|string */
+	/** @var string|null */
 	private $redirectUrl;
 
 	/** @var mixed[]|null */
@@ -48,9 +38,9 @@ class PaymentButtonResponse
 	 * @param \DateTimeImmutable $responseDateTime
 	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
 	 * @param string $resultMessage
-	 * @param null|\SlevomatCsobGateway\Call\PaymentStatus $paymentStatus
-	 * @param null|\SlevomatCsobGateway\Api\HttpMethod $redirectMethod
-	 * @param null|string $redirectUrl
+	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
+	 * @param \SlevomatCsobGateway\Api\HttpMethod|null $redirectMethod
+	 * @param string|null $redirectUrl
 	 * @param mixed[]|null $redirectParams
 	 */
 	public function __construct(

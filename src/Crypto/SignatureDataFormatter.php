@@ -49,7 +49,9 @@ class SignatureDataFormatter
 				$message = array_merge($message, $this->generateMessage($data[$key], $values));
 			} else {
 				if (is_bool($data[$key])) {
-					$message[] = $data[$key] ? 'true' : 'false';
+					$message[] = $data[$key]
+						? 'true'
+						: 'false';
 				} else {
 					$message[] = $data[$key];
 				}
