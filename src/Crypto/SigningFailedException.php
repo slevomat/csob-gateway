@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-class SigningFailedException extends \RuntimeException
+use RuntimeException;
+
+class SigningFailedException extends RuntimeException
 {
 
 	/** @var mixed[] */

@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api;
 
-class ResponseCode extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class ResponseCode extends Enum
 {
 
 	public const S200_OK = 200;

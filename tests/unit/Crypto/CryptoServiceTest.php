@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-class CryptoServiceTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class CryptoServiceTest extends TestCase
 {
 
 	/** @var CryptoService */

@@ -3,11 +3,12 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class RefundPaymentRequestTest extends \PHPUnit\Framework\TestCase
+class RefundPaymentRequestTest extends TestCase
 {
 
 	public function testSend(): void

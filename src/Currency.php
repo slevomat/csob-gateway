@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway;
 
-class Currency extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class Currency extends Enum
 {
 
 	public const CZK = 'CZK';

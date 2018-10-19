@@ -10,6 +10,8 @@ use SlevomatCsobGateway\CartItem;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Validator;
+use function array_map;
+use function base64_encode;
 
 class InitPaymentRequest
 {

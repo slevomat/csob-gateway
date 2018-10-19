@@ -2,6 +2,15 @@
 
 namespace SlevomatCsobGateway;
 
+use InvalidArgumentException;
+use function base64_encode;
+use function ctype_digit;
+use function preg_quote;
+use function preg_replace;
+use function sprintf;
+use function strlen;
+use function utf8_decode;
+
 class Validator
 {
 
@@ -23,7 +32,7 @@ class Validator
 		self::checkWhitespaces($name);
 
 		if (strlen(utf8_decode($name)) > self::CART_ITEM_NAME_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('Cart item name can have maximum of %d characters.', self::CART_ITEM_NAME_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('Cart item name can have maximum of %d characters.', self::CART_ITEM_NAME_LENGTH_MAX));
 		}
 	}
 
@@ -32,14 +41,14 @@ class Validator
 		self::checkWhitespaces($description);
 
 		if (strlen(utf8_decode($description)) > self::CART_ITEM_DESCRIPTION_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('Cart item description can have maximum of %d characters.', self::CART_ITEM_DESCRIPTION_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('Cart item description can have maximum of %d characters.', self::CART_ITEM_DESCRIPTION_LENGTH_MAX));
 		}
 	}
 
 	public static function checkCartItemQuantity(int $quantity): void
 	{
 		if ($quantity < 1) {
-			throw new \InvalidArgumentException(sprintf(
+			throw new InvalidArgumentException(sprintf(
 				'Quantity must be greater than 0. %d given.',
 				$quantity
 			));
@@ -51,14 +60,14 @@ class Validator
 		self::checkWhitespaces($orderId);
 
 		if (!ctype_digit($orderId)) {
-			throw new \InvalidArgumentException(sprintf(
+			throw new InvalidArgumentException(sprintf(
 				'OrderId must be numeric value. %s given.',
 				$orderId
 			));
 		}
 
 		if (strlen($orderId) > self::ORDER_ID_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('OrderId can have maximum of %d characters.', self::ORDER_ID_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('OrderId can have maximum of %d characters.', self::ORDER_ID_LENGTH_MAX));
 		}
 	}
 
@@ -67,7 +76,7 @@ class Validator
 		self::checkWhitespaces($returnUrl);
 
 		if (strlen(utf8_decode($returnUrl)) > self::RETURN_URL_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('ReturnUrl can have maximum of %d characters.', self::RETURN_URL_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('ReturnUrl can have maximum of %d characters.', self::RETURN_URL_LENGTH_MAX));
 		}
 	}
 
@@ -76,7 +85,7 @@ class Validator
 		self::checkWhitespaces($description);
 
 		if (strlen(utf8_decode($description)) > self::DESCRIPTION_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('Description can have maximum of %d characters.', self::DESCRIPTION_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('Description can have maximum of %d characters.', self::DESCRIPTION_LENGTH_MAX));
 		}
 	}
 
@@ -85,7 +94,7 @@ class Validator
 		self::checkWhitespaces($merchantData);
 
 		if (strlen(utf8_decode(base64_encode($merchantData))) > self::MERCHANT_DATA_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('MerchantData can have maximum of %d characters in encoded state.', self::MERCHANT_DATA_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('MerchantData can have maximum of %d characters in encoded state.', self::MERCHANT_DATA_LENGTH_MAX));
 		}
 	}
 
@@ -94,7 +103,7 @@ class Validator
 		self::checkWhitespaces($customerId);
 
 		if (strlen(utf8_decode($customerId)) > self::CUSTOMER_ID_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('CustomerId can have maximum of %d characters.', self::CUSTOMER_ID_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('CustomerId can have maximum of %d characters.', self::CUSTOMER_ID_LENGTH_MAX));
 		}
 	}
 
@@ -103,7 +112,7 @@ class Validator
 		self::checkWhitespaces($payId);
 
 		if (strlen(utf8_decode($payId)) > self::PAY_ID_LENGTH_MAX) {
-			throw new \InvalidArgumentException(sprintf('PayId can have maximum of %d characters.', self::PAY_ID_LENGTH_MAX));
+			throw new InvalidArgumentException(sprintf('PayId can have maximum of %d characters.', self::PAY_ID_LENGTH_MAX));
 		}
 	}
 
@@ -113,14 +122,14 @@ class Validator
 		preg_replace('#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '', $argument);
 
 		if ($argument !== preg_replace('#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '', $argument)) {
-			throw new \InvalidArgumentException('Argument starts or ends with whitespace.');
+			throw new InvalidArgumentException('Argument starts or ends with whitespace.');
 		}
 	}
 
 	public static function checkTtlSec(int $ttlSec): void
 	{
 		if ($ttlSec < self::TTL_SEC_MIN || $ttlSec > self::TTL_SEC_MAX) {
-			throw new \InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::TTL_SEC_MIN, self::TTL_SEC_MAX, $ttlSec));
+			throw new InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::TTL_SEC_MIN, self::TTL_SEC_MAX, $ttlSec));
 		}
 	}
 

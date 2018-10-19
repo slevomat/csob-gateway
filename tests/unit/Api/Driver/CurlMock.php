@@ -2,6 +2,9 @@
 
 namespace SlevomatCsobGateway\Api\Driver;
 
+use const CURLINFO_HEADER_SIZE;
+use const CURLINFO_HTTP_CODE;
+
 function curl_init($url = null)
 {
 	return null;

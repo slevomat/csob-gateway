@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call\Extension;
 use DateTimeImmutable;
 use SlevomatCsobGateway\Call\ResponseExtensionHandler;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use function array_flip;
 
 class MaskedCardNumberExtension implements ResponseExtensionHandler
 {

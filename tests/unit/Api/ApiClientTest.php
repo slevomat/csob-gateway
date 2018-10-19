@@ -2,11 +2,15 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use stdClass;
+use function preg_quote;
+use function sprintf;
 
-class ApiClientTest extends \PHPUnit\Framework\TestCase
+class ApiClientTest extends TestCase
 {
 
 	private const API_URL = 'http://foo.csob.cz';
@@ -448,7 +452,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
 		self::assertEquals([], $response->getHeaders());
 		self::assertEquals(['id' => '123'], $response->getData());
 		self::assertCount(1, $response->getExtensions());
-		self::assertInstanceOf(\stdClass::class, $response->getExtensions()['foo']);
+		self::assertInstanceOf(stdClass::class, $response->getExtensions()['foo']);
 		self::assertSame('bar', $response->getExtensions()['foo']->foo);
 	}
 

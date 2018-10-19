@@ -2,11 +2,12 @@
 
 namespace SlevomatCsobGateway\Call;
 
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class ProcessPaymentRequestTest extends \PHPUnit\Framework\TestCase
+class ProcessPaymentRequestTest extends TestCase
 {
 
 	public function testSend(): void

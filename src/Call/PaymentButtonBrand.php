@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class PaymentButtonBrand extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class PaymentButtonBrand extends Enum
 {
 
 	public const CSOB = 'csob';

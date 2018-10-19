@@ -2,6 +2,14 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
+use const OPENSSL_ALGO_SHA1;
+use function base64_decode;
+use function base64_encode;
+use function file_get_contents;
+use function openssl_free_key;
+use function openssl_pkey_get_private;
+use function openssl_pkey_get_public;
+
 class CryptoService
 {
 
