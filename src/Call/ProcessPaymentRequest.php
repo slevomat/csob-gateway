@@ -12,14 +12,10 @@ use SlevomatCsobGateway\Validator;
 class ProcessPaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	public function __construct(

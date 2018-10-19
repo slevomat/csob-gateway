@@ -13,14 +13,10 @@ use SlevomatCsobGateway\Validator;
 class StandardFinishRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	/** @var string */

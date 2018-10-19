@@ -10,14 +10,10 @@ use SlevomatCsobGateway\Validator;
 class ReversePaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	public function __construct(

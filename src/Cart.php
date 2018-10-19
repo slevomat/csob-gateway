@@ -5,14 +5,10 @@ namespace SlevomatCsobGateway;
 class Cart
 {
 
-	/**
-	 * @var CartItem[]
-	 */
+	/** @var CartItem[] */
 	private $items = [];
 
-	/**
-	 * @var Currency
-	 */
+	/** @var Currency */
 	private $currency;
 
 	public function __construct(Currency $currency)

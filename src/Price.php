@@ -5,14 +5,10 @@ namespace SlevomatCsobGateway;
 class Price
 {
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $amount;
 
-	/**
-	 * @var Currency
-	 */
+	/** @var Currency */
 	private $currency;
 
 	public function __construct(

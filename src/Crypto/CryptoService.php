@@ -7,19 +7,13 @@ class CryptoService
 
 	public const HASH_METHOD = OPENSSL_ALGO_SHA1;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $privateKeyFile;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $bankPublicKeyFile;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $privateKeyPassword;
 
 	public function __construct(
@@ -44,8 +38,9 @@ class CryptoService
 	{
 		$message = $signatureDataFormatter->formatDataForSignature($data);
 
+		/** @var string $privateKey */
 		$privateKey = file_get_contents($this->privateKeyFile);
-		$privateKeyId = openssl_pkey_get_private($privateKey, $this->privateKeyPassword);
+		$privateKeyId = openssl_pkey_get_private($privateKey, (string) $this->privateKeyPassword);
 		if ($privateKeyId === false) {
 			throw new PrivateKeyFileException($this->privateKeyFile);
 		}
@@ -73,13 +68,13 @@ class CryptoService
 	{
 		$message = $signatureDataFormatter->formatDataForSignature($data);
 
-		$publicKey = file_get_contents($this->bankPublicKeyFile);
+		$publicKey = (string) file_get_contents($this->bankPublicKeyFile);
 		$publicKeyId = openssl_pkey_get_public($publicKey);
 		if ($publicKeyId === false) {
 			throw new PublicKeyFileException($this->bankPublicKeyFile);
 		}
 
-		$signature = base64_decode($signature);
+		$signature = base64_decode($signature, true);
 		if ($signature === false) {
 			throw new VerificationFailedException($data, 'Unable to decode signature.');
 		}

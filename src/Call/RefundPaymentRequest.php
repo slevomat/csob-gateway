@@ -10,19 +10,13 @@ use SlevomatCsobGateway\Validator;
 class RefundPaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
-	/**
-	 * @var int|null
-	 */
+	/** @var int|null */
 	private $amount;
 
 	public function __construct(

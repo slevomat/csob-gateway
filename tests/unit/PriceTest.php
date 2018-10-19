@@ -9,8 +9,8 @@ class PriceTest extends \PHPUnit\Framework\TestCase
 	{
 		$cartItem = new Price(123, Currency::get(Currency::USD));
 
-		$this->assertSame(123, $cartItem->getAmount());
-		$this->assertSame(Currency::USD, $cartItem->getCurrency()->getValue());
+		self::assertSame(123, $cartItem->getAmount());
+		self::assertSame(Currency::USD, $cartItem->getCurrency()->getValue());
 	}
 
 }

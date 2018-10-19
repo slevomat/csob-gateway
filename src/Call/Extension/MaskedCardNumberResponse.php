@@ -7,19 +7,13 @@ use DateTimeImmutable;
 class MaskedCardNumberResponse
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $longMaskedCln;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $maskedCln;
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $expiration;
 
 	public function __construct(

@@ -7,19 +7,13 @@ use DateTimeImmutable;
 class EchoResponse
 {
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $responseDateTime;
 
-	/**
-	 * @var ResultCode
-	 */
+	/** @var ResultCode */
 	private $resultCode;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $resultMessage;
 
 	public function __construct(

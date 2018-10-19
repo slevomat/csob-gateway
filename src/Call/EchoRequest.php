@@ -9,9 +9,7 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class EchoRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
 	public function __construct(string $merchantId)

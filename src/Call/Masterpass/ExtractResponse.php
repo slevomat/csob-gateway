@@ -9,29 +9,19 @@ use SlevomatCsobGateway\Call\ResultCode;
 class ExtractResponse
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $responseDateTime;
 
-	/**
-	 * @var ResultCode
-	 */
+	/** @var ResultCode */
 	private $resultCode;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $resultMessage;
 
-	/**
-	 * @var PaymentStatus|null
-	 */
+	/** @var PaymentStatus|null */
 	private $paymentStatus;
 
 	/** @var mixed[] */
@@ -42,7 +32,7 @@ class ExtractResponse
 	 * @param \DateTimeImmutable $responseDateTime
 	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
 	 * @param string $resultMessage
-	 * @param null|\SlevomatCsobGateway\Call\PaymentStatus $paymentStatus
+	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
 	 * @param mixed[] $checkoutParams
 	 */
 	public function __construct(

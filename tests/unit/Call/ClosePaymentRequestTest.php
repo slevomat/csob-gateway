@@ -41,13 +41,13 @@ class ClosePaymentRequestTest extends \PHPUnit\Framework\TestCase
 
 		$closePaymentResponse = $paymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(PaymentResponse::class, $closePaymentResponse);
-		$this->assertSame('123456789', $closePaymentResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $closePaymentResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $closePaymentResponse->getResultCode());
-		$this->assertSame('OK', $closePaymentResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S7_AWAITING_SETTLEMENT), $closePaymentResponse->getPaymentStatus());
-		$this->assertNull($closePaymentResponse->getAuthCode());
+		self::assertInstanceOf(PaymentResponse::class, $closePaymentResponse);
+		self::assertSame('123456789', $closePaymentResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $closePaymentResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $closePaymentResponse->getResultCode());
+		self::assertSame('OK', $closePaymentResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S7_AWAITING_SETTLEMENT), $closePaymentResponse->getPaymentStatus());
+		self::assertNull($closePaymentResponse->getAuthCode());
 	}
 
 }

@@ -5,19 +5,13 @@ namespace SlevomatCsobGateway\Api;
 class Response
 {
 
-	/**
-	 * @var ResponseCode
-	 */
+	/** @var ResponseCode */
 	private $responseCode;
 
-	/**
-	 * @var mixed[]|null
-	 */
+	/** @var mixed[]|null */
 	private $data;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $headers;
 
 	/** @var mixed[] */

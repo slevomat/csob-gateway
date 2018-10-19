@@ -19,7 +19,7 @@ class PaymentResponseTest extends \PHPUnit\Framework\TestCase
 			'merchant data'
 		);
 
-		$this->assertSame('merchant data', $paymentResponse->getMerchantData());
+		self::assertSame('merchant data', $paymentResponse->getMerchantData());
 	}
 
 }

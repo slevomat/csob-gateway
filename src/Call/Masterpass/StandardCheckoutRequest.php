@@ -12,20 +12,16 @@ use SlevomatCsobGateway\Validator;
 class StandardCheckoutRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	/** @var string */
 	private $callbackUrl;
 
-	/** @var null|string */
+	/** @var string|null */
 	private $shippingLocationProfile;
 
 	public function __construct(

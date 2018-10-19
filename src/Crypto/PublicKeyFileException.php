@@ -5,9 +5,7 @@ namespace SlevomatCsobGateway\Crypto;
 class PublicKeyFileException extends \RuntimeException
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $publicKeyFile;
 
 	public function __construct(string $publicKeyFile, ?\Throwable $previous = null)

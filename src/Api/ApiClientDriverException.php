@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api;
 
-interface ApiClientDriverException
+use Throwable;
+
+interface ApiClientDriverException extends Throwable
 {
 
 }

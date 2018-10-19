@@ -10,14 +10,10 @@ use SlevomatCsobGateway\Validator;
 class PaymentStatusRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	/** @var ResponseExtensionHandler[] */

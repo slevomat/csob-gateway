@@ -12,14 +12,10 @@ use SlevomatCsobGateway\Validator;
 class BasicCheckoutRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	/** @var string */

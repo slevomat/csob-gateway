@@ -28,12 +28,12 @@ class CurlDriverTest extends \PHPUnit\Framework\TestCase
 			]
 		);
 
-		$this->assertInstanceOf(Response::class, $response);
-		$this->assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
-		$this->assertEquals([
+		self::assertInstanceOf(Response::class, $response);
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertEquals([
 			'text' => 'foo text',
 		], $response->getData());
-		$this->assertEquals([
+		self::assertEquals([
 			'abc' => 'def',
 		], $response->getHeaders());
 	}
@@ -58,9 +58,9 @@ class CurlDriverTest extends \PHPUnit\Framework\TestCase
 			);
 
 		} catch (CurlDriverException $e) {
-			$this->assertInstanceOf(ApiClientDriverException::class, $e);
-			$this->assertSame(11, $e->getCode());
-			$this->assertSame('foo getinfo', $e->getInfo());
+			self::assertInstanceOf(ApiClientDriverException::class, $e);
+			self::assertSame(11, $e->getCode());
+			self::assertSame('foo getinfo', $e->getInfo());
 		}
 	}
 

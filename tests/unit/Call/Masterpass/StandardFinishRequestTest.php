@@ -46,12 +46,12 @@ class StandardFinishRequestTest extends \PHPUnit\Framework\TestCase
 
 		$checkoutResponse = $paymentRequest->send($apiClient);
 
-		$this->assertInstanceOf(PaymentResponse::class, $checkoutResponse);
-		$this->assertSame('123456789', $checkoutResponse->getPayId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $checkoutResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $checkoutResponse->getResultCode());
-		$this->assertSame('OK', $checkoutResponse->getResultMessage());
-		$this->assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $checkoutResponse->getPaymentStatus());
+		self::assertInstanceOf(PaymentResponse::class, $checkoutResponse);
+		self::assertSame('123456789', $checkoutResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $checkoutResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $checkoutResponse->getResultCode());
+		self::assertSame('OK', $checkoutResponse->getResultMessage());
+		self::assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $checkoutResponse->getPaymentStatus());
 	}
 
 }

@@ -14,79 +14,49 @@ use SlevomatCsobGateway\Validator;
 class InitPaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $orderId;
 
-	/**
-	 * @var PayOperation
-	 */
+	/** @var PayOperation */
 	private $payOperation;
 
-	/**
-	 * @var PayMethod
-	 */
+	/** @var PayMethod */
 	private $payMethod;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $closePayment;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $returnUrl;
 
-	/**
-	 * @var HttpMethod
-	 */
+	/** @var HttpMethod */
 	private $returnMethod;
 
-	/**
-	 * @var Cart
-	 */
+	/** @var Cart */
 	private $cart;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $description;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $merchantData;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $customerId;
 
-	/**
-	 * @var Language
-	 */
+	/** @var Language */
 	private $language;
 
-	/**
-	 * @var int|null
-	 */
+	/** @var int|null */
 	private $ttlSec;
 
-	/**
-	 * @var int|null
-	 */
+	/** @var int|null */
 	private $logoVersion;
 
-	/**
-	 * @var int|null
-	 */
+	/** @var int|null */
 	private $colorSchemeVersion;
 
 	public function __construct(
@@ -151,7 +121,7 @@ class InitPaymentRequest
 			'closePayment' => $this->closePayment,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->getValue(),
-			'cart' => array_map(function (CartItem $cartItem) {
+			'cart' => array_map(static function (CartItem $cartItem) {
 				$cartItemValues = [
 					'name' => $cartItem->getName(),
 					'quantity' => $cartItem->getQuantity(),

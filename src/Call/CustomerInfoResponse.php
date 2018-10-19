@@ -8,24 +8,16 @@ use SlevomatCsobGateway\Validator;
 class CustomerInfoResponse
 {
 
-	/**
-	 * @var DateTimeImmutable
-	 */
+	/** @var DateTimeImmutable */
 	private $responseDateTime;
 
-	/**
-	 * @var ResultCode
-	 */
+	/** @var ResultCode */
 	private $resultCode;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $resultMessage;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $customerId;
 
 	public function __construct(

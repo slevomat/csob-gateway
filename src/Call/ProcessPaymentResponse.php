@@ -5,9 +5,7 @@ namespace SlevomatCsobGateway\Call;
 class ProcessPaymentResponse
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $gatewayLocationUrl;
 
 	public function __construct(string $gatewayLocationUrl)

@@ -11,29 +11,19 @@ use SlevomatCsobGateway\Validator;
 class OneclickInitPaymentRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $origPayId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $orderId;
 
-	/**
-	 * @var Price|null
-	 */
+	/** @var Price|null */
 	private $price;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $description;
 
 	public function __construct(

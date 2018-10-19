@@ -11,14 +11,10 @@ use SlevomatCsobGateway\Validator;
 class PaymentButtonRequest
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $merchantId;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $payId;
 
 	/** @var \SlevomatCsobGateway\Call\PaymentButtonBrand */

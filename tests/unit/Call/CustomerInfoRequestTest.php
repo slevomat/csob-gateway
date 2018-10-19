@@ -38,11 +38,11 @@ class CustomerInfoRequestTest extends \PHPUnit\Framework\TestCase
 
 		$customerInfoResponse = $customerInfoRequest->send($apiClient);
 
-		$this->assertInstanceOf(CustomerInfoResponse::class, $customerInfoResponse);
-		$this->assertSame('cust123@mail.com', $customerInfoResponse->getCustomerId());
-		$this->assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $customerInfoResponse->getResponseDateTime());
-		$this->assertEquals(ResultCode::get(ResultCode::C0_OK), $customerInfoResponse->getResultCode());
-		$this->assertSame('OK', $customerInfoResponse->getResultMessage());
+		self::assertInstanceOf(CustomerInfoResponse::class, $customerInfoResponse);
+		self::assertSame('cust123@mail.com', $customerInfoResponse->getCustomerId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $customerInfoResponse->getResponseDateTime());
+		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $customerInfoResponse->getResultCode());
+		self::assertSame('OK', $customerInfoResponse->getResultMessage());
 	}
 
 }
