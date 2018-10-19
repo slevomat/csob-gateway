@@ -2,6 +2,13 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
+use function array_key_exists;
+use function array_merge;
+use function implode;
+use function is_array;
+use function is_bool;
+use function is_int;
+
 class SignatureDataFormatter
 {
 

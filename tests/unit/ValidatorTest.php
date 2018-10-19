@@ -2,7 +2,12 @@
 
 namespace SlevomatCsobGateway;
 
-class ValidatorTest extends \PHPUnit\Framework\TestCase
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use function array_fill;
+use function implode;
+
+class ValidatorTest extends TestCase
 {
 
 	public function testCheckCartItemName(): void
@@ -13,7 +18,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkCartItemName('very long long long cart item name');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('Cart item name can have maximum of 20 characters.', $e->getMessage());
 		}
 
@@ -21,7 +26,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkCartItemName(' whitespace');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('Argument starts or ends with whitespace.', $e->getMessage());
 		}
 	}
@@ -34,7 +39,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkCartItemDescription('very long long long cart item description');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('Cart item description can have maximum of 40 characters.', $e->getMessage());
 		}
 	}
@@ -47,7 +52,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkCartItemQuantity(0);
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('Quantity must be greater than 0. 0 given.', $e->getMessage());
 		}
 	}
@@ -60,7 +65,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkOrderId('123456789123456789');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('OrderId can have maximum of 10 characters.', $e->getMessage());
 		}
 
@@ -68,7 +73,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkOrderId('abc');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('OrderId must be numeric value. abc given.', $e->getMessage());
 		}
 	}
@@ -81,7 +86,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkReturnUrl('https://example.com/' . implode('-', array_fill(0, 100, 'long')));
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('ReturnUrl can have maximum of 300 characters.', $e->getMessage());
 		}
 	}
@@ -94,7 +99,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkDescription(implode(' ', array_fill(0, 60, 'very')) . ' long description');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('Description can have maximum of 255 characters.', $e->getMessage());
 		}
 	}
@@ -107,7 +112,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkMerchantData(implode(' ', array_fill(0, 60, 'very')) . ' long merchantData');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('MerchantData can have maximum of 255 characters in encoded state.', $e->getMessage());
 		}
 	}
@@ -120,7 +125,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkCustomerId('very very very very very very very very long long long customerId');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('CustomerId can have maximum of 50 characters.', $e->getMessage());
 		}
 	}
@@ -133,7 +138,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkPayId('very long long payId');
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('PayId can have maximum of 15 characters.', $e->getMessage());
 		}
 	}
@@ -146,7 +151,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkTtlSec(200);
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('TTL sec is out of range (300 - 1800). Current value is 200.', $e->getMessage());
 		}
 
@@ -154,7 +159,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 			Validator::checkTtlSec(3000);
 			self::fail();
 
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			self::assertSame('TTL sec is out of range (300 - 1800). Current value is 3000.', $e->getMessage());
 		}
 	}

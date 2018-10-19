@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class PaymentStatus extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class PaymentStatus extends Enum
 {
 
 	public const S1_CREATED = 1;

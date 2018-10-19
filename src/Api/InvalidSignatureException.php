@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api;
 
-class InvalidSignatureException extends \RuntimeException
+use RuntimeException;
+
+class InvalidSignatureException extends RuntimeException
 {
 
 	/** @var mixed[] */

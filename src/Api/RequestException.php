@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api;
 
-abstract class RequestException extends \RuntimeException
+use RuntimeException;
+
+abstract class RequestException extends RuntimeException
 {
 
 	/** @var Response */

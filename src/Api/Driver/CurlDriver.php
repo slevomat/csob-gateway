@@ -6,6 +6,22 @@ use SlevomatCsobGateway\Api\ApiClientDriver;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
+use const CURLINFO_HEADER_SIZE;
+use const CURLINFO_HTTP_CODE;
+use const CURLOPT_COOKIESESSION;
+use const CURLOPT_CUSTOMREQUEST;
+use const CURLOPT_FOLLOWLOCATION;
+use const CURLOPT_HEADER;
+use const CURLOPT_HTTPHEADER;
+use const CURLOPT_POSTFIELDS;
+use const CURLOPT_RETURNTRANSFER;
+use const CURLOPT_SSL_VERIFYPEER;
+use const CURLOPT_TIMEOUT;
+use function explode;
+use function json_decode;
+use function json_encode;
+use function substr;
+use function trim;
 
 class CurlDriver implements ApiClientDriver
 {

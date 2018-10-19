@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-class SignatureDataFormatterTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class SignatureDataFormatterTest extends TestCase
 {
 
 	/**

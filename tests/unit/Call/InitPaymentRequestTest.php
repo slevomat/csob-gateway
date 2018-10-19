@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
@@ -10,8 +11,9 @@ use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Cart;
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Language;
+use function base64_encode;
 
-class InitPaymentRequestTest extends \PHPUnit\Framework\TestCase
+class InitPaymentRequestTest extends TestCase
 {
 
 	public function testSend(): void

@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway;
 
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
@@ -25,7 +26,7 @@ use SlevomatCsobGateway\Call\ReceivePaymentRequest;
 use SlevomatCsobGateway\Call\RefundPaymentRequest;
 use SlevomatCsobGateway\Call\ReversePaymentRequest;
 
-class RequestFactoryTest extends \PHPUnit\Framework\TestCase
+class RequestFactoryTest extends TestCase
 {
 
 	/** @var RequestFactory */

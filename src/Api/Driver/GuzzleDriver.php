@@ -9,6 +9,13 @@ use SlevomatCsobGateway\Api\ApiClientDriver;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
+use Throwable;
+use function array_map;
+use function array_shift;
+use function count;
+use function is_array;
+use function json_decode;
+use function json_encode;
 
 class GuzzleDriver implements ApiClientDriver
 {
@@ -57,7 +64,7 @@ class GuzzleDriver implements ApiClientDriver
 				json_decode((string) $httpResponse->getBody(), true),
 				$responseHeaders
 			);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			throw new GuzzleDriverException($e);
 		}
 	}

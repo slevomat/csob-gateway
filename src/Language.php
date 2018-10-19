@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway;
 
-class Language extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class Language extends Enum
 {
 
 	public const CZ = 'CZ';

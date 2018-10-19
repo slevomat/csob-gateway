@@ -2,12 +2,13 @@
 
 namespace SlevomatCsobGateway\Api\Driver;
 
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClientDriverException;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class CurlDriverTest extends \PHPUnit\Framework\TestCase
+class CurlDriverTest extends TestCase
 {
 
 	/**

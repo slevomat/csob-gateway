@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use Closure;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Call\ResponseExtensionHandler;
 use SlevomatCsobGateway\Crypto\CryptoService;
@@ -11,6 +13,13 @@ use SlevomatCsobGateway\Crypto\PublicKeyFileException;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Crypto\SigningFailedException;
 use SlevomatCsobGateway\Crypto\VerificationFailedException;
+use function array_key_exists;
+use function json_encode;
+use function microtime;
+use function str_replace;
+use function strpos;
+use function substr;
+use function urlencode;
 
 class ApiClient
 {
@@ -64,7 +73,7 @@ class ApiClient
 		array $data,
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		?\Closure $responseValidityCallback = null,
+		?Closure $responseValidityCallback = null,
 		array $extensions = []
 	): Response
 	{
@@ -170,7 +179,7 @@ class ApiClient
 		array $queries,
 		?array $data,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		?\Closure $responseValidityCallback,
+		?Closure $responseValidityCallback,
 		array $extensions = []
 	): Response
 	{
@@ -188,7 +197,7 @@ class ApiClient
 		}
 
 		if ($queries !== []) {
-			throw new \InvalidArgumentException('Arguments are missing URL placeholders: ' . json_encode($queries));
+			throw new InvalidArgumentException('Arguments are missing URL placeholders: ' . json_encode($queries));
 		}
 
 		$requestStartTime = microtime(true);

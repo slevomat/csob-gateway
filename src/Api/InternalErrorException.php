@@ -2,6 +2,8 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use function sprintf;
+
 class InternalErrorException extends RequestException
 {
 

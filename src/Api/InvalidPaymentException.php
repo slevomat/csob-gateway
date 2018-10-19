@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Api;
 
 use SlevomatCsobGateway\Call\ProcessPaymentRequest;
+use function sprintf;
 
 class InvalidPaymentException extends RequestException
 {

@@ -2,7 +2,10 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-class VerificationFailedException extends \RuntimeException
+use RuntimeException;
+use function sprintf;
+
+class VerificationFailedException extends RuntimeException
 {
 
 	/** @var mixed[] */

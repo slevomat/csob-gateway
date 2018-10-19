@@ -3,13 +3,14 @@
 namespace SlevomatCsobGateway\Call\Masterpass;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 
-class StandardExtractRequestTest extends \PHPUnit\Framework\TestCase
+class StandardExtractRequestTest extends TestCase
 {
 
 	public function testSend(): void
