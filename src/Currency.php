@@ -12,5 +12,7 @@ class Currency extends Enum
 	public const USD = 'USD';
 	public const GBP = 'GBP';
 	public const HRK = 'HRK';
+	public const HUF = 'HUF';
+	public const PLN = 'PLN';
 
 }
