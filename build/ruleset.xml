@@ -17,6 +17,10 @@
 		<exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
 		<exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
 		<exclude name="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses"/>
+		<exclude name="SlevomatCodingStandard.Functions.TrailingCommaInCall.MissingTrailingComma"/>
+		<exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
+		<exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint"/>
+		<exclude name="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator"/>
 	</rule>
 	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
 		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
