@@ -184,7 +184,7 @@ class ApiClient
 	): Response
 	{
 		$urlFirstQueryPosition = strpos($url, '{');
-		$endpointName = ($urlFirstQueryPosition !== false ? substr($url, 0, $urlFirstQueryPosition - 1) : $url);
+		$endpointName = $urlFirstQueryPosition !== false ? substr($url, 0, $urlFirstQueryPosition - 1) : $url;
 		$originalQueries = $queries;
 
 		foreach ($queries as $key => $value) {
@@ -237,24 +237,31 @@ class ApiClient
 				$decodedExtensions
 			);
 
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S303_SEE_OTHER)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S303_SEE_OTHER)) {
 			return new Response(
 				$response->getResponseCode(),
 				null,
 				$response->getHeaders()
 			);
 
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S400_BAD_REQUEST)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S400_BAD_REQUEST)) {
 			throw new BadRequestException($response);
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S403_FORBIDDEN)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S403_FORBIDDEN)) {
 			throw new ForbiddenException($response);
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S404_NOT_FOUND)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S404_NOT_FOUND)) {
 			throw new NotFoundException($response);
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S405_METHOD_NOT_ALLOWED)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S405_METHOD_NOT_ALLOWED)) {
 			throw new MethodNotAllowedException($response);
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S429_TOO_MANY_REQUESTS)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S429_TOO_MANY_REQUESTS)) {
 			throw new TooManyRequestsException($response);
-		} elseif ($response->getResponseCode()->equalsValue(ResponseCode::S503_SERVICE_UNAVAILABLE)) {
+		}
+		if ($response->getResponseCode()->equalsValue(ResponseCode::S503_SERVICE_UNAVAILABLE)) {
 			throw new ServiceUnavailableException($response);
 		}
 

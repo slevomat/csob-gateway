@@ -24,7 +24,7 @@ class ExtractResponse
 	/** @var PaymentStatus|null */
 	private $paymentStatus;
 
-	/** @var mixed[] */
+	/** @var mixed[]|null */
 	private $checkoutParams;
 
 	/**
@@ -33,7 +33,7 @@ class ExtractResponse
 	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
 	 * @param string $resultMessage
 	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
-	 * @param mixed[] $checkoutParams
+	 * @param mixed[]|null $checkoutParams
 	 */
 	public function __construct(
 		string $payId,

@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Api\Driver;
 
+use ErrorException;
 use SlevomatCsobGateway\Api\ApiClientDriver;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
@@ -17,11 +18,6 @@ use const CURLOPT_POSTFIELDS;
 use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_SSL_VERIFYPEER;
 use const CURLOPT_TIMEOUT;
-use function explode;
-use function json_decode;
-use function json_encode;
-use function substr;
-use function trim;
 
 class CurlDriver implements ApiClientDriver
 {
@@ -40,6 +36,10 @@ class CurlDriver implements ApiClientDriver
 	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response
 	{
 		$ch = curl_init($url);
+
+		if ($ch === false) {
+			throw new ErrorException('Failed to initialize curl resource.');
+		}
 
 		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method->getValue());
