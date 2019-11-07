@@ -42,7 +42,6 @@ class ClosePaymentRequestTest extends TestCase
 
 		$closePaymentResponse = $paymentRequest->send($apiClient);
 
-		self::assertInstanceOf(PaymentResponse::class, $closePaymentResponse);
 		self::assertSame('123456789', $closePaymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $closePaymentResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $closePaymentResponse->getResultCode());

@@ -119,11 +119,11 @@ class ApiClientTest extends TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$cryptoService->expects(self::any())
+		$cryptoService
 			->method('signData')
 			->willReturn('signature');
 
-		$cryptoService->expects(self::any())
+		$cryptoService
 			->method('verifyData')
 			->willReturn(true);
 
@@ -187,7 +187,6 @@ class ApiClientTest extends TestCase
 			$response = $apiClient->put($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 		}
 
-		self::assertInstanceOf(Response::class, $response);
 		self::assertSame($responseCode->getValue(), $response->getResponseCode()->getValue());
 		self::assertEquals($responseHeaders, $response->getHeaders());
 		self::assertEquals($responseData, $response->getData());
@@ -263,7 +262,7 @@ class ApiClientTest extends TestCase
 			->method('signData')
 			->willReturn('signature');
 
-		$cryptoService->expects(self::any())
+		$cryptoService
 			->method('verifyData')
 			->willReturn(true);
 
@@ -340,7 +339,7 @@ class ApiClientTest extends TestCase
 			->method('signData')
 			->willReturn('signature');
 
-		$cryptoService->expects(self::any())
+		$cryptoService
 			->method('verifyData')
 			->willReturn(false);
 
@@ -378,7 +377,7 @@ class ApiClientTest extends TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$cryptoService->expects(self::any())
+		$cryptoService
 			->method('verifyData')
 			->willReturn(true);
 
@@ -393,7 +392,6 @@ class ApiClientTest extends TestCase
 
 		unset($data['signature']);
 
-		self::assertInstanceOf(Response::class, $response);
 		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
 		self::assertEquals([], $response->getHeaders());
 		self::assertEquals($data, $response->getData());
@@ -447,7 +445,6 @@ class ApiClientTest extends TestCase
 
 		$response = $apiClient->get('payment/status/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]), null, $extensions);
 
-		self::assertInstanceOf(Response::class, $response);
 		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
 		self::assertEquals([], $response->getHeaders());
 		self::assertEquals(['id' => '123'], $response->getData());

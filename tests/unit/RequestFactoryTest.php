@@ -4,27 +4,9 @@ namespace SlevomatCsobGateway;
 
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Call\ClosePaymentRequest;
-use SlevomatCsobGateway\Call\CustomerInfoRequest;
-use SlevomatCsobGateway\Call\EchoRequest;
-use SlevomatCsobGateway\Call\InitPaymentRequest;
-use SlevomatCsobGateway\Call\Masterpass\BasicCheckoutRequest;
-use SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest;
-use SlevomatCsobGateway\Call\Masterpass\StandardCheckoutRequest;
-use SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest;
-use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
-use SlevomatCsobGateway\Call\OneclickInitPaymentRequest;
-use SlevomatCsobGateway\Call\OneclickStartPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentButtonBrand;
-use SlevomatCsobGateway\Call\PaymentButtonRequest;
-use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
-use SlevomatCsobGateway\Call\PostEchoRequest;
-use SlevomatCsobGateway\Call\ProcessPaymentRequest;
-use SlevomatCsobGateway\Call\ReceivePaymentRequest;
-use SlevomatCsobGateway\Call\RefundPaymentRequest;
-use SlevomatCsobGateway\Call\ReversePaymentRequest;
 
 class RequestFactoryTest extends TestCase
 {
@@ -45,7 +27,7 @@ class RequestFactoryTest extends TestCase
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
-		$request = $this->requestFactory->createInitPayment(
+		$this->requestFactory->createInitPayment(
 			'5547',
 			PayOperation::get(PayOperation::PAYMENT),
 			PayMethod::get(PayMethod::CARD),
@@ -62,96 +44,96 @@ class RequestFactoryTest extends TestCase
 			1
 		);
 
-		self::assertInstanceOf(InitPaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateProcessPayment(): void
 	{
-		$request = $this->requestFactory->createProcessPayment('123456789');
+		$this->requestFactory->createProcessPayment('123456789');
 
-		self::assertInstanceOf(ProcessPaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePaymentStatus(): void
 	{
-		$request = $this->requestFactory->createPaymentStatus('123456789');
+		$this->requestFactory->createPaymentStatus('123456789');
 
-		self::assertInstanceOf(PaymentStatusRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateReversePayment(): void
 	{
-		$request = $this->requestFactory->createReversePayment('123456789');
+		$this->requestFactory->createReversePayment('123456789');
 
-		self::assertInstanceOf(ReversePaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateClosePayment(): void
 	{
-		$request = $this->requestFactory->createClosePayment('123456789');
+		$this->requestFactory->createClosePayment('123456789');
 
-		self::assertInstanceOf(ClosePaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateRefundPayment(): void
 	{
-		$request = $this->requestFactory->createRefundPayment('123456789');
+		$this->requestFactory->createRefundPayment('123456789');
 
-		self::assertInstanceOf(RefundPaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateEchoRequest(): void
 	{
-		$request = $this->requestFactory->createEchoRequest();
+		$this->requestFactory->createEchoRequest();
 
-		self::assertInstanceOf(EchoRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePostEchoRequest(): void
 	{
-		$request = $this->requestFactory->createPostEchoRequest();
+		$this->requestFactory->createPostEchoRequest();
 
-		self::assertInstanceOf(PostEchoRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateCustomerInfo(): void
 	{
-		$request = $this->requestFactory->createCustomerInfo('cust123@mail.com');
+		$this->requestFactory->createCustomerInfo('cust123@mail.com');
 
-		self::assertInstanceOf(CustomerInfoRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateReceivePayment(): void
 	{
-		$request = $this->requestFactory->createReceivePaymentRequest();
+		$this->requestFactory->createReceivePaymentRequest();
 
-		self::assertInstanceOf(ReceivePaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateOneclickInitPayment(): void
 	{
-		$request = $this->requestFactory->createOneclickInitPayment(
+		$this->requestFactory->createOneclickInitPayment(
 			'ef08b6e9f22345c',
 			'5547123',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
 
-		self::assertInstanceOf(OneclickInitPaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateOneclickStartPayment(): void
 	{
-		$request = $this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
+		$this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
 
-		self::assertInstanceOf(OneclickStartPaymentRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMasterpassBasicCheckoutRequest(): void
 	{
-		$request = $this->requestFactory->createMasterpassBasicCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback');
+		$this->requestFactory->createMasterpassBasicCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback');
 
-		self::assertInstanceOf(BasicCheckoutRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMasterpassBasicFinishRequest(): void
@@ -162,16 +144,16 @@ class RequestFactoryTest extends TestCase
 			'checkoutResourceUrl' => 'https://sandbox.api.mastercard.com/masterpass/v6/checkout/616764812',
 			'oauthVerifier' => 'fc8f41bb76ed7d43ea6d714cb8fdefa606611a7d',
 		];
-		$request = $this->requestFactory->createMasterpassBasicFinishRequest('ef08b6e9f22345c', $callbackParams);
+		$this->requestFactory->createMasterpassBasicFinishRequest('ef08b6e9f22345c', $callbackParams);
 
-		self::assertInstanceOf(BasicFinishRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMasterpassStandardCheckoutRequest(): void
 	{
-		$request = $this->requestFactory->createMasterpassStandardCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback', 'SP123');
+		$this->requestFactory->createMasterpassStandardCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback', 'SP123');
 
-		self::assertInstanceOf(StandardCheckoutRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMasterpassStandardExtractRequest(): void
@@ -182,23 +164,23 @@ class RequestFactoryTest extends TestCase
 			'checkoutResourceUrl' => 'https://sandbox.api.mastercard.com/masterpass/v6/checkout/616764812',
 			'oauthVerifier' => 'fc8f41bb76ed7d43ea6d714cb8fdefa606611a7d',
 		];
-		$request = $this->requestFactory->createMasterpassStandardExtractRequest('ef08b6e9f22345c', $callbackParams);
+		$this->requestFactory->createMasterpassStandardExtractRequest('ef08b6e9f22345c', $callbackParams);
 
-		self::assertInstanceOf(StandardExtractRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMasterpassStandardFinishRequest(): void
 	{
-		$request = $this->requestFactory->createMasterpassStandardFinishRequest('ef08b6e9f22345c', '123456789', 15000);
+		$this->requestFactory->createMasterpassStandardFinishRequest('ef08b6e9f22345c', '123456789', 15000);
 
-		self::assertInstanceOf(StandardFinishRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePaymentButtonRequest(): void
 	{
-		$request = $this->requestFactory->createPaymentButtonRequest('ef08b6e9f22345c', PaymentButtonBrand::get(PaymentButtonBrand::ERA));
+		$this->requestFactory->createPaymentButtonRequest('ef08b6e9f22345c', PaymentButtonBrand::get(PaymentButtonBrand::ERA));
 
-		self::assertInstanceOf(PaymentButtonRequest::class, $request);
+		$this->expectNotToPerformAssertions();
 	}
 
 }

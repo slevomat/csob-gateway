@@ -3,9 +3,7 @@
 namespace SlevomatCsobGateway\Api\Driver;
 
 use PHPUnit\Framework\TestCase;
-use SlevomatCsobGateway\Api\ApiClientDriverException;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
 class CurlDriverTest extends TestCase
@@ -29,7 +27,6 @@ class CurlDriverTest extends TestCase
 			]
 		);
 
-		self::assertInstanceOf(Response::class, $response);
 		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
 		self::assertEquals([
 			'text' => 'foo text',
@@ -59,7 +56,6 @@ class CurlDriverTest extends TestCase
 			);
 
 		} catch (CurlDriverException $e) {
-			self::assertInstanceOf(ApiClientDriverException::class, $e);
 			self::assertSame(11, $e->getCode());
 			self::assertSame('foo getinfo', $e->getInfo());
 		}

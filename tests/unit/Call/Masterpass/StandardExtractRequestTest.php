@@ -75,7 +75,6 @@ class StandardExtractRequestTest extends TestCase
 
 		$extractResponse = $paymentRequest->send($apiClient);
 
-		self::assertInstanceOf(ExtractResponse::class, $extractResponse);
 		self::assertSame('123456789', $extractResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $extractResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $extractResponse->getResultCode());

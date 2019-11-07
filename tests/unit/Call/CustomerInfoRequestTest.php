@@ -39,7 +39,6 @@ class CustomerInfoRequestTest extends TestCase
 
 		$customerInfoResponse = $customerInfoRequest->send($apiClient);
 
-		self::assertInstanceOf(CustomerInfoResponse::class, $customerInfoResponse);
 		self::assertSame('cust123@mail.com', $customerInfoResponse->getCustomerId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $customerInfoResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $customerInfoResponse->getResultCode());
