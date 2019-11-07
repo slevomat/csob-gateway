@@ -44,70 +44,70 @@ class RequestFactoryTest extends TestCase
 			1
 		);
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateProcessPayment(): void
 	{
 		$this->requestFactory->createProcessPayment('123456789');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreatePaymentStatus(): void
 	{
 		$this->requestFactory->createPaymentStatus('123456789');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateReversePayment(): void
 	{
 		$this->requestFactory->createReversePayment('123456789');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateClosePayment(): void
 	{
 		$this->requestFactory->createClosePayment('123456789');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateRefundPayment(): void
 	{
 		$this->requestFactory->createRefundPayment('123456789');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateEchoRequest(): void
 	{
 		$this->requestFactory->createEchoRequest();
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreatePostEchoRequest(): void
 	{
 		$this->requestFactory->createPostEchoRequest();
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateCustomerInfo(): void
 	{
 		$this->requestFactory->createCustomerInfo('cust123@mail.com');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateReceivePayment(): void
 	{
 		$this->requestFactory->createReceivePaymentRequest();
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateOneclickInitPayment(): void
@@ -119,21 +119,21 @@ class RequestFactoryTest extends TestCase
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateOneclickStartPayment(): void
 	{
 		$this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateMasterpassBasicCheckoutRequest(): void
 	{
 		$this->requestFactory->createMasterpassBasicCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateMasterpassBasicFinishRequest(): void
@@ -146,14 +146,14 @@ class RequestFactoryTest extends TestCase
 		];
 		$this->requestFactory->createMasterpassBasicFinishRequest('ef08b6e9f22345c', $callbackParams);
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateMasterpassStandardCheckoutRequest(): void
 	{
 		$this->requestFactory->createMasterpassStandardCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback', 'SP123');
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateMasterpassStandardExtractRequest(): void
@@ -166,21 +166,21 @@ class RequestFactoryTest extends TestCase
 		];
 		$this->requestFactory->createMasterpassStandardExtractRequest('ef08b6e9f22345c', $callbackParams);
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreateMasterpassStandardFinishRequest(): void
 	{
 		$this->requestFactory->createMasterpassStandardFinishRequest('ef08b6e9f22345c', '123456789', 15000);
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 	public function testCreatePaymentButtonRequest(): void
 	{
 		$this->requestFactory->createPaymentButtonRequest('ef08b6e9f22345c', PaymentButtonBrand::get(PaymentButtonBrand::ERA));
 
-		$this->expectNotToPerformAssertions();
+		self::assertTrue(true);
 	}
 
 }
