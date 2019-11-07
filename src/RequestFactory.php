@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway;
 
+use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
@@ -52,7 +53,8 @@ class RequestFactory
 		Language $language,
 		?int $ttlSec = null,
 		?int $logoVersion = null,
-		?int $colorSchemeVersion = null
+		?int $colorSchemeVersion = null,
+		?DateTimeImmutable $customExpiry = null
 	): InitPaymentRequest
 	{
 		return new InitPaymentRequest(
@@ -70,7 +72,8 @@ class RequestFactory
 			$language,
 			$ttlSec,
 			$logoVersion,
-			$colorSchemeVersion
+			$colorSchemeVersion,
+			$customExpiry
 		);
 	}
 
