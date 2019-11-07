@@ -114,6 +114,7 @@ class RequestFactoryTest extends TestCase
 		$this->requestFactory->createOneclickInitPayment(
 			'ef08b6e9f22345c',
 			'5547123',
+			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
@@ -202,6 +203,13 @@ class RequestFactoryTest extends TestCase
 			'ef08b6e9f22345c',
 			[]
 		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateOneClickEchoRequest(): void
+	{
+		$this->requestFactory->createOneClickEchoRequest('ef08b6e9f22345c');
 
 		self::assertTrue(true);
 	}

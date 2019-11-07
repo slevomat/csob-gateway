@@ -1,14 +1,16 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call;
+namespace SlevomatCsobGateway\Call\OneClick;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
+use SlevomatCsobGateway\Call\PaymentStatus;
+use SlevomatCsobGateway\Call\ResultCode;
 
-class OneclickStartPaymentRequestTest extends TestCase
+class StartOneClickPaymentRequestTest extends TestCase
 {
 
 	public function testSend(): void
@@ -18,7 +20,7 @@ class OneclickStartPaymentRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('post')
-			->with('payment/oneclick/start', [
+			->with('oneclick/start', [
 				'merchantId' => '012345',
 				'payId' => 'ef08b6e9f22345c',
 			])
@@ -32,7 +34,7 @@ class OneclickStartPaymentRequestTest extends TestCase
 				])
 			);
 
-		$initPaymentRequest = new OneclickStartPaymentRequest(
+		$initPaymentRequest = new StartOneClickPaymentRequest(
 			'012345',
 			'ef08b6e9f22345c'
 		);
