@@ -15,8 +15,9 @@ use SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardCheckoutRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
-use SlevomatCsobGateway\Call\OneclickInitPaymentRequest;
-use SlevomatCsobGateway\Call\OneclickStartPaymentRequest;
+use SlevomatCsobGateway\Call\OneClick\InitOneClickPaymentRequest;
+use SlevomatCsobGateway\Call\OneClick\OneClickEchoRequest;
+use SlevomatCsobGateway\Call\OneClick\StartOneClickPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
@@ -147,22 +148,24 @@ class RequestFactory
 	public function createOneclickInitPayment(
 		string $origPayId,
 		string $orderId,
+		string $clientIp,
 		?Price $price = null,
 		?string $description = null
-	): OneclickInitPaymentRequest
+	): InitOneClickPaymentRequest
 	{
-		return new OneclickInitPaymentRequest(
+		return new InitOneClickPaymentRequest(
 			$this->merchantId,
 			$origPayId,
 			$orderId,
+			$clientIp,
 			$price,
 			$description
 		);
 	}
 
-	public function createOneclickStartPayment(string $payId): OneclickStartPaymentRequest
+	public function createOneclickStartPayment(string $payId): StartOneClickPaymentRequest
 	{
-		return new OneclickStartPaymentRequest(
+		return new StartOneClickPaymentRequest(
 			$this->merchantId,
 			$payId
 		);
@@ -258,6 +261,14 @@ class RequestFactory
 			$payId,
 			$payload,
 			$totalAmount
+		);
+	}
+
+	public function createOneClickEchoRequest(string $payId): OneClickEchoRequest
+	{
+		return new OneClickEchoRequest(
+			$this->merchantId,
+			$payId
 		);
 	}
 

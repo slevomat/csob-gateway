@@ -1,14 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call;
+namespace SlevomatCsobGateway\Call\OneClick;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Call\PaymentResponse;
+use SlevomatCsobGateway\Call\PaymentStatus;
+use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 
-class OneclickInitPaymentRequest
+class InitOneClickPaymentRequest
 {
 
 	/** @var string */
@@ -26,10 +29,14 @@ class OneclickInitPaymentRequest
 	/** @var string|null */
 	private $description;
 
+	/** @var string */
+	private $clientIp;
+
 	public function __construct(
 		string $merchantId,
 		string $origPayId,
 		string $orderId,
+		string $clientIp,
 		?Price $price = null,
 		?string $description = null
 	)
@@ -43,6 +50,7 @@ class OneclickInitPaymentRequest
 		$this->merchantId = $merchantId;
 		$this->origPayId = $origPayId;
 		$this->orderId = $orderId;
+		$this->clientIp = $clientIp;
 		$this->price = $price;
 		$this->description = $description;
 	}
@@ -53,6 +61,7 @@ class OneclickInitPaymentRequest
 			'merchantId' => $this->merchantId,
 			'origPayId' => $this->origPayId,
 			'orderNo' => $this->orderId,
+			'clientIp' => $this->clientIp,
 		];
 
 		if ($this->price !== null) {
@@ -65,13 +74,14 @@ class OneclickInitPaymentRequest
 		}
 
 		$response = $apiClient->post(
-			'payment/oneclick/init',
+			'oneclick/init',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'origPayId' => null,
 				'orderNo' => null,
 				'dttm' => null,
+				'clientIp' => null,
 				'totalAmount' => null,
 				'currency' => null,
 				'description' => null,

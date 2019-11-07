@@ -1,13 +1,16 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call;
+namespace SlevomatCsobGateway\Call\OneClick;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Call\PaymentResponse;
+use SlevomatCsobGateway\Call\PaymentStatus;
+use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
-class OneclickStartPaymentRequest
+class StartOneClickPaymentRequest
 {
 
 	/** @var string */
@@ -35,7 +38,7 @@ class OneclickStartPaymentRequest
 		];
 
 		$response = $apiClient->post(
-			'payment/oneclick/start',
+			'oneclick/start',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
