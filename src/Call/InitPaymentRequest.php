@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Cart;
@@ -12,6 +13,7 @@ use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Validator;
 use function array_map;
 use function base64_encode;
+use function sprintf;
 
 class InitPaymentRequest
 {
@@ -61,6 +63,9 @@ class InitPaymentRequest
 	/** @var int|null */
 	private $colorSchemeVersion;
 
+	/** @var \DateTimeImmutable|null */
+	private $customExpiry;
+
 	public function __construct(
 		string $merchantId,
 		string $orderId,
@@ -76,7 +81,8 @@ class InitPaymentRequest
 		Language $language,
 		?int $ttlSec = null,
 		?int $logoVersion = null,
-		?int $colorSchemeVersion = null
+		?int $colorSchemeVersion = null,
+		?DateTimeImmutable $customExpiry = null
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -90,6 +96,10 @@ class InitPaymentRequest
 		}
 		if ($ttlSec !== null) {
 			Validator::checkTtlSec($ttlSec);
+		}
+
+		if ($payOperation->equals(PayOperation::get(PayOperation::CUSTOM_PAYMENT)) && $customExpiry === null) {
+			throw new InvalidArgumentException(sprintf('Custom expiry parameter is required for custom payment.'));
 		}
 
 		$this->merchantId = $merchantId;
@@ -107,6 +117,7 @@ class InitPaymentRequest
 		$this->ttlSec = $ttlSec;
 		$this->logoVersion = $logoVersion;
 		$this->colorSchemeVersion = $colorSchemeVersion;
+		$this->customExpiry = $customExpiry;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -160,6 +171,10 @@ class InitPaymentRequest
 			$requestData['colorSchemeVersion'] = $this->colorSchemeVersion;
 		}
 
+		if ($this->customExpiry !== null) {
+			$requestData['customExpiry'] = $this->customExpiry->format('YmdHis');
+		}
+
 		$response = $apiClient->post(
 			'payment/init',
 			$requestData,
@@ -189,6 +204,7 @@ class InitPaymentRequest
 				'ttlSec' => null,
 				'logoVersion' => null,
 				'colorSchemeVersion' => null,
+				'customExpiry' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,
@@ -197,18 +213,21 @@ class InitPaymentRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
+				'customerCode' => null,
 			])
 		);
 
 		$data = $response->getData();
 
-		return new PaymentResponse(
+		return new InitPaymentResponse(
 			$data['payId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			$data['authCode'] ?? null,
+			null,
+			$data['customerCode'] ?? null
 		);
 	}
 
