@@ -18,7 +18,7 @@ class CustomerInfoRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('get')
-			->with('customer/info/{merchantId}/{customerId}/{dttm}/{signature}', [
+			->with('customer/echo/{merchantId}/{customerId}/{dttm}/{signature}', [
 				'merchantId' => '012345',
 				'customerId' => 'cust123@mail.com',
 			])

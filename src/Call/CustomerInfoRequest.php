@@ -30,7 +30,7 @@ class CustomerInfoRequest
 	public function send(ApiClient $apiClient): CustomerInfoResponse
 	{
 		$response = $apiClient->get(
-			'customer/info/{merchantId}/{customerId}/{dttm}/{signature}',
+			'customer/echo/{merchantId}/{customerId}/{dttm}/{signature}',
 			[
 				'merchantId' => $this->merchantId,
 				'customerId' => $this->customerId,
