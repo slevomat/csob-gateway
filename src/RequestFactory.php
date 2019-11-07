@@ -3,6 +3,8 @@
 namespace SlevomatCsobGateway;
 
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
+use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
@@ -219,6 +221,42 @@ class RequestFactory
 			$this->merchantId,
 			$payId,
 			$brand
+		);
+	}
+
+	public function createApplePayInitRequest(
+		string $orderId,
+		string $clientIp,
+		Price $totalPrice,
+		bool $closePayment,
+		?string $merchantData,
+		?int $ttlSec = null
+	): InitApplePayRequest
+	{
+		return new InitApplePayRequest(
+			$this->merchantId,
+			$orderId,
+			$clientIp,
+			$totalPrice,
+			$closePayment,
+			$merchantData,
+			$ttlSec
+		);
+	}
+
+	/**
+	 * @param string $payId
+	 * @param mixed[] $payload
+	 * @param int|null $totalAmount
+	 * @return \SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest
+	 */
+	public function createApplePayStartRequest(string $payId, array $payload, ?int $totalAmount = null): StartApplePayRequest
+	{
+		return new StartApplePayRequest(
+			$this->merchantId,
+			$payId,
+			$payload,
+			$totalAmount
 		);
 	}
 

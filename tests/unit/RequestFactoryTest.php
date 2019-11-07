@@ -183,4 +183,28 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
+	public function testCreateApplePayInitRequest(): void
+	{
+		$this->requestFactory->createApplePayInitRequest(
+			'1234567',
+			'127.0.0.1',
+			new Price(1789600, Currency::get(Currency::CZK)),
+			true,
+			'Order from example.com',
+			null
+		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateApplePayStartRequest(): void
+	{
+		$this->requestFactory->createApplePayStartRequest(
+			'ef08b6e9f22345c',
+			[]
+		);
+
+		self::assertTrue(true);
+	}
+
 }
