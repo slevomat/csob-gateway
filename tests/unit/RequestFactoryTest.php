@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway;
 
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Call\PaymentButtonBrand;
+use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
 
@@ -178,7 +178,16 @@ class RequestFactoryTest extends TestCase
 
 	public function testCreatePaymentButtonRequest(): void
 	{
-		$this->requestFactory->createPaymentButtonRequest('ef08b6e9f22345c', PaymentButtonBrand::get(PaymentButtonBrand::ERA));
+		$this->requestFactory->createPaymentButtonRequest(
+			'123456',
+			'::1',
+			new Price(12500, Currency::get(Currency::CZK)),
+			'https://www.example.com/return',
+			HttpMethod::get(HttpMethod::GET),
+			PaymentButtonBrand::get(PaymentButtonBrand::ERA),
+			null,
+			Language::get(Language::EN)
+		);
 
 		self::assertTrue(true);
 	}

@@ -1,9 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call;
+namespace SlevomatCsobGateway\Call\Button;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\PaymentStatus;
+use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Validator;
 
 class PaymentButtonResponse

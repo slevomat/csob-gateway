@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call;
+namespace SlevomatCsobGateway\Call\Button;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -8,6 +8,11 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
+use SlevomatCsobGateway\Call\PaymentStatus;
+use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Language;
+use SlevomatCsobGateway\Price;
 
 class PaymentButtonRequestTest extends TestCase
 {
@@ -19,10 +24,16 @@ class PaymentButtonRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('post')
-			->with('payment/button', [
+			->with('button/init', [
 				'merchantId' => '012345',
-				'payId' => '123456789',
+				'orderNo' => '123456789',
+				'clientIp' => '127.0.0.1',
+				'totalAmount' => 12000,
+				'currency' => 'CZK',
+				'returnUrl' => 'https://www.example.com/return',
+				'returnMethod' => 'GET',
 				'brand' => 'csob',
+				'language' => 'EN',
 			])
 			->willReturn(
 				new Response(ResponseCode::get(ResponseCode::S200_OK), [
@@ -42,7 +53,13 @@ class PaymentButtonRequestTest extends TestCase
 		$paymentRequest = new PaymentButtonRequest(
 			'012345',
 			'123456789',
-			PaymentButtonBrand::get(PaymentButtonBrand::CSOB)
+			'127.0.0.1',
+			new Price(12000, Currency::get(Currency::CZK)),
+			'https://www.example.com/return',
+			HttpMethod::get(HttpMethod::GET),
+			PaymentButtonBrand::get(PaymentButtonBrand::CSOB),
+			null,
+			Language::get(Language::EN)
 		);
 
 		$paymentButtonResponse = $paymentRequest->send($apiClient);

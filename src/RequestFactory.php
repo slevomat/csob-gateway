@@ -6,6 +6,8 @@ use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
+use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
+use SlevomatCsobGateway\Call\Button\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
@@ -18,8 +20,6 @@ use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
 use SlevomatCsobGateway\Call\OneClick\InitOneClickPaymentRequest;
 use SlevomatCsobGateway\Call\OneClick\OneClickEchoRequest;
 use SlevomatCsobGateway\Call\OneClick\StartOneClickPaymentRequest;
-use SlevomatCsobGateway\Call\PaymentButtonBrand;
-use SlevomatCsobGateway\Call\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
@@ -219,12 +219,27 @@ class RequestFactory
 		);
 	}
 
-	public function createPaymentButtonRequest(string $payId, PaymentButtonBrand $brand): PaymentButtonRequest
+	public function createPaymentButtonRequest(
+		string $orderId,
+		string $clientIp,
+		Price $totalPrice,
+		string $returnUrl,
+		HttpMethod $returnMethod,
+		PaymentButtonBrand $brand,
+		?string $merchantData,
+		Language $language
+	): PaymentButtonRequest
 	{
 		return new PaymentButtonRequest(
 			$this->merchantId,
-			$payId,
-			$brand
+			$orderId,
+			$clientIp,
+			$totalPrice,
+			$returnUrl,
+			$returnMethod,
+			$brand,
+			$merchantData,
+			$language
 		);
 	}
 
