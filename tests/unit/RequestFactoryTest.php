@@ -35,7 +35,6 @@ class RequestFactoryTest extends TestCase
 			'https://vasobchod.cz/gateway-return',
 			HttpMethod::get(HttpMethod::POST),
 			$cart,
-			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 			'123',
 			Language::get(Language::CZ),

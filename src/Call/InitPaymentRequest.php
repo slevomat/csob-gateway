@@ -42,9 +42,6 @@ class InitPaymentRequest
 	/** @var Cart */
 	private $cart;
 
-	/** @var string */
-	private $description;
-
 	/** @var string|null */
 	private $merchantData;
 
@@ -75,7 +72,6 @@ class InitPaymentRequest
 		string $returnUrl,
 		HttpMethod $returnMethod,
 		Cart $cart,
-		string $description,
 		?string $merchantData,
 		?string $customerId,
 		Language $language,
@@ -87,7 +83,6 @@ class InitPaymentRequest
 	{
 		Validator::checkOrderId($orderId);
 		Validator::checkReturnUrl($returnUrl);
-		Validator::checkDescription($description);
 		if ($merchantData !== null) {
 			Validator::checkMerchantData($merchantData);
 		}
@@ -110,7 +105,6 @@ class InitPaymentRequest
 		$this->returnUrl = $returnUrl;
 		$this->returnMethod = $returnMethod;
 		$this->cart = $cart;
-		$this->description = $description;
 		$this->merchantData = $merchantData;
 		$this->customerId = $customerId;
 		$this->language = $language;
@@ -147,7 +141,6 @@ class InitPaymentRequest
 
 				return $cartItemValues;
 			}, $this->cart->getItems()),
-			'description' => $this->description,
 			'language' => $this->language->getValue(),
 		];
 
@@ -197,7 +190,6 @@ class InitPaymentRequest
 						'description' => null,
 					],
 				],
-				'description' => null,
 				'merchantData' => null,
 				'customerId' => null,
 				'language' => null,
