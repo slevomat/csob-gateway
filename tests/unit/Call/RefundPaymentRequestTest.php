@@ -40,7 +40,6 @@ class RefundPaymentRequestTest extends TestCase
 
 		$paymentResponse = $refundPaymentRequest->send($apiClient);
 
-		self::assertInstanceOf(PaymentResponse::class, $paymentResponse);
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());

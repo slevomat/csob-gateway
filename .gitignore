@@ -1,3 +1,4 @@
 composer.lock
 build/log
 vendor
+.phpunit.result.cache

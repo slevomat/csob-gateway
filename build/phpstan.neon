@@ -11,8 +11,6 @@ parameters:
 		- *tests/unit/Api/Driver/Curl_exec_false_Mock.php
 		- *tests/unit/Crypto/GlobalFunctionsMock.php
 	ignoreErrors:
-		- '#Call to static method PHPUnit\\Framework\\Assert::assertInstanceOf\(\) with .+ will always evaluate to true.#'
-		- '#Call to static method PHPUnit\\Framework\\Assert::assertNotNull\(\) with .+ will always evaluate to true.#'
 		- '#expects DateTimeImmutable, DateTimeImmutable\|false given#'
 		- '#should return DateTimeImmutable but returns DateTimeImmutable\|false#'
 		- '#Cannot call method .+ on DateTimeImmutable\|false.#'

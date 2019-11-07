@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
-use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 
@@ -47,7 +46,6 @@ class StandardFinishRequestTest extends TestCase
 
 		$checkoutResponse = $paymentRequest->send($apiClient);
 
-		self::assertInstanceOf(PaymentResponse::class, $checkoutResponse);
 		self::assertSame('123456789', $checkoutResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $checkoutResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $checkoutResponse->getResultCode());

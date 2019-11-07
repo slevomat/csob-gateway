@@ -54,7 +54,6 @@ class BasicCheckoutRequestTest extends TestCase
 
 		$checkoutResponse = $paymentRequest->send($apiClient);
 
-		self::assertInstanceOf(CheckoutResponse::class, $checkoutResponse);
 		self::assertSame('123456789', $checkoutResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $checkoutResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $checkoutResponse->getResultCode());

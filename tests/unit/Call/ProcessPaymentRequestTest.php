@@ -35,7 +35,6 @@ class ProcessPaymentRequestTest extends TestCase
 
 		$processPaymentResponse = $processPaymentRequest->send($apiClient);
 
-		self::assertInstanceOf(ProcessPaymentResponse::class, $processPaymentResponse);
 		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/', $processPaymentResponse->getGatewayLocationUrl());
 	}
 

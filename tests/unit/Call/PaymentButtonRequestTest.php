@@ -47,7 +47,6 @@ class PaymentButtonRequestTest extends TestCase
 
 		$paymentButtonResponse = $paymentRequest->send($apiClient);
 
-		self::assertInstanceOf(PaymentButtonResponse::class, $paymentButtonResponse);
 		self::assertSame('123456789', $paymentButtonResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentButtonResponse->getResponseDateTime());
 		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentButtonResponse->getResultCode());
