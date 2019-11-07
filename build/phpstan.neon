@@ -14,3 +14,4 @@ parameters:
 		- '#expects DateTimeImmutable, DateTimeImmutable\|false given#'
 		- '#should return DateTimeImmutable but returns DateTimeImmutable\|false#'
 		- '#Cannot call method .+ on DateTimeImmutable\|false.#'
+		- '#Call to static method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true\.#'
