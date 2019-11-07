@@ -9,11 +9,12 @@
 This repository provides a client library for ČSOB Payment Gateway.
 
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
-- [CSOB eAPI 1.7](https://github.com/csob/paymentgateway/wiki/eAPI-v1.7)
+- [CSOB eAPI 1.8](https://github.com/csob/paymentgateway/wiki/eAPI-v1.8)
 
-Library supports **all endpoints of eAPI 1.7** without EET extension.
+Library supports **all endpoints of eAPI 1.8** without EET extension and MallPay endpoints. Pull requests are welcome.
 
 Older available versions (not actively maintained):
+- Version 4.* supports PHP 7.2 and eAPI 1.7
 - Version 3.* supports PHP 7 and eAPI 1.6.
 - Version 2.* supports PHP 7 and eAPI 1.5.
 - Version 1.* supports PHP 5.6 and eAPI 1.5.
@@ -38,7 +39,7 @@ $apiClient = new ApiClient(
 		$privateKeyFile,
 		$bankPublicKeyFile
 	),
-	'https://api.platebnibrana.csob.cz/api/v1.7'
+	'https://api.platebnibrana.csob.cz/api/v1.8'
 );
 
 $requestFactory = new RequestFactory('012345');
