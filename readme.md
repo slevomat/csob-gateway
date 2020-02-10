@@ -55,7 +55,10 @@ $paymentResponse = $requestFactory->createInitPayment(
 	true,
 	$returnUrl,
 	HttpMethod::get(HttpMethod::POST),
-	$cart
+	$cart,
+	null,
+	null,
+	Language::get(Language::CZ)
 )->send($apiClient);
 $payId = $paymentResponse->getPayId();
 
