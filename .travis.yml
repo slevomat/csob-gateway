@@ -22,7 +22,7 @@ jobs:
       script: vendor/bin/phing check-phplint
 
     - stage: Lint
-      php: 7.4snapshot
+      php: 7.4
       env: DEPENDENCIES=highest
       script: vendor/bin/phing check-phplint
 
@@ -44,7 +44,6 @@ jobs:
       install:
         - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
         - choco install composer --ia "/DEV=C:\tools\php"
-        - echo "extension=curl" >> /c/tools/php/php.ini
         - export PATH=/c/tools/php:$PATH
       script: vendor/bin/phing check-tests
 
@@ -56,7 +55,6 @@ jobs:
       install:
         - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
         - choco install composer --ia "/DEV=C:\tools\php"
-        - echo "extension=curl" >> /c/tools/php/php.ini
         - export PATH=/c/tools/php:$PATH
       script: vendor/bin/phing check-tests
 
@@ -78,7 +76,6 @@ jobs:
       install:
         - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
         - choco install composer --ia "/DEV=C:\tools\php"
-        - echo "extension=curl" >> /c/tools/php/php.ini
         - export PATH=/c/tools/php:$PATH
       script: vendor/bin/phing check-tests
 
@@ -90,32 +87,52 @@ jobs:
       install:
         - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
         - choco install composer --ia "/DEV=C:\tools\php"
-        - echo "extension=curl" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.4.2 DEPENDENCIES=lowest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
         - export PATH=/c/tools/php:$PATH
       script: vendor/bin/phing check-tests
 
     - stage: Tests
-      php: 7.4snapshot
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.4.2 DEPENDENCIES=highest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.4
       env: DEPENDENCIES=lowest
       script: vendor/bin/phing check-tests
 
     - stage: Tests
-      php: 7.4snapshot
+      php: 7.4
       env: DEPENDENCIES=highest
       script: vendor/bin/phing check-tests
 
     - stage: Coding standard
-      php: 7.3
+      php: 7.4
       env: DEPENDENCIES=highest
       script: vendor/bin/phing check-phpcs
 
     - stage: Static analysis
-      php: 7.3
+      php: 7.4
       env: DEPENDENCIES=highest
       script: vendor/bin/phing check-phpstan
 
     - stage: Code coverage
-      php: 7.3
+      php: 7.4
       env: DEPENDENCIES=highest
       install:
         - wget https://scrutinizer-ci.com/ocular.phar;
