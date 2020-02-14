@@ -14,7 +14,7 @@ class TransactionSettlementExtension implements ResponseExtensionHandler
 
 	/**
 	 * @param mixed[] $data
-	 * @return \SlevomatCsobGateway\Call\Extension\TransactionSettlementResponse
+	 * @return TransactionSettlementResponse
 	 */
 	public function createResponse(array $data): TransactionSettlementResponse
 	{

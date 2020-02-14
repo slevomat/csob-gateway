@@ -18,6 +18,9 @@ class CryptoServiceTest extends TestCase
 		);
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getSignDataData(): array
 	{
 		return [
@@ -64,11 +67,12 @@ class CryptoServiceTest extends TestCase
 	}
 
 	/**
+	 * @dataProvider getSignDataData
+	 *
 	 * @param mixed[] $data
 	 * @param string $expectedSignature
 	 * @param bool $valid
 	 * @param SignatureDataFormatter $signatureDataFormatter
-	 * @dataProvider getSignDataData
 	 */
 	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{
@@ -136,11 +140,12 @@ class CryptoServiceTest extends TestCase
 	}
 
 	/**
+	 * @dataProvider getSignDataData
+	 *
 	 * @param mixed[] $data
 	 * @param string $signature
 	 * @param bool $valid
 	 * @param SignatureDataFormatter $signatureDataFormatter
-	 * @dataProvider getSignDataData
 	 */
 	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{

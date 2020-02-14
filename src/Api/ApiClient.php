@@ -57,9 +57,10 @@ class ApiClient
 	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $requestSignatureDataFormatter
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
-	 * @param \Closure|null $responseValidityCallback
+	 * @param Closure|null $responseValidityCallback
 	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
+	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -95,6 +96,7 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
+	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -129,6 +131,7 @@ class ApiClient
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
+	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -162,9 +165,10 @@ class ApiClient
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $data
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
-	 * @param \Closure|null $responseValidityCallback
+	 * @param Closure|null $responseValidityCallback
 	 * @param ResponseExtensionHandler[] $extensions
 	 * @return Response
+	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 * @throws PublicKeyFileException
@@ -272,6 +276,7 @@ class ApiClient
 	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @return Response
+	 *
 	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -298,6 +303,7 @@ class ApiClient
 	 * @param mixed[] $data
 	 * @param SignatureDataFormatter $signatureDataFormatter
 	 * @return mixed[]
+	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 */
@@ -313,6 +319,7 @@ class ApiClient
 	 * @param mixed[] $responseData
 	 * @param SignatureDataFormatter $signatureDataFormatter
 	 * @return mixed[]
+	 *
 	 * @throws InvalidSignatureException
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
@@ -334,11 +341,11 @@ class ApiClient
 	}
 
 	/**
-	 * @param \SlevomatCsobGateway\Api\HttpMethod $method
+	 * @param HttpMethod $method
 	 * @param string $url
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $requestData
-	 * @param \SlevomatCsobGateway\Api\Response $response
+	 * @param Response $response
 	 * @param float $responseTime
 	 */
 	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response, float $responseTime): void

@@ -60,7 +60,7 @@ class InitPaymentRequest
 	/** @var int|null */
 	private $colorSchemeVersion;
 
-	/** @var \DateTimeImmutable|null */
+	/** @var DateTimeImmutable|null */
 	private $customExpiry;
 
 	public function __construct(

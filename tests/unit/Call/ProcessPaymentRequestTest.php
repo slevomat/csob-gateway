@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -12,6 +13,7 @@ class ProcessPaymentRequestTest extends TestCase
 
 	public function testSend(): void
 	{
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -27,7 +29,6 @@ class ProcessPaymentRequestTest extends TestCase
 				])
 			);
 
-		/** @var ApiClient $apiClient */
 		$processPaymentRequest = new ProcessPaymentRequest(
 			'012345',
 			'123456789'

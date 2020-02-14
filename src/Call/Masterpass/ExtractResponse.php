@@ -29,10 +29,10 @@ class ExtractResponse
 
 	/**
 	 * @param string $payId
-	 * @param \DateTimeImmutable $responseDateTime
-	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
+	 * @param DateTimeImmutable $responseDateTime
+	 * @param ResultCode $resultCode
 	 * @param string $resultMessage
-	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
+	 * @param PaymentStatus|null $paymentStatus
 	 * @param mixed[]|null $checkoutParams
 	 */
 	public function __construct(

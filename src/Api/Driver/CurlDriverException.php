@@ -23,6 +23,7 @@ class CurlDriverException extends RuntimeException implements ApiClientDriverExc
 	}
 	/**
 	 * @see curl_getinfo()
+	 *
 	 * @return mixed
 	 */
 	public function getInfo()

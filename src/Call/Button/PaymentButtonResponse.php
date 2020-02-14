@@ -26,7 +26,7 @@ class PaymentButtonResponse
 	/** @var PaymentStatus|null */
 	private $paymentStatus;
 
-	/** @var \SlevomatCsobGateway\Api\HttpMethod|null */
+	/** @var HttpMethod|null */
 	private $redirectMethod;
 
 	/** @var string|null */
@@ -37,11 +37,11 @@ class PaymentButtonResponse
 
 	/**
 	 * @param string $payId
-	 * @param \DateTimeImmutable $responseDateTime
-	 * @param \SlevomatCsobGateway\Call\ResultCode $resultCode
+	 * @param DateTimeImmutable $responseDateTime
+	 * @param ResultCode $resultCode
 	 * @param string $resultMessage
-	 * @param \SlevomatCsobGateway\Call\PaymentStatus|null $paymentStatus
-	 * @param \SlevomatCsobGateway\Api\HttpMethod|null $redirectMethod
+	 * @param PaymentStatus|null $paymentStatus
+	 * @param HttpMethod|null $redirectMethod
 	 * @param string|null $redirectUrl
 	 * @param mixed[]|null $redirectParams
 	 */

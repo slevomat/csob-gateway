@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -21,16 +22,16 @@ class ReceivePaymentRequestTest extends TestCase
 			'paymentStatus' => 5,
 		];
 
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(static function (array $postData) {
+			->willReturnCallback(static function (array $postData): Response {
 				return new Response(ResponseCode::get(ResponseCode::S200_OK), $postData);
 			});
 
-		/** @var ApiClient $apiClient */
 		$receivePaymentRequest = new ReceivePaymentRequest();
 
 		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
@@ -53,16 +54,16 @@ class ReceivePaymentRequestTest extends TestCase
 			'paymentStatus' => '5',
 		];
 
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(static function (array $postData) {
+			->willReturnCallback(static function (array $postData): Response {
 				return new Response(ResponseCode::get(ResponseCode::S200_OK), $postData);
 			});
 
-		/** @var ApiClient $apiClient */
 		$receivePaymentRequest = new ReceivePaymentRequest();
 
 		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
