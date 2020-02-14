@@ -27,7 +27,7 @@ class InitApplePayRequest
 	/** @var bool */
 	private $closePayment;
 
-	/** @var \SlevomatCsobGateway\Price */
+	/** @var Price */
 	private $totalPrice;
 
 	/** @var string|null */

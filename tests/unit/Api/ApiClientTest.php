@@ -2,8 +2,10 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use SlevomatCsobGateway\Call\ResponseExtensionHandler;
 use SlevomatCsobGateway\Crypto\CryptoService;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use stdClass;
@@ -103,6 +105,8 @@ class ApiClientTest extends TestCase
 	}
 
 	/**
+	 * @dataProvider getRequests
+	 *
 	 * @param HttpMethod $httpMethod
 	 * @param string $url
 	 * @param string $expectedUrl
@@ -111,10 +115,10 @@ class ApiClientTest extends TestCase
 	 * @param mixed[]|null $responseData
 	 * @param ResponseCode $responseCode
 	 * @param mixed[] $responseHeaders
-	 * @dataProvider getRequests
 	 */
 	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData, ?array $responseData, ResponseCode $responseCode, array $responseHeaders): void
 	{
+		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -127,7 +131,6 @@ class ApiClientTest extends TestCase
 			->method('verifyData')
 			->willReturn(true);
 
-		/** @var CryptoService $cryptoService */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -172,9 +175,7 @@ class ApiClientTest extends TestCase
 			->method('info')
 			->with(self::isType('string'), self::isType('array'));
 
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
-		/** @var LoggerInterface $logger */
 		$apiClient->setLogger($logger);
 
 		if ($httpMethod->equalsValue(HttpMethod::GET)) {
@@ -192,6 +193,9 @@ class ApiClientTest extends TestCase
 		self::assertEquals($responseData, $response->getData());
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getTestExceptions(): array
 	{
 		return [
@@ -248,12 +252,16 @@ class ApiClientTest extends TestCase
 	}
 
 	/**
+	 * @dataProvider getTestExceptions
+	 *
 	 * @param Response $response
 	 * @param string $expectedExceptionClass
-	 * @dataProvider getTestExceptions
+	 *
+	 * @phpstan-param class-string<\Exception> $expectedExceptionClass
 	 */
 	public function testExceptions(Response $response, string $expectedExceptionClass): void
 	{
+		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -266,6 +274,7 @@ class ApiClientTest extends TestCase
 			->method('verifyData')
 			->willReturn(true);
 
+		/** @var ApiClientDriver|MockObject $apiClientDriver */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -273,8 +282,6 @@ class ApiClientTest extends TestCase
 			->method('request')
 			->willReturn($response);
 
-		/** @var CryptoService $cryptoService */
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
@@ -294,6 +301,7 @@ class ApiClientTest extends TestCase
 			[]
 		);
 
+		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -302,15 +310,13 @@ class ApiClientTest extends TestCase
 			->method('signData')
 			->willReturn('signature');
 
+		/** @var ApiClientDriver|MockObject $apiClientDriver */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
 		$apiClientDriver->expects(self::once())
 			->method('request')
 			->willReturn($response);
-
-		/** @var CryptoService $cryptoService */
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
@@ -331,6 +337,7 @@ class ApiClientTest extends TestCase
 			]
 		);
 
+		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -342,7 +349,7 @@ class ApiClientTest extends TestCase
 		$cryptoService
 			->method('verifyData')
 			->willReturn(false);
-
+		/** @var ApiClientDriver|MockObject $apiClientDriver */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -350,8 +357,6 @@ class ApiClientTest extends TestCase
 			->method('request')
 			->willReturn($response);
 
-		/** @var CryptoService $cryptoService */
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		try {
@@ -384,8 +389,6 @@ class ApiClientTest extends TestCase
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
-		/** @var CryptoService $cryptoService */
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
 		$response = $apiClient->createResponseByData($data, new SignatureDataFormatter([]));
@@ -411,7 +414,6 @@ class ApiClientTest extends TestCase
 			->method('verifyData')
 			->willReturn(true);
 
-		/** @var CryptoService $cryptoService */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -423,14 +425,16 @@ class ApiClientTest extends TestCase
 				[]
 			));
 
-		/** @var ApiClientDriver $apiClientDriver */
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 
-		// @codingStandardsIgnoreStart
 		$extensions = [
-			'foo' => new class implements \SlevomatCsobGateway\Call\ResponseExtensionHandler {
+			'foo' => new class implements ResponseExtensionHandler {
 
-				public function createResponse(array $decodeData): \stdClass
+				/**
+				 * @param mixed[] $decodeData
+				 * @return stdClass
+				 */
+				public function createResponse(array $decodeData): stdClass
 				{
 					return (object) ['foo' => 'bar'];
 				}
@@ -439,9 +443,9 @@ class ApiClientTest extends TestCase
 				{
 					return new SignatureDataFormatter([]);
 				}
+
 			},
 		];
-		// @codingStandardsIgnoreEnd
 
 		$response = $apiClient->get('payment/status/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]), null, $extensions);
 

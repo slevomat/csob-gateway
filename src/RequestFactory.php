@@ -183,7 +183,7 @@ class RequestFactory
 	/**
 	 * @param string $payId
 	 * @param mixed[] $callbackParams
-	 * @return \SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest
+	 * @return BasicFinishRequest
 	 */
 	public function createMasterpassBasicFinishRequest(string $payId, array $callbackParams): BasicFinishRequest
 	{
@@ -202,7 +202,7 @@ class RequestFactory
 	/**
 	 * @param string $payId
 	 * @param mixed[] $callbackParams
-	 * @return \SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest
+	 * @return StandardExtractRequest
 	 */
 	public function createMasterpassStandardExtractRequest(string $payId, array $callbackParams): StandardExtractRequest
 	{
@@ -267,7 +267,7 @@ class RequestFactory
 	 * @param string $payId
 	 * @param mixed[] $payload
 	 * @param int|null $totalAmount
-	 * @return \SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest
+	 * @return StartApplePayRequest
 	 */
 	public function createApplePayStartRequest(string $payId, array $payload, ?int $totalAmount = null): StartApplePayRequest
 	{

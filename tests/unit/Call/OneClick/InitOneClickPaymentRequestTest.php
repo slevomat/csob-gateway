@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call\OneClick;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -17,6 +18,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 
 	public function testSend(): void
 	{
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -50,7 +52,6 @@ class InitOneClickPaymentRequestTest extends TestCase
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
 		);
 
-		/** @var ApiClient $apiClient */
 		$paymentResponse = $initPaymentRequest->send($apiClient);
 
 		self::assertSame('123456789', $paymentResponse->getPayId());

@@ -13,7 +13,6 @@ use Throwable;
 use function array_map;
 use function array_shift;
 use function count;
-use function is_array;
 use function json_decode;
 use function json_encode;
 
@@ -34,6 +33,7 @@ class GuzzleDriver implements ApiClientDriver
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
 	 * @return Response
+	 *
 	 * @throws GuzzleDriverException
 	 */
 	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response
@@ -54,7 +54,7 @@ class GuzzleDriver implements ApiClientDriver
 			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
 
 			$responseHeaders = array_map(static function ($item) {
-				return !is_array($item) || count($item) > 1
+				return count($item) > 1
 					? $item
 					: array_shift($item);
 			}, $httpResponse->getHeaders());

@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call\Masterpass;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -15,6 +16,7 @@ class StandardExtractRequestTest extends TestCase
 
 	public function testSend(): void
 	{
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -61,7 +63,6 @@ class StandardExtractRequestTest extends TestCase
 				])
 			);
 
-		/** @var ApiClient $apiClient */
 		$paymentRequest = new StandardExtractRequest(
 			'012345',
 			'123456789',

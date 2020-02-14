@@ -3,14 +3,19 @@
 namespace SlevomatCsobGateway\Call\ApplePay;
 
 use DateTimeImmutable;
-use Nette\Utils\Json;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
+use const JSON_ERROR_NONE;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 use function base64_encode;
+use function json_encode;
+use function json_last_error;
+use function json_last_error_msg;
 
 class StartApplePayRequest
 {
@@ -50,10 +55,15 @@ class StartApplePayRequest
 
 	public function send(ApiClient $apiClient): PaymentResponse
 	{
+		$payloadData = json_encode($this->payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		$error = json_last_error();
+		if ($error !== JSON_ERROR_NONE) {
+			throw new InvalidJsonPayloadException(json_last_error_msg(), $error);
+		}
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
-			'payload' => base64_encode(Json::encode($this->payload)),
+			'payload' => base64_encode((string) $payloadData),
 		];
 
 		if ($this->totalAmount !== null) {

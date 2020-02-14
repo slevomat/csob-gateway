@@ -13,9 +13,9 @@ class ReceivePaymentRequest
 {
 
 	/**
-	 * @param \SlevomatCsobGateway\Api\ApiClient $apiClient
+	 * @param ApiClient $apiClient
 	 * @param mixed[] $data
-	 * @return \SlevomatCsobGateway\Call\PaymentResponse
+	 * @return PaymentResponse
 	 */
 	public function send(ApiClient $apiClient, array $data): PaymentResponse
 	{

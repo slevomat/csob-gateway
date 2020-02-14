@@ -18,6 +18,11 @@ use const CURLOPT_POSTFIELDS;
 use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_SSL_VERIFYPEER;
 use const CURLOPT_TIMEOUT;
+use function explode;
+use function json_decode;
+use function json_encode;
+use function substr;
+use function trim;
 
 class CurlDriver implements ApiClientDriver
 {
@@ -31,6 +36,7 @@ class CurlDriver implements ApiClientDriver
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
 	 * @return Response
+	 *
 	 * @throws CurlDriverException
 	 */
 	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response

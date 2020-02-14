@@ -24,22 +24,22 @@ class PaymentButtonRequest
 	/** @var string */
 	private $clientIp;
 
-	/** @var \SlevomatCsobGateway\Price */
+	/** @var Price */
 	private $totalPrice;
 
 	/** @var string */
 	private $returnUrl;
 
-	/** @var \SlevomatCsobGateway\Api\HttpMethod */
+	/** @var HttpMethod */
 	private $returnMethod;
 
-	/** @var \SlevomatCsobGateway\Call\Button\PaymentButtonBrand */
+	/** @var PaymentButtonBrand */
 	private $brand;
 
 	/** @var string|null */
 	private $merchantData;
 
-	/** @var \SlevomatCsobGateway\Language */
+	/** @var Language */
 	private $language;
 
 	public function __construct(

@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call\ApplePay;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -17,6 +18,7 @@ class InitApplePayRequestTest extends TestCase
 
 	public function testSend(): void
 	{
+		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -49,7 +51,6 @@ class InitApplePayRequestTest extends TestCase
 			null
 		);
 
-		/** @var ApiClient $apiClient */
 		$paymentResponse = $initPaymentRequest->send($apiClient);
 
 		self::assertSame('123456789', $paymentResponse->getPayId());

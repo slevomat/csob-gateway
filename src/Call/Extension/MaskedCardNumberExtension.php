@@ -14,7 +14,7 @@ class MaskedCardNumberExtension implements ResponseExtensionHandler
 
 	/**
 	 * @param mixed[] $data
-	 * @return \SlevomatCsobGateway\Call\Extension\MaskedCardNumberResponse
+	 * @return MaskedCardNumberResponse
 	 */
 	public function createResponse(array $data): MaskedCardNumberResponse
 	{
