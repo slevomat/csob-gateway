@@ -1,10 +1,9 @@
 # CSOB gateway
 
-[![Build Status](https://img.shields.io/travis/slevomat/csob-gateway/master.svg?style=flat-square)](https://travis-ci.org/slevomat/csob-gateway)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/slevomat/csob-gateway.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/csob-gateway/?branch=master)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/slevomat/csob-gateway.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/csob-gateway/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)
-[![Composer Downloads](https://img.shields.io/packagist/dt/slevomat/csob-gateway.svg?style=flat-square)](https://packagist.org/packages/slevomat/csob-gateway)
+[![Build status](https://github.com/slevomat/csob-gateway/workflows/Build/badge.svg?branch=master)](https://github.com/slevomat/csob-gateway/actions?query=workflow%3ABuild+branch%3Amaster)
+[![Code coverage](https://codecov.io/gh/slevomat/csob-gateway/branch/master/graph/badge.svg)](https://codecov.io/gh/slevomat/csob-gateway)
+[![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/csob-gateway.svg)](https://packagist.org/packages/slevomat/csob-gateway)
+[![Composer Downloads](https://img.shields.io/packagist/dt/slevomat/csob-gateway.svg)](https://packagist.org/packages/slevomat/csob-gateway)
 
 This repository provides a client library for ČSOB Payment Gateway.
 
