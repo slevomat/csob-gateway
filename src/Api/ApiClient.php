@@ -220,8 +220,10 @@ class ApiClient
 
 		if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
 			$decodedExtensions = [];
-			if ($extensions !== [] && array_key_exists('extensions', (array) $response->getData())) {
-				foreach ($response->getData()['extensions'] as $extensionData) {
+			/** @var mixed[]|null $responseData */
+			$responseData = $response->getData();
+			if ($extensions !== [] && $responseData !== null && array_key_exists('extensions', $responseData)) {
+				foreach ($responseData['extensions'] as $extensionData) {
 					$name = $extensionData['extension'];
 					if (!isset($extensions[$name])) {
 						continue;
@@ -231,7 +233,7 @@ class ApiClient
 					$decodedExtensions[$name] = $handler->createResponse($this->decodeData($extensionData, $handler->getSignatureDataFormatter()));
 				}
 			}
-			$responseData = $this->decodeData($response->getData() ?? [], $responseSignatureDataFormatter);
+			$responseData = $this->decodeData($responseData ?? [], $responseSignatureDataFormatter);
 			unset($responseData['extensions']);
 
 			return new Response(

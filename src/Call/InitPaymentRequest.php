@@ -128,7 +128,7 @@ class InitPaymentRequest
 			'closePayment' => $this->closePayment,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->getValue(),
-			'cart' => array_map(static function (CartItem $cartItem) {
+			'cart' => array_map(static function (CartItem $cartItem): array {
 				$cartItemValues = [
 					'name' => $cartItem->getName(),
 					'quantity' => $cartItem->getQuantity(),
@@ -209,6 +209,7 @@ class InitPaymentRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new InitPaymentResponse(

@@ -55,6 +55,7 @@ class PaymentStatusRequest
 			$this->extensions
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new PaymentResponse(

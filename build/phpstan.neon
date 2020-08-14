@@ -4,8 +4,6 @@ includes:
 	- ../vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
-	autoload_files:
-		- %rootDir%/../../../tests/unit/Crypto/GlobalFunctionsMock.php
 	excludes_analyse:
 		- *tests/unit/Api/Driver/CurlMock.php
 		- *tests/unit/Api/Driver/Curl_exec_false_Mock.php
