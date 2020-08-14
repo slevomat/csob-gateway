@@ -110,6 +110,7 @@ class StandardExtractRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new ExtractResponse(

@@ -37,6 +37,7 @@ class PostEchoRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new EchoResponse(

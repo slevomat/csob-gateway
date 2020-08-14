@@ -89,7 +89,7 @@ class CryptoService
 		$verifyResult = openssl_verify($message, $signature, $publicKeyId, self::HASH_METHOD);
 		openssl_free_key($publicKeyId);
 		if ($verifyResult === -1) {
-			throw new VerificationFailedException($data, openssl_error_string());
+			throw new VerificationFailedException($data, (string) openssl_error_string());
 		}
 
 		return $verifyResult === 1;

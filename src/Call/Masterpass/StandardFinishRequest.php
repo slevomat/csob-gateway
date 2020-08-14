@@ -68,6 +68,7 @@ class StandardFinishRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new PaymentResponse(

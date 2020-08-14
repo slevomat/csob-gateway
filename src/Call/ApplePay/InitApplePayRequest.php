@@ -105,6 +105,7 @@ class InitApplePayRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 

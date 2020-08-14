@@ -48,6 +48,7 @@ class CustomerInfoRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new CustomerInfoResponse(

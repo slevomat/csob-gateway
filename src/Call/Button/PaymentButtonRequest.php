@@ -118,6 +118,7 @@ class PaymentButtonRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		$redirectUrl = null;

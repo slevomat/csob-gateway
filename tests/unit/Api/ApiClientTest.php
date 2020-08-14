@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Api;
 
+use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -153,7 +154,7 @@ class ApiClientTest extends TestCase
 					self::assertEquals($httpMethod, $method);
 					self::assertSame(sprintf('%s/%s', self::API_URL, $expectedUrl), $url);
 					$dttm = $requestData['dttm'];
-					self::assertRegExp('~^\\d{14}$~', $dttm);
+					static::assertThat($dttm, new RegularExpression('~^\\d{14}$~'), '');
 					unset($requestData['dttm']);
 					self::assertEquals(((array) $expectedRequestData) + ['signature' => 'signature'], $requestData);
 
@@ -257,7 +258,7 @@ class ApiClientTest extends TestCase
 	 * @param Response $response
 	 * @param string $expectedExceptionClass
 	 *
-	 * @phpstan-param class-string<\Exception> $expectedExceptionClass
+	 * @phpstan-param class-string $expectedExceptionClass
 	 */
 	public function testExceptions(Response $response, string $expectedExceptionClass): void
 	{

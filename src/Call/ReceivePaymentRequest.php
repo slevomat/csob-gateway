@@ -37,6 +37,7 @@ class ReceivePaymentRequest
 			'merchantData' => null,
 		]));
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new PaymentResponse(

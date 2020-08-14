@@ -54,6 +54,7 @@ class StartOneClickPaymentRequest
 			])
 		);
 
+		/** @var mixed[] $data */
 		$data = $response->getData();
 
 		return new PaymentResponse(
