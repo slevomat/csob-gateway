@@ -12,14 +12,16 @@ class CurlDriverException extends RuntimeException implements ApiClientDriverExc
 	private $info;
 
 	/**
-	 * @param resource $handle
+	 * @param int $code
+	 * @param string $message
+	 * @param mixed $info
 	 */
-	public function __construct($handle)
+	public function __construct(int $code, string $message, $info)
 	{
-		parent::__construct('Request error: ' . curl_error($handle));
+		parent::__construct('Request error: ' . $message);
 
-		$this->code = curl_errno($handle);
-		$this->info = curl_getinfo($handle);
+		$this->code = $code;
+		$this->info = $info;
 	}
 	/**
 	 * @see curl_getinfo()

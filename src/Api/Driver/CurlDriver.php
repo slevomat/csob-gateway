@@ -18,6 +18,7 @@ use const CURLOPT_POSTFIELDS;
 use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_SSL_VERIFYPEER;
 use const CURLOPT_TIMEOUT;
+use const PHP_VERSION_ID;
 use function explode;
 use function json_decode;
 use function json_encode;
@@ -64,7 +65,7 @@ class CurlDriver implements ApiClientDriver
 		$output = curl_exec($ch);
 
 		if ($output === false) {
-			throw new CurlDriverException($ch);
+			throw new CurlDriverException(curl_errno($ch), curl_error($ch), curl_getinfo($ch));
 		}
 
 		$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -72,8 +73,9 @@ class CurlDriver implements ApiClientDriver
 		$body = substr((string) $output, $headerSize);
 
 		$responseCode = ResponseCode::get(curl_getinfo($ch, CURLINFO_HTTP_CODE));
-
-		curl_close($ch);
+		if (PHP_VERSION_ID < 80000) {
+			curl_close($ch);
+		}
 
 		return new Response(
 			$responseCode,
