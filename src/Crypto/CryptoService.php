@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Crypto;
 
 use const OPENSSL_ALGO_SHA256;
+use const PHP_VERSION_ID;
 use function base64_decode;
 use function base64_encode;
 use function file_get_contents;
@@ -57,7 +58,10 @@ class CryptoService
 		}
 
 		$signature = base64_encode($signature);
-		openssl_free_key($privateKeyId);
+		if (PHP_VERSION_ID < 80000) {
+			// phpcs:ignore Generic.PHP.DeprecatedFunctions
+			openssl_free_key($privateKeyId);
+		}
 
 		return $signature;
 	}
@@ -87,7 +91,10 @@ class CryptoService
 		}
 
 		$verifyResult = openssl_verify($message, $signature, $publicKeyId, self::HASH_METHOD);
-		openssl_free_key($publicKeyId);
+		if (PHP_VERSION_ID < 80000) {
+			// phpcs:ignore Generic.PHP.DeprecatedFunctions
+			openssl_free_key($publicKeyId);
+		}
 		if ($verifyResult === -1) {
 			throw new VerificationFailedException($data, (string) openssl_error_string());
 		}
