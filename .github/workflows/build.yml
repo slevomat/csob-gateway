@@ -24,16 +24,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.1"
+        uses: "actions/checkout@v2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.4.1"
+        uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+          tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2.1.0"
+        uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -45,7 +46,7 @@ jobs:
 
       - name: "Install dependencies PHP 8"
         if: matrix.php-version == '8.0'
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs php"
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "Lint"
         run: "vendor/bin/phing check-phplint"
@@ -57,16 +58,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.1"
+        uses: "actions/checkout@v2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.4.1"
+        uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "7.4"
+          tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2.1.0"
+        uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
           key: "php-7.4-composer-${{ hashFiles('**/composer.json') }}"
@@ -88,16 +90,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.1"
+        uses: "actions/checkout@v2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.4.1"
+        uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "7.4"
+          tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2.1.0"
+        uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
           key: "php-7.4-composer-${{ hashFiles('**/composer.json') }}"
@@ -127,17 +130,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.1"
+        uses: "actions/checkout@v2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.4.1"
+        uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
           extensions: mbstring
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2.1.0"
+        uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -153,15 +156,15 @@ jobs:
 
       - name: "Install lowest dependencies PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer update  --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs php"
+        run: "composer update  --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "Require higher phpunit on PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer require phpunit/phpunit:^9.3.7 --update-with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs php"
+        run: "composer require phpunit/phpunit:^9.3.7 --update-with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "Install highest dependencies PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs php"
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "Tests"
         run: "vendor/bin/phing check-tests"
@@ -173,17 +176,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.1"
+        uses: "actions/checkout@v2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.4.1"
+        uses: "shivammathur/setup-php@v2"
         with:
           coverage: "pcov"
           php-version: "7.4"
           tools: pecl
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2.1.0"
+        uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
           key: "php-7.4-composer-${{ hashFiles('**/composer.json') }}"
