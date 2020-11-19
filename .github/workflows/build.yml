@@ -88,6 +88,12 @@ jobs:
 
     runs-on: "ubuntu-latest"
 
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+          - "8.0"
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -96,18 +102,23 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "7.4"
+          php-version: "${{ matrix.php-version }}"
           tools: composer:v2
 
       - name: "Cache dependencies"
         uses: "actions/cache@v2"
         with:
           path: "~/.composer/cache"
-          key: "php-7.4-composer-${{ hashFiles('**/composer.json') }}"
-          restore-keys: "php-7.4-composer-"
+          key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-${{ matrix.php-version }}-composer-"
 
       - name: "Install dependencies"
+        if: matrix.php-version != '8.0'
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
+
+      - name: "Install dependencies PHP 8"
+        if: matrix.php-version == '8.0'
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "PHPStan"
         run: "vendor/bin/phing check-phpstan"
