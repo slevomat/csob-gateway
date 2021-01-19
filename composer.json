@@ -14,9 +14,9 @@
 		"issues": "https://github.com/slevomat/csob-gateway/issues"
 	},
 	"require": {
-		"ext-openssl": "*",
 		"php": "^7.2 || ^8.0",
-		"consistence/consistence": "^2.0.1"
+		"ext-openssl": "*",
+		"slevomat/consistence": "^2.1.0"
 	},
 	"require-dev": {
 		"ext-curl": "*",
