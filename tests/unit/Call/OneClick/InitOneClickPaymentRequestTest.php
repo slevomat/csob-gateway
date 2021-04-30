@@ -12,6 +12,7 @@ use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Price;
+use function base64_encode;
 
 class InitOneClickPaymentRequestTest extends TestCase
 {
@@ -32,6 +33,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 				'totalAmount' => 1789600,
 				'currency' => 'CZK',
 				'description' => 'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
+				'merchantData' => base64_encode('some-base64-encoded-merchant-data'),
 			])
 			->willReturn(
 				new Response(ResponseCode::get(ResponseCode::S200_OK), [
@@ -49,7 +51,8 @@ class InitOneClickPaymentRequestTest extends TestCase
 			'5547',
 			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
-			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)'
+			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
+			'some-base64-encoded-merchant-data'
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

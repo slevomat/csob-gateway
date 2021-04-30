@@ -150,7 +150,8 @@ class RequestFactory
 		string $orderId,
 		string $clientIp,
 		?Price $price = null,
-		?string $description = null
+		?string $description = null,
+		?string $merchantData = null
 	): InitOneClickPaymentRequest
 	{
 		return new InitOneClickPaymentRequest(
@@ -159,7 +160,8 @@ class RequestFactory
 			$orderId,
 			$clientIp,
 			$price,
-			$description
+			$description,
+			$merchantData
 		);
 	}
 

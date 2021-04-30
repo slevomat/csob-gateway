@@ -10,6 +10,7 @@ use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function base64_encode;
 
 class InitOneClickPaymentRequest
 {
@@ -32,19 +33,26 @@ class InitOneClickPaymentRequest
 	/** @var string */
 	private $clientIp;
 
+	/** @var string|null */
+	private $merchantData;
+
 	public function __construct(
 		string $merchantId,
 		string $origPayId,
 		string $orderId,
 		string $clientIp,
 		?Price $price = null,
-		?string $description = null
+		?string $description = null,
+		?string $merchantData = null
 	)
 	{
 		Validator::checkPayId($origPayId);
 		Validator::checkOrderId($orderId);
 		if ($description !== null) {
 			Validator::checkDescription($description);
+		}
+		if ($merchantData !== null) {
+			Validator::checkMerchantData($merchantData);
 		}
 
 		$this->merchantId = $merchantId;
@@ -53,6 +61,7 @@ class InitOneClickPaymentRequest
 		$this->clientIp = $clientIp;
 		$this->price = $price;
 		$this->description = $description;
+		$this->merchantData = $merchantData;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -73,6 +82,10 @@ class InitOneClickPaymentRequest
 			$requestData['description'] = $this->description;
 		}
 
+		if ($this->merchantData !== null) {
+			$requestData['merchantData'] = base64_encode($this->merchantData);
+		}
+
 		$response = $apiClient->post(
 			'oneclick/init',
 			$requestData,
@@ -85,6 +98,7 @@ class InitOneClickPaymentRequest
 				'totalAmount' => null,
 				'currency' => null,
 				'description' => null,
+				'merchantData' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,
