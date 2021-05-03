@@ -11,7 +11,7 @@ class Response
 	/** @var mixed[]|null */
 	private $data;
 
-	/** @var string[] */
+	/** @var string[]|string[][] */
 	private $headers;
 
 	/** @var mixed[] */
@@ -20,7 +20,7 @@ class Response
 	/**
 	 * @param ResponseCode $responseCode
 	 * @param mixed[]|null $data
-	 * @param string[] $headers
+	 * @param string[]|string[][] $headers
 	 * @param mixed[] $extensions
 	 */
 	public function __construct(
@@ -50,7 +50,7 @@ class Response
 	}
 
 	/**
-	 * @return string[]
+	 * @return string[]|string[][]
 	 */
 	public function getHeaders(): array
 	{
