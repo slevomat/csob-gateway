@@ -60,7 +60,10 @@ class ProcessPaymentRequest
 			}
 		);
 
-		return new ProcessPaymentResponse($response->getHeaders()['Location']);
+		/** @var string $gatewayLocationUrl */
+		$gatewayLocationUrl = $response->getHeaders()['Location'];
+
+		return new ProcessPaymentResponse($gatewayLocationUrl);
 	}
 
 }

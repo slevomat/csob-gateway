@@ -53,6 +53,7 @@ class GuzzleDriver implements ApiClientDriver
 
 			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
 
+			/** @var string[]|string[][] $responseHeaders */
 			$responseHeaders = array_map(static function ($item) {
 				return count($item) > 1
 					? $item
