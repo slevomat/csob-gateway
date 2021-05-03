@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="SlevomatCsobGateway">
+	<config name="php_version" value="70200"/>
 	<arg name="extensions" value="php"/>
 	<arg name="tab-width" value="4"/>
 	<arg value="s"/>
@@ -164,8 +165,8 @@
 	<rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition" />
 	<rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing">
 		<properties>
-			<property name="tokensToCheck" type="array">
-				<element value="T_SWITCH"/>
+			<property name="controlStructures" type="array">
+				<element value="switch"/>
 			</property>
 		</properties>
 	</rule>
@@ -175,11 +176,11 @@
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
 		<properties>
-			<property name="tokensToCheck" type="array">
-				<element value="T_GOTO"/>
-				<element value="T_THROW"/>
-				<element value="T_YIELD"/>
-				<element value="T_YIELD_FROM"/>
+			<property name="jumpStatements" type="array">
+				<element value="goto"/>
+				<element value="throw"/>
+				<element value="yield"/>
+				<element value="yield_from"/>
 			</property>
 		</properties>
 	</rule>
@@ -260,7 +261,7 @@
 	<rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
 	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
 		<properties>
-			<property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
+			<property name="declareOnFirstLine" value="true"/>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
