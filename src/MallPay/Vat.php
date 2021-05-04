@@ -1,8 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway;
+namespace SlevomatCsobGateway\MallPay;
 
-class Price
+use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Validator;
+
+class Vat
 {
 
 	/** @var int */
@@ -11,15 +14,20 @@ class Price
 	/** @var Currency */
 	private $currency;
 
+	/** @var int */
+	private $vatRate;
+
 	public function __construct(
 		int $amount,
-		Currency $currency
+		Currency $currency,
+		int $vatRate
 	)
 	{
 		Validator::checkNumberPositiveOrZero($amount);
 
 		$this->amount = $amount;
 		$this->currency = $currency;
+		$this->vatRate = $vatRate;
 	}
 
 	/**
@@ -30,6 +38,7 @@ class Price
 		return [
 			'amount' => $this->amount,
 			'currency' => $this->currency->getValue(),
+			'vatRate' => $this->vatRate,
 		];
 	}
 
@@ -41,6 +50,11 @@ class Price
 	public function getCurrency(): Currency
 	{
 		return $this->currency;
+	}
+
+	public function getVatRate(): int
+	{
+		return $this->vatRate;
 	}
 
 }

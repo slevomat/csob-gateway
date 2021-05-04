@@ -164,4 +164,65 @@ class ValidatorTest extends TestCase
 		}
 	}
 
+	public function testCheckWhitespacesAndLength(): void
+	{
+		Validator::checkWhitespacesAndLength('ab', 2);
+		try {
+			Validator::checkWhitespacesAndLength('ab', 1);
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Field must have maximum of 1 characters.', $e->getMessage());
+		}
+		try {
+			Validator::checkWhitespacesAndLength(' ab', 3);
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Argument starts or ends with whitespace.', $e->getMessage());
+		}
+	}
+
+	public function testCheckNumberPositiveOrZero(): void
+	{
+		Validator::checkNumberPositiveOrZero(0);
+		try {
+			Validator::checkNumberPositiveOrZero(-1);
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Value is negative.', $e->getMessage());
+		}
+	}
+
+	public function testCheckNumberPositive(): void
+	{
+		Validator::checkNumberPositive(1);
+		try {
+			Validator::checkNumberPositive(0);
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Value is negative or zero.', $e->getMessage());
+		}
+	}
+
+	public function testCheckEmail(): void
+	{
+		Validator::checkEmail('pepa@zdepa.cz');
+		try {
+			Validator::checkEmail(' pepa@zdepa.cz');
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('E-mail is not valid.', $e->getMessage());
+		}
+	}
+
+	public function testCheckUrl(): void
+	{
+		Validator::checkUrl('https://www.slevomat.cz');
+		try {
+			Validator::checkUrl('https:// www.slevomat.cz');
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('URL is not valid.', $e->getMessage());
+		}
+	}
+
 }

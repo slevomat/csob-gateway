@@ -12,6 +12,10 @@ use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
+use SlevomatCsobGateway\Call\MallPay\CancelMallPayRequest;
+use SlevomatCsobGateway\Call\MallPay\InitMallPayRequest;
+use SlevomatCsobGateway\Call\MallPay\LogisticsMallPayRequest;
+use SlevomatCsobGateway\Call\MallPay\RefundMallPayRequest;
 use SlevomatCsobGateway\Call\Masterpass\BasicCheckoutRequest;
 use SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardCheckoutRequest;
@@ -28,6 +32,12 @@ use SlevomatCsobGateway\Call\ProcessPaymentRequest;
 use SlevomatCsobGateway\Call\ReceivePaymentRequest;
 use SlevomatCsobGateway\Call\RefundPaymentRequest;
 use SlevomatCsobGateway\Call\ReversePaymentRequest;
+use SlevomatCsobGateway\MallPay\CancelReason;
+use SlevomatCsobGateway\MallPay\Customer;
+use SlevomatCsobGateway\MallPay\LogisticsEvent;
+use SlevomatCsobGateway\MallPay\Order;
+use SlevomatCsobGateway\MallPay\OrderItemReference;
+use SlevomatCsobGateway\MallPay\OrderReference;
 
 class RequestFactory
 {
@@ -286,6 +296,84 @@ class RequestFactory
 		return new OneClickEchoRequest(
 			$this->merchantId,
 			$payId
+		);
+	}
+
+	public function createMallPayInitRequest(
+		string $orderId,
+		Customer $customer,
+		Order $order,
+		bool $agreeTC,
+		string $clientIp,
+		HttpMethod $returnMethod,
+		string $returnUrl,
+		?string $merchantData,
+		?int $ttlSec
+	): InitMallPayRequest
+	{
+		return new InitMallPayRequest(
+			$this->merchantId,
+			$orderId,
+			$customer,
+			$order,
+			$agreeTC,
+			$clientIp,
+			$returnMethod,
+			$returnUrl,
+			$merchantData,
+			$ttlSec
+		);
+	}
+
+	public function createMallPayLogisticsRequest(
+		string $payId,
+		LogisticsEvent $event,
+		DateTimeImmutable $date,
+		OrderReference $fulfilled,
+		?OrderReference $cancelled,
+		?string $deliveryTrackingNumber
+	): LogisticsMallPayRequest
+	{
+		return new LogisticsMallPayRequest(
+			$this->merchantId,
+			$payId,
+			$event,
+			$date,
+			$fulfilled,
+			$cancelled,
+			$deliveryTrackingNumber
+		);
+	}
+
+	public function createMallPayCancelRequest(
+		string $payId,
+		CancelReason $reason
+	): CancelMallPayRequest
+	{
+		return new CancelMallPayRequest(
+			$this->merchantId,
+			$payId,
+			$reason
+		);
+	}
+
+	/**
+	 * @param string $payId
+	 * @param int|null $amount
+	 * @param OrderItemReference[] $refundedItems
+	 * @return RefundMallPayRequest
+	 */
+	public function createMallPayRefundRequest(
+		string $payId,
+		?int $amount,
+		array $refundedItems
+	): RefundMallPayRequest
+	{
+		return new RefundMallPayRequest(
+			$this->merchantId,
+			$payId,
+			$amount,
+			$refundedItems
 		);
 	}
 
