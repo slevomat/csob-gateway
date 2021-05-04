@@ -10,7 +10,7 @@ This repository provides a client library for ČSOB Payment Gateway.
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
 - [CSOB eAPI 1.8](https://github.com/csob/paymentgateway/wiki/eAPI-v1.8)
 
-Library supports **all endpoints of eAPI 1.8** without EET extension and MallPay endpoints. Pull requests are welcome.
+Library supports **all endpoints of eAPI 1.8** without EET extension. Pull requests are welcome.
 
 Older available versions (not actively maintained):
 - Version 4.* supports PHP 7.2 and eAPI 1.7

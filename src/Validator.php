@@ -3,8 +3,11 @@
 namespace SlevomatCsobGateway;
 
 use InvalidArgumentException;
+use const FILTER_VALIDATE_EMAIL;
+use const FILTER_VALIDATE_URL;
 use function base64_encode;
 use function ctype_digit;
+use function filter_var;
 use function preg_quote;
 use function preg_replace;
 use function sprintf;
@@ -26,6 +29,9 @@ class Validator
 
 	private const TTL_SEC_MIN = 300;
 	private const TTL_SEC_MAX = 1800;
+
+	private const MALL_PAY_TTL_SEC_MIN = 600;
+	private const MALL_PAY_TTL_SEC_MAX = 43200;
 
 	public static function checkCartItemName(string $name): void
 	{
@@ -130,6 +136,50 @@ class Validator
 	{
 		if ($ttlSec < self::TTL_SEC_MIN || $ttlSec > self::TTL_SEC_MAX) {
 			throw new InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::TTL_SEC_MIN, self::TTL_SEC_MAX, $ttlSec));
+		}
+	}
+
+	public static function checkMallPayTtlSec(int $ttlSec): void
+	{
+		if ($ttlSec < self::MALL_PAY_TTL_SEC_MIN || $ttlSec > self::MALL_PAY_TTL_SEC_MAX) {
+			throw new InvalidArgumentException(sprintf('TTL sec is out of range (%d - %d). Current value is %d.', self::MALL_PAY_TTL_SEC_MIN, self::MALL_PAY_TTL_SEC_MAX, $ttlSec));
+		}
+	}
+
+	public static function checkWhitespacesAndLength(string $value, int $maxLength): void
+	{
+		self::checkWhitespaces($value);
+
+		if (strlen(utf8_decode($value)) > $maxLength) {
+			throw new InvalidArgumentException(sprintf('Field must have maximum of %d characters.', $maxLength));
+		}
+	}
+
+	public static function checkNumberPositiveOrZero(int $value): void
+	{
+		if ($value < 0) {
+			throw new InvalidArgumentException('Value is negative.');
+		}
+	}
+
+	public static function checkNumberPositive(int $value): void
+	{
+		if ($value <= 0) {
+			throw new InvalidArgumentException('Value is negative or zero.');
+		}
+	}
+
+	public static function checkEmail(string $value): void
+	{
+		if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+			throw new InvalidArgumentException('E-mail is not valid.');
+		}
+	}
+
+	public static function checkUrl(string $value): void
+	{
+		if (filter_var($value, FILTER_VALIDATE_URL) === false) {
+			throw new InvalidArgumentException('URL is not valid.');
 		}
 	}
 
