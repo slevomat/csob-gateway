@@ -32,6 +32,9 @@ class PaymentResponse
 	/** @var mixed[] */
 	private $extensions;
 
+	/** @var string|null */
+	private $statusDetail;
+
 	/**
 	 * @param string $payId
 	 * @param DateTimeImmutable $responseDateTime
@@ -41,6 +44,7 @@ class PaymentResponse
 	 * @param string|null $authCode
 	 * @param string|null $merchantData
 	 * @param mixed[] $extensions
+	 * @param string|null $statusDetail
 	 */
 	public function __construct(
 		string $payId,
@@ -50,7 +54,8 @@ class PaymentResponse
 		?PaymentStatus $paymentStatus,
 		?string $authCode = null,
 		?string $merchantData = null,
-		array $extensions = []
+		array $extensions = [],
+		?string $statusDetail = null
 	)
 	{
 		Validator::checkPayId($payId);
@@ -66,6 +71,7 @@ class PaymentResponse
 		$this->authCode = $authCode;
 		$this->merchantData = $merchantData;
 		$this->extensions = $extensions;
+		$this->statusDetail = $statusDetail;
 	}
 
 	public function getPayId(): string
@@ -109,6 +115,11 @@ class PaymentResponse
 	public function getExtensions(): array
 	{
 		return $this->extensions;
+	}
+
+	public function getStatusDetail(): ?string
+	{
+		return $this->statusDetail;
 	}
 
 }

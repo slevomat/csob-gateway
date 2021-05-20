@@ -50,6 +50,7 @@ class PaymentStatusRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
+				'statusDetail' => null,
 			]),
 			null,
 			$this->extensions
@@ -66,7 +67,8 @@ class PaymentStatusRequest
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
 			null,
-			$response->getExtensions()
+			$response->getExtensions(),
+			$data['statusDetail'] ?? null
 		);
 	}
 
