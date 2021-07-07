@@ -1,85 +1,87 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call\ApplePay;
+namespace SlevomatCsobGateway\Call\GooglePay;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\InvalidJsonPayloadException;
 use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
-use const JSON_ERROR_NONE;
-use const JSON_UNESCAPED_SLASHES;
-use const JSON_UNESCAPED_UNICODE;
 use function base64_encode;
-use function json_encode;
-use function json_last_error;
-use function json_last_error_msg;
 
-class StartApplePayRequest
+class InitGooglePayRequest
 {
 
 	/** @var string */
 	private $merchantId;
 
 	/** @var string */
-	private $payId;
+	private $orderId;
 
-	/** @var array|mixed[] */
-	private $payload;
+	/** @var string|null */
+	private $clientIp;
 
-	/** @var int|null */
-	private $totalAmount;
+	/** @var Price */
+	private $totalPrice;
 
-	/**
-	 * @param string $merchantId
-	 * @param string $payId
-	 * @param mixed[] $payload
-	 * @param int|null $totalAmount
-	 */
+	/** @var bool */
+	private $closePayment;
+
+	/** @var string|null */
+	private $merchantData;
+
 	public function __construct(
 		string $merchantId,
-		string $payId,
-		array $payload,
-		?int $totalAmount
+		string $orderId,
+		string $clientIp,
+		Price $totalPrice,
+		bool $closePayment,
+		?string $merchantData
 	)
 	{
-		Validator::checkPayId($payId);
+		Validator::checkOrderId($orderId);
+		if ($merchantData !== null) {
+			Validator::checkMerchantData($merchantData);
+		}
 
 		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->payload = $payload;
-		$this->totalAmount = $totalAmount;
+		$this->orderId = $orderId;
+		$this->clientIp = $clientIp;
+		$this->totalPrice = $totalPrice;
+		$this->closePayment = $closePayment;
+		$this->merchantData = $merchantData;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
 	{
-		$payloadData = json_encode($this->payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-		$error = json_last_error();
-		if ($error !== JSON_ERROR_NONE) {
-			throw new InvalidJsonPayloadException(json_last_error_msg(), $error);
-		}
 		$requestData = [
 			'merchantId' => $this->merchantId,
-			'payId' => $this->payId,
-			'payload' => base64_encode((string) $payloadData),
+			'orderNo' => $this->orderId,
+			'totalAmount' => $this->totalPrice->getAmount(),
+			'currency' => $this->totalPrice->getCurrency()->getValue(),
+			'closePayment' => $this->closePayment,
+			'clientIp' => $this->clientIp,
 		];
 
-		if ($this->totalAmount !== null) {
-			$requestData['totalAmount'] = $this->totalAmount;
+		if ($this->merchantData !== null) {
+			$requestData['merchantData'] = base64_encode($this->merchantData);
 		}
 
 		$response = $apiClient->post(
-			'applepay/start',
+			'googlepay/init',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
-				'payId' => null,
-				'payload' => null,
-				'totalAmount' => null,
+				'orderNo' => null,
 				'dttm' => null,
+				'clientIp' => null,
+				'totalAmount' => null,
+				'currency' => null,
+				'closePayment' => null,
+				'merchantData' => null,
 			]),
 			new SignatureDataFormatter([
 				'payId' => null,

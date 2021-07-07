@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call\ApplePay;
+namespace SlevomatCsobGateway\Call;
 
 use Exception;
 

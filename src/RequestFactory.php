@@ -11,6 +11,9 @@ use SlevomatCsobGateway\Call\Button\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\CustomerInfoRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
+use SlevomatCsobGateway\Call\GooglePay\GooglePayInfoRequest;
+use SlevomatCsobGateway\Call\GooglePay\InitGooglePayRequest;
+use SlevomatCsobGateway\Call\GooglePay\StartGooglePayRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
 use SlevomatCsobGateway\Call\MallPay\CancelMallPayRequest;
 use SlevomatCsobGateway\Call\MallPay\InitMallPayRequest;
@@ -374,6 +377,43 @@ class RequestFactory
 			$payId,
 			$amount,
 			$refundedItems
+		);
+	}
+
+	public function createGooglePayInfoRequest(): GooglePayInfoRequest
+	{
+		return new GooglePayInfoRequest($this->merchantId);
+	}
+
+	public function createGooglePayInitRequest(
+		string $orderId,
+		string $clientIp,
+		Price $totalPrice,
+		bool $closePayment,
+		?string $merchantData
+	): InitGooglePayRequest
+	{
+		return new InitGooglePayRequest(
+			$this->merchantId,
+			$orderId,
+			$clientIp,
+			$totalPrice,
+			$closePayment,
+			$merchantData
+		);
+	}
+
+	/**
+	 * @param string $payId
+	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
+	 * @return StartGooglePayRequest
+	 */
+	public function createGooglePayStartRequest(string $payId, array $payload): StartGooglePayRequest
+	{
+		return new StartGooglePayRequest(
+			$this->merchantId,
+			$payId,
+			$payload
 		);
 	}
 
