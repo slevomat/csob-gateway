@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call\ApplePay;
+namespace SlevomatCsobGateway\Call\GooglePay;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
@@ -10,15 +10,9 @@ use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
-use const JSON_ERROR_NONE;
-use const JSON_UNESCAPED_SLASHES;
-use const JSON_UNESCAPED_UNICODE;
 use function base64_encode;
-use function json_encode;
-use function json_last_error;
-use function json_last_error_msg;
 
-class StartApplePayRequest
+class StartGooglePayRequest
 {
 
 	/** @var string */
@@ -30,20 +24,15 @@ class StartApplePayRequest
 	/** @var array|mixed[] */
 	private $payload;
 
-	/** @var int|null */
-	private $totalAmount;
-
 	/**
 	 * @param string $merchantId
 	 * @param string $payId
-	 * @param mixed[] $payload
-	 * @param int|null $totalAmount
+	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
 	 */
 	public function __construct(
 		string $merchantId,
 		string $payId,
-		array $payload,
-		?int $totalAmount
+		array $payload
 	)
 	{
 		Validator::checkPayId($payId);
@@ -51,15 +40,13 @@ class StartApplePayRequest
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
 		$this->payload = $payload;
-		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
 	{
-		$payloadData = json_encode($this->payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-		$error = json_last_error();
-		if ($error !== JSON_ERROR_NONE) {
-			throw new InvalidJsonPayloadException(json_last_error_msg(), $error);
+		$payloadData = $this->payload['paymentMethodData']['tokenizationData']['token'] ?? null;
+		if ($payloadData === null) {
+			throw new InvalidJsonPayloadException('Missing token in Google Pay payload.');
 		}
 		$requestData = [
 			'merchantId' => $this->merchantId,
@@ -67,18 +54,13 @@ class StartApplePayRequest
 			'payload' => base64_encode((string) $payloadData),
 		];
 
-		if ($this->totalAmount !== null) {
-			$requestData['totalAmount'] = $this->totalAmount;
-		}
-
 		$response = $apiClient->post(
-			'applepay/start',
+			'googlepay/start',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'payId' => null,
 				'payload' => null,
-				'totalAmount' => null,
 				'dttm' => null,
 			]),
 			new SignatureDataFormatter([
