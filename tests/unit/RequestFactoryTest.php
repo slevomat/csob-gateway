@@ -329,4 +329,34 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
+	public function testCreateGooglePayInitRequest(): void
+	{
+		$this->requestFactory->createGooglePayInitRequest(
+			'1234567',
+			'127.0.0.1',
+			new Price(1789600, Currency::get(Currency::CZK)),
+			true,
+			'Order from example.com'
+		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateGooglePayStartRequest(): void
+	{
+		$this->requestFactory->createGooglePayStartRequest(
+			'ef08b6e9f22345c',
+			[]
+		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateGooglePayInfoRequest(): void
+	{
+		$this->requestFactory->createGooglePayInfoRequest();
+
+		self::assertTrue(true);
+	}
+
 }

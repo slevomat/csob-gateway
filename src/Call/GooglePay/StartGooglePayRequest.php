@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatCsobGateway\Call\ApplePay;
+namespace SlevomatCsobGateway\Call\GooglePay;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
@@ -18,7 +18,7 @@ use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
 
-class StartApplePayRequest
+class StartGooglePayRequest
 {
 
 	/** @var string */
@@ -30,20 +30,15 @@ class StartApplePayRequest
 	/** @var array|mixed[] */
 	private $payload;
 
-	/** @var int|null */
-	private $totalAmount;
-
 	/**
 	 * @param string $merchantId
 	 * @param string $payId
 	 * @param mixed[] $payload
-	 * @param int|null $totalAmount
 	 */
 	public function __construct(
 		string $merchantId,
 		string $payId,
-		array $payload,
-		?int $totalAmount
+		array $payload
 	)
 	{
 		Validator::checkPayId($payId);
@@ -51,7 +46,6 @@ class StartApplePayRequest
 		$this->merchantId = $merchantId;
 		$this->payId = $payId;
 		$this->payload = $payload;
-		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -67,18 +61,13 @@ class StartApplePayRequest
 			'payload' => base64_encode((string) $payloadData),
 		];
 
-		if ($this->totalAmount !== null) {
-			$requestData['totalAmount'] = $this->totalAmount;
-		}
-
 		$response = $apiClient->post(
-			'applepay/start',
+			'googlepay/start',
 			$requestData,
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'payId' => null,
 				'payload' => null,
-				'totalAmount' => null,
 				'dttm' => null,
 			]),
 			new SignatureDataFormatter([
