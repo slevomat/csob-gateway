@@ -2,11 +2,24 @@
 
 namespace SlevomatCsobGateway;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
+use SlevomatCsobGateway\MallPay\AddressType;
+use SlevomatCsobGateway\MallPay\CancelReason;
+use SlevomatCsobGateway\MallPay\Country;
+use SlevomatCsobGateway\MallPay\Customer;
+use SlevomatCsobGateway\MallPay\LogisticsEvent;
+use SlevomatCsobGateway\MallPay\Order;
+use SlevomatCsobGateway\MallPay\OrderCarrierId;
+use SlevomatCsobGateway\MallPay\OrderDeliveryType;
+use SlevomatCsobGateway\MallPay\OrderItemReference;
+use SlevomatCsobGateway\MallPay\OrderItemType;
+use SlevomatCsobGateway\MallPay\OrderReference;
+use SlevomatCsobGateway\MallPay\Vat;
 
 class RequestFactoryTest extends TestCase
 {
@@ -220,6 +233,98 @@ class RequestFactoryTest extends TestCase
 	public function testCreateOneClickEchoRequest(): void
 	{
 		$this->requestFactory->createOneClickEchoRequest('ef08b6e9f22345c');
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateMallPayCancelRequest(): void
+	{
+		$this->requestFactory->createMallPayCancelRequest('ef08b6e9f22345c', CancelReason::get(CancelReason::ABANDONED));
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateMallPayInitRequest(): void
+	{
+		$customer = new Customer(
+			'John',
+			'Doe',
+			null,
+			null,
+			null,
+			'john@example.com',
+			'+420601123456',
+			null,
+			null
+		);
+		$order = new Order(
+			Currency::get(Currency::CZK),
+			OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER),
+			OrderCarrierId::get(OrderCarrierId::CZ_POST_OFFICE),
+			'123456'
+		);
+		$order->addItem(
+			'123',
+			null,
+			'Thing',
+			OrderItemType::get(OrderItemType::PHYSICAL),
+			2,
+			null,
+			null,
+			null,
+			null,
+			50000,
+			100000,
+			12000,
+			24000,
+			21,
+			null
+		);
+		$order->addAddress(
+			'John Doe',
+			Country::get(Country::CZE),
+			'Praha 8',
+			'Pernerova',
+			'42',
+			'186 00',
+			AddressType::get(AddressType::BILLING)
+		);
+
+		$this->requestFactory->createMallPayInitRequest(
+			'1234567',
+			$customer,
+			$order,
+			false,
+			'127.0.0.1',
+			HttpMethod::get(HttpMethod::GET),
+			'https://www.example.com/return',
+			null,
+			null
+		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateMMallPayLogisticsRequest(): void
+	{
+		$orderReference = new OrderReference(new Price(100000, Currency::get(Currency::CZK)), [new Vat(100000, Currency::get(Currency::CZK), 21)]);
+		$orderReference->addItem('123', null, 'Thing', null, 1);
+		$this->requestFactory->createMallPayLogisticsRequest(
+			'ef08b6e9f22345c',
+			LogisticsEvent::get(LogisticsEvent::SENT),
+			new DateTimeImmutable('2021-01-01'),
+			$orderReference,
+			null,
+			'123456'
+		);
+
+		self::assertTrue(true);
+	}
+
+	public function testCreateMallPayRefundRequest(): void
+	{
+		$orderItemReference = new OrderItemReference('123', null, 'Thing', OrderItemType::get(OrderItemType::DIGITAL), 1);
+		$this->requestFactory->createMallPayRefundRequest('ef08b6e9f22345c', null, [$orderItemReference]);
 
 		self::assertTrue(true);
 	}

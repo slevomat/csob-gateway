@@ -103,6 +103,7 @@ class SignatureDataFormatterTest extends TestCase
 						'loyaltyEnabled' => null,
 						'version' => null,
 						'shippingLocationProfile' => null,
+						'agreeToS' => null,
 					],
 				],
 				[
@@ -120,9 +121,10 @@ class SignatureDataFormatterTest extends TestCase
 						'loyaltyEnabled' => 'false',
 						'version' => 'v6',
 						'shippingLocationProfile' => 'SP-0001',
+						'agreeToS' => true,
 					],
 				],
-				'123|2017|0|OK|1|261666|https:/example.com/|DUMMY|visa,master|true|false|v6|SP-0001',
+				'123|2017|0|OK|1|261666|https:/example.com/|DUMMY|visa,master|true|false|v6|SP-0001|true',
 			],
 		];
 	}

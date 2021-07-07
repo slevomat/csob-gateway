@@ -225,4 +225,14 @@ class ValidatorTest extends TestCase
 		}
 	}
 
+	public function testCheckMallPayTtlSec(): void
+	{
+		Validator::checkMallPayTtlSec(600);
+		try {
+			Validator::checkMallPayTtlSec(5);
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('TTL sec is out of range (600 - 43200). Current value is 5.', $e->getMessage());
+		}
+	}
+
 }
