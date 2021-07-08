@@ -53,19 +53,33 @@ class SignatureDataFormatter
 			}
 
 			if (is_array($values)) {
-				$message = array_merge($message, $this->generateMessage($data[$key], $values));
-			} else {
-				if (is_bool($data[$key])) {
-					$message[] = $data[$key]
-						? 'true'
-						: 'false';
+				if ($values === []) {
+					$listData = (array) $data[$key];
+					foreach ($listData as $value) {
+						$message[] = $this->formatSingleValue($value);
+					}
 				} else {
-					$message[] = $data[$key];
+					$message = array_merge($message, $this->generateMessage($data[$key], $values));
 				}
+			} else {
+				$message[] = $this->formatSingleValue($data[$key]);
 			}
 		}
 
 		return $message;
+	}
+
+	/**
+	 * @param int|bool|string|float|null $value
+	 * @return string
+	 */
+	private function formatSingleValue($value): string
+	{
+		if (is_bool($value)) {
+			return $value ? 'true' : 'false';
+		}
+
+		return (string) $value;
 	}
 
 }
