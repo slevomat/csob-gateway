@@ -126,6 +126,32 @@ class SignatureDataFormatterTest extends TestCase
 				],
 				'123|2017|0|OK|1|261666|https:/example.com/|DUMMY|visa,master|true|false|v6|SP-0001|true',
 			],
+			[
+				[
+					'dttm' => null,
+					'resultCode' => null,
+					'resultMessage' => null,
+					'checkoutParams' => [
+						'apiVersion' => null,
+						'apiVersionMinor' => null,
+						'paymentMethodType' => null,
+						'allowedCardNetworks' => [],
+						'allowedCardAuthMethods' => [],
+					],
+				],
+				[
+					'dttm' => '2017',
+					'resultCode' => 0,
+					'checkoutParams' => [
+						'apiVersion' => 2,
+						'apiVersionMinor' => 1,
+						'paymentMethodType' => 'CARD',
+						'allowedCardNetworks' => ['VISA', 'MASTERCARD'],
+						'allowedCardAuthMethods' => ['PAN_ONLY'],
+					],
+				],
+				'2017|0|2|1|CARD|VISA|MASTERCARD|PAN_ONLY',
+			],
 		];
 	}
 
