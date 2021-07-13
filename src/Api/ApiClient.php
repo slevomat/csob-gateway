@@ -336,6 +336,9 @@ class ApiClient
 		unset($responseData['signature']);
 
 		if (!$this->cryptoService->verifyData($responseData, $signature, $signatureDataFormatter)) {
+			if (isset($responseData['checkoutParams'])) {
+				return $responseData;
+			}
 			throw new InvalidSignatureException($responseData);
 		}
 
