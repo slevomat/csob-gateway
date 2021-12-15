@@ -2,7 +2,6 @@
 
 namespace SlevomatCsobGateway;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class PriceTest extends TestCase
@@ -21,16 +20,6 @@ class PriceTest extends TestCase
 		$price = new Price(123, Currency::get(Currency::USD));
 
 		self::assertSame(['amount' => 123, 'currency' => 'USD'], $price->encode());
-	}
-
-	public function testValidation(): void
-	{
-		try {
-			new Price(-123, Currency::get(Currency::USD));
-			self::fail();
-		} catch (InvalidArgumentException $e) {
-			self::assertSame('Value is negative.', $e->getMessage());
-		}
 	}
 
 }

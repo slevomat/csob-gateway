@@ -33,11 +33,28 @@ class OrderTest extends TestCase
 			20,
 			'https://obchod.cz/produkt/123-345'
 		);
+		$order->addItem(
+			'discount',
+			null,
+			'Sleva',
+			OrderItemType::get(OrderItemType::DISCOUNT),
+			2,
+			null,
+			null,
+			null,
+			null,
+			-50,
+			-100,
+			null,
+			0,
+			0,
+			null
+		);
 		$order->addAddress('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
 
 		$expected = [
 			'totalPrice' => [
-				'amount' => 200,
+				'amount' => 100,
 				'currency' => 'EUR',
 			],
 			'totalVat' => [
@@ -45,6 +62,11 @@ class OrderTest extends TestCase
 					'amount' => 40,
 					'currency' => 'EUR',
 					'vatRate' => 20,
+				],
+				[
+					'amount' => 0,
+					'currency' => 'EUR',
+					'vatRate' => 0,
 				],
 			],
 			'addresses' => [
@@ -88,6 +110,25 @@ class OrderTest extends TestCase
 						'vatRate' => 20,
 					],
 					'productUrl' => 'https://obchod.cz/produkt/123-345',
+				],
+				[
+					'code' => 'discount',
+					'name' => 'Sleva',
+					'totalPrice' => [
+						'amount' => -100,
+						'currency' => 'EUR',
+					],
+					'totalVat' => [
+						'amount' => 0,
+						'currency' => 'EUR',
+						'vatRate' => 0,
+					],
+					'type' => 'DISCOUNT',
+					'quantity' => 2,
+					'unitPrice' => [
+						'amount' => -50,
+						'currency' => 'EUR',
+					],
 				],
 			],
 			'deliveryType' => 'DELIVERY_CARRIER',
