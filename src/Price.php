@@ -16,8 +16,6 @@ class Price
 		Currency $currency
 	)
 	{
-		Validator::checkNumberPositiveOrZero($amount);
-
 		$this->amount = $amount;
 		$this->currency = $currency;
 	}
