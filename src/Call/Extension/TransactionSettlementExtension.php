@@ -14,14 +14,13 @@ class TransactionSettlementExtension implements ResponseExtensionHandler
 
 	/**
 	 * @param mixed[] $data
-	 * @return TransactionSettlementResponse
 	 */
 	public function createResponse(array $data): TransactionSettlementResponse
 	{
 		return new TransactionSettlementResponse(
 			new DateTimeImmutable($data['createdDate']),
 			isset($data['authDate']) ? $this->parseAuthDate($data['authDate']) : null,
-			isset($data['settlementDate']) ? $this->parseSettlementDate($data['settlementDate']) : null
+			isset($data['settlementDate']) ? $this->parseSettlementDate($data['settlementDate']) : null,
 		);
 	}
 

@@ -15,7 +15,7 @@ class OrderItemReferenceTest extends TestCase
 			'345',
 			'Super věc',
 			OrderItemType::get(OrderItemType::PHYSICAL),
-			2
+			2,
 		);
 
 		$expected = [
@@ -37,7 +37,7 @@ class OrderItemReferenceTest extends TestCase
 				'345',
 				'Super věc',
 				OrderItemType::get(OrderItemType::PHYSICAL),
-				2
+				2,
 			);
 
 			self::fail();
@@ -50,7 +50,7 @@ class OrderItemReferenceTest extends TestCase
 				'345',
 				'Super věc',
 				OrderItemType::get(OrderItemType::PHYSICAL),
-				-2
+				-2,
 			);
 			self::fail();
 		} catch (InvalidArgumentException $e) {

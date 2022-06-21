@@ -7,14 +7,13 @@ use PHPUnit\Framework\TestCase;
 class CryptoServiceTest extends TestCase
 {
 
-	/** @var CryptoService */
-	private $cryptoService;
+	private CryptoService $cryptoService;
 
 	protected function setUp(): void
 	{
 		$this->cryptoService = new CryptoService(
 			__DIR__ . '/../../keys/client.key',
-			__DIR__ . '/../../keys/client.pub'
+			__DIR__ . '/../../keys/client.pub',
 		);
 	}
 
@@ -70,9 +69,6 @@ class CryptoServiceTest extends TestCase
 	 * @dataProvider getSignDataData
 	 *
 	 * @param mixed[] $data
-	 * @param string $expectedSignature
-	 * @param bool $valid
-	 * @param SignatureDataFormatter $signatureDataFormatter
 	 */
 	public function testSignData(array $data, string $expectedSignature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{
@@ -89,7 +85,7 @@ class CryptoServiceTest extends TestCase
 	{
 		$cryptoService = new CryptoService(
 			__DIR__ . '/invalid-key.key',
-			__DIR__ . '/invalid-key.key'
+			__DIR__ . '/invalid-key.key',
 		);
 
 		try {
@@ -118,7 +114,7 @@ class CryptoServiceTest extends TestCase
 
 		$cryptoService = new CryptoService(
 			__DIR__ . '/../../keys/client.key',
-			__DIR__ . '/../../keys/bank.pub'
+			__DIR__ . '/../../keys/bank.pub',
 		);
 
 		try {
@@ -143,9 +139,6 @@ class CryptoServiceTest extends TestCase
 	 * @dataProvider getSignDataData
 	 *
 	 * @param mixed[] $data
-	 * @param string $signature
-	 * @param bool $valid
-	 * @param SignatureDataFormatter $signatureDataFormatter
 	 */
 	public function testVerifyData(array $data, string $signature, bool $valid, SignatureDataFormatter $signatureDataFormatter): void
 	{

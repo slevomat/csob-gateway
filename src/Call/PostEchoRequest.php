@@ -9,14 +9,8 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class PostEchoRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	public function __construct(
-		string $merchantId
-	)
+	public function __construct(private string $merchantId)
 	{
-		$this->merchantId = $merchantId;
 	}
 
 	public function send(ApiClient $apiClient): EchoResponse
@@ -34,7 +28,7 @@ class PostEchoRequest
 				'dttm' => null,
 				'resultCode' => null,
 				'resultMessage' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -43,7 +37,7 @@ class PostEchoRequest
 		return new EchoResponse(
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
-			$data['resultMessage']
+			$data['resultMessage'],
 		);
 	}
 

@@ -10,21 +10,9 @@ use SlevomatCsobGateway\Validator;
 class CustomerInfoRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $customerId;
-
-	public function __construct(
-		string $merchantId,
-		string $customerId
-	)
+	public function __construct(private string $merchantId, private string $customerId)
 	{
 		Validator::checkCustomerId($customerId);
-
-		$this->merchantId = $merchantId;
-		$this->customerId = $customerId;
 	}
 
 	public function send(ApiClient $apiClient): CustomerInfoResponse
@@ -45,7 +33,7 @@ class CustomerInfoRequest
 				'dttm' => null,
 				'resultCode' => null,
 				'resultMessage' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -55,7 +43,7 @@ class CustomerInfoRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			$data['customerId'] ?? null
+			$data['customerId'] ?? null,
 		);
 	}
 

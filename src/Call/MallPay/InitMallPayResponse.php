@@ -10,19 +10,8 @@ use SlevomatCsobGateway\Call\ResultCode;
 class InitMallPayResponse extends PaymentResponse
 {
 
-	/** @var string|null */
-	private $mallpayUrl;
-
 	/**
-	 * @param string $payId
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param PaymentStatus|null $paymentStatus
-	 * @param string|null $authCode
-	 * @param string|null $merchantData
 	 * @param mixed[] $extensions
-	 * @param string|null $mallpayUrl
 	 */
 	public function __construct(
 		string $payId,
@@ -33,7 +22,7 @@ class InitMallPayResponse extends PaymentResponse
 		?string $authCode = null,
 		?string $merchantData = null,
 		array $extensions = [],
-		?string $mallpayUrl = null
+		private ?string $mallpayUrl = null,
 	)
 	{
 		parent::__construct(
@@ -44,10 +33,8 @@ class InitMallPayResponse extends PaymentResponse
 			$paymentStatus,
 			$authCode,
 			$merchantData,
-			$extensions
+			$extensions,
 		);
-
-		$this->mallpayUrl = $mallpayUrl;
 	}
 
 	public function getMallpayUrl(): ?string

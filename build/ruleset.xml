@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="SlevomatCsobGateway">
-	<config name="php_version" value="70200"/>
+	<config name="php_version" value="80100"/>
 	<arg name="extensions" value="php"/>
 	<arg name="tab-width" value="4"/>
 	<arg value="s"/>
@@ -27,6 +27,11 @@
 	</rule>
 	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
 	<rule ref="Generic.Formatting.SpaceAfterCast"/>
+	<rule ref="Generic.Formatting.SpaceAfterNot">
+		<properties>
+			<property name="spacing" value="0"/>
+		</properties>
+	</rule>
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
 	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
 	<rule ref="Generic.NamingConventions.ConstructorName"/>
@@ -84,17 +89,51 @@
 	<rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
 	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
 	<rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+	<rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
+	<rule ref="SlevomatCodingStandard.Classes.ClassStructure">
+		<properties>
+			<property name="groups" type="array">
+				<element value="uses"/>
+				<element value="enum cases"/>
+				<element value="public constants, protected constants, private constants"/>
+				<element value="public properties, public static properties, protected properties, protected static properties, private properties, private static properties"/>
+				<element value="constructor"/>
+				<element value="static constructors"/>
+				<element value="destructor"/>
+				<element value="public methods, public final methods, public static final methods, public static methods, protected static methods, private static methods, protected static final methods, private static methods, protected methods, private methods, protected final methods, public abstract methods, protected abstract methods, public static abstract methods, protected static abstract methods"/>
+				<element value="magic methods"/>
+			</property>
+		</properties>
+	</rule>
 	<rule ref="SlevomatCodingStandard.Classes.ConstantSpacing">
 		<properties>
 			<property name="minLinesCountBeforeWithComment" value="0"/>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants" />
+	<rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition"/>
+	<rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition"/>
 	<rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces" />
-	<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference" />
+	<rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
+	<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+	<rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
 	<rule ref="SlevomatCodingStandard.Classes.PropertySpacing">
 		<properties>
-			<property name="minLinesCountBeforeWithComment" value="0"/>
+			<property name="minLinesCountBeforeWithComment" value="1"/>
+			<property name="maxLinesCountBeforeWithComment" value="1"/>
+			<property name="minLinesCountBeforeWithoutComment" value="1"/>
+			<property name="maxLinesCountBeforeWithoutComment" value="1"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
+	<rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature">
+		<properties>
+			<property name="minLineLength" value="181"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.RequireSingleLineMethodSignature">
+		<properties>
+			<property name="maxLineLength" value="80"/>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming" />
@@ -151,6 +190,17 @@
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments" />
+	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments">
+		<properties>
+			<property name="forbiddenCommentPatterns" type="array">
+				<element value="~^(?:(?!private|protected|static)\S+ )?(?:con|de)structor\.\z~i"/>
+				<element value="~^Created by .+\.\z~i"/>
+				<element value="~^(User|Date|Time): \S+\z~i"/>
+				<element value="~^\S+ [gs]etter\.\z~i"/>
+				<element value="~^Class \S+\z~i"/>
+			</property>
+		</properties>
+	</rule>
 	<rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration" />
 	<rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
 	<rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment">
@@ -192,6 +242,7 @@
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullSafeObjectOperator"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator">
 		<properties>
 			<property name="ignoreMultiLine" value="true"/>
@@ -201,6 +252,7 @@
 	<rule ref="SlevomatCodingStandard.ControlStructures.UselessTernaryOperator" />
 	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
 	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly"/>
+	<rule ref="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch"/>
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array" value="
@@ -209,13 +261,32 @@
 			"/>
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInCall">
+		<properties>
+			<property name="onlySingleLine" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInClosureUse">
+		<properties>
+			<property name="onlySingleLine" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInDeclaration">
+		<properties>
+			<property name="onlySingleLine" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.RequireArrowFunction"/>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall" />
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
 	<rule ref="SlevomatCodingStandard.Functions.StaticClosure" />
 	<rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure" />
 	<rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue" />
 	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
 		<properties>
 			<property name="caseSensitive" value="false"/>
-			<property name="psr12Compatible" value="false"/>
+			<property name="psr12Compatible" value="true"/>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
@@ -250,29 +321,37 @@
 	<rule ref="SlevomatCodingStandard.Namespaces.UselessAlias" />
 
 	<rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
+	<rule ref="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPreDecrementOperator"/>
+	<rule ref="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPreIncrementOperator"/>
 	<rule ref="SlevomatCodingStandard.Operators.NegationOperatorSpacing"/>
 	<rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator" />
 	<rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators" />
 	<rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing" />
+	<rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall"/>
 	<rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking" />
-	<rule ref="SlevomatCodingStandard.PHP.ShortList"/>
-	<rule ref="SlevomatCodingStandard.PHP.TypeCast"/>
+	<rule ref="SlevomatCodingStandard.PHP.ReferenceSpacing"/>
+	<rule ref="SlevomatCodingStandard.PHP.RequireNowdoc"/>
+	<rule ref="SlevomatCodingStandard.PHP.ShortList" />
+	<rule ref="SlevomatCodingStandard.PHP.TypeCast" />
 	<rule ref="SlevomatCodingStandard.PHP.UselessParentheses" />
 	<rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
 	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
 		<properties>
 			<property name="declareOnFirstLine" value="true"/>
+			<property name="linesCountAfterDeclare" value="1"/>
 		</properties>
 	</rule>
-	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints" />
 	<rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition" />
 	<rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
 	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
-		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+
 		<exclude-pattern>tests/unit/Api/Driver/CurlMock.php</exclude-pattern>
 		<exclude-pattern>tests/unit/Api/Driver/Curl_exec_false_Mock.php</exclude-pattern>
 		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
 		<properties>
+			<property name="enableMixedTypeHint" value="true"/>
+			<property name="enableUnionTypeHint" value="true"/>
 			<property name="traversableTypeHints" type="array" value="
 				Traversable,
 				Generator,
@@ -280,9 +359,12 @@
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+	<rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
 	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
 		<properties>
-			<property name="enableNativeTypeHint" value="false"/>
+			<property name="enableNativeTypeHint" value="true"/>
+			<property name="enableMixedTypeHint" value="true"/>
+			<property name="enableUnionTypeHint" value="true"/>
 			<property name="traversableTypeHints" type="array" value="
 				Traversable,
 				Generator,
@@ -290,8 +372,10 @@
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
-		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation"/>
 		<properties>
+			<property name="enableNativeTypeHint" value="true"/>
+			<property name="enableMixedTypeHint" value="true"/>
+			<property name="enableUnionTypeHint" value="true"/>
 			<property name="traversableTypeHints" type="array" value="
 				Traversable,
 				Generator,
@@ -305,7 +389,15 @@
 		<exclude-pattern>tests/</exclude-pattern><!-- it's useless to add "@return mixed[]" to all data providers -->
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+		<properties>
+			<property name="withSpaces" value="false"/>
+			<property name="shortNullable" value="true"/>
+			<property name="nullPosition" value="last"/>
+		</properties>
+	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint" />
+	<rule ref="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable"/>
 	<rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable" />
 	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
 		<properties>
@@ -339,38 +431,6 @@
 		<exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar"/><!-- space needed for indented annotations -->
 	</rule>
 	<rule ref="Squiz.Commenting.EmptyCatchComment"/>
-	<rule ref="Squiz.Commenting.FunctionComment">
-		<exclude-pattern>tests/</exclude-pattern><!-- @dataProvider etc. annotations trigger comments check -->
-		<exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/><!-- @throws are forbidden -->
-		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/><!-- requires long boolean and integer parameters -->
-		<exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/><!-- collection syntax such as string[] is not supported -->
-		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturn"/><!-- enforces incorrect types -->
-		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturnNotVoid"/><!-- is not able to detect return types such as string|null as correct -->
-		<exclude name="Squiz.Commenting.FunctionComment.InvalidThrows"/><!-- @throws are forbidden -->
-		<exclude name="Squiz.Commenting.FunctionComment.Missing"/><!-- PHPDoc is not required on all methods -->
-		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/><!-- comments are not required for @param -->
-		<exclude name="Squiz.Commenting.FunctionComment.MissingReturn"/><!-- void type is not used -->
-		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/><!-- comments don't have to be sentences -->
-		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital"/><!-- comments don't have to be sentences -->
-		<exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/><!-- works only for code requiring PHP 7 code or better -->
-		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/><!-- we don't want spacing with alignment -->
-		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/><!-- we don't want spacing with alignment -->
-		<exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop"/><!-- @throws are forbidden -->
-		<exclude name="Squiz.Commenting.FunctionComment.ThrowsNotCapital"/><!-- @throws are forbidden -->
-		<exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/><!-- doesn't work with self as typehint -->
-	</rule>
-	<rule ref="Squiz.Commenting.FunctionComment.DuplicateReturn">
-		<message>Only 1 @return annotation is allowed in a function comment</message>
-	</rule>
-	<rule ref="Squiz.Commenting.FunctionComment.ExtraParamComment">
-		<message>Extra @param annotation</message>
-	</rule>
-	<rule ref="Squiz.Commenting.FunctionComment.InvalidNoReturn">
-		<message>Function has no return statement, but annotation @return is present</message>
-	</rule>
-	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
-		<message>@param annotation for parameter "%s" missing</message>
-	</rule>
 	<rule ref="Squiz.ControlStructures.ControlSignature"/>
 	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
@@ -390,10 +450,20 @@
 	<rule ref="Squiz.Functions.MultiLineFunctionDeclaration">
 		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace"/><!-- clashes with OpeningFunctionBraceBsdAllman -->
 	</rule>
+	<rule ref="Squiz.NamingConventions.ValidVariableName">
+		<exclude name="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
+	</rule>
 	<rule ref="Squiz.Operators.IncrementDecrementUsage">
 		<exclude name="Squiz.Operators.IncrementDecrementUsage.NoBrackets"/><!-- afaik there is no need for brackets -->
 	</rule>
 	<rule ref="Squiz.Operators.ValidLogicalOperators"/>
+	<rule ref="Squiz.PHP.CommentedOutCode">
+		<type>error</type>
+		<properties>
+			<property name="maxPercentage" value="50"/>
+		</properties>
+	</rule>
 	<rule ref="Squiz.PHP.GlobalKeyword"/>
 	<rule ref="Squiz.PHP.Heredoc"/>
 	<rule ref="Squiz.PHP.InnerFunctions"/>
@@ -421,8 +491,8 @@
 			<property name="spacing" value="1"/>
 		</properties>
 	</rule>
+	<rule ref="Squiz.WhiteSpace.FunctionSpacing.After"/>
 	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
-	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 	<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
 		<properties>
 			<property name="ignoreNewlines" value="true"/>

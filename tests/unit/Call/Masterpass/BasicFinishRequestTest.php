@@ -37,7 +37,7 @@ class BasicFinishRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 2,
-				])
+				]),
 			);
 
 		$paymentRequest = new BasicFinishRequest(
@@ -48,7 +48,7 @@ class BasicFinishRequestTest extends TestCase
 				'oauthToken' => '6a79bf9e320a0460d08aee7ad154f7dab4e19503',
 				'checkoutResourceUrl' => 'https://sandbox.api.mastercard.com/masterpass/v6/checkout/616764812',
 				'oauthVerifier' => 'fc8f41bb76ed7d43ea6d714cb8fdefa606611a7d',
-			]
+			],
 		);
 
 		$checkoutResponse = $paymentRequest->send($apiClient);

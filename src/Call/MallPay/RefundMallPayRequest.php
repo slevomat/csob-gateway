@@ -16,29 +16,14 @@ use function array_map;
 class RefundMallPayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var int|null */
-	private $amount;
-
-	/** @var OrderItemReference[] */
-	private $refundedItems;
-
 	/**
-	 * @param string $merchantId
-	 * @param string $payId
-	 * @param int|null $amount
 	 * @param OrderItemReference[] $refundedItems
 	 */
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		?int $amount,
-		array $refundedItems
+		private string $merchantId,
+		private string $payId,
+		private ?int $amount,
+		private array $refundedItems,
 	)
 	{
 		if ($amount !== null) {
@@ -47,11 +32,6 @@ class RefundMallPayRequest
 		if ($this->refundedItems === []) {
 			throw new InvalidArgumentException('Refund has no items.');
 		}
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->amount = $amount;
-		$this->refundedItems = $refundedItems;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -59,9 +39,7 @@ class RefundMallPayRequest
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
-			'refundedItems' => array_map(static function (OrderItemReference $item): array {
-				return $item->encode();
-			}, $this->refundedItems),
+			'refundedItems' => array_map(static fn (OrderItemReference $item): array => $item->encode(), $this->refundedItems),
 		];
 
 		if ($this->amount !== null) {
@@ -92,7 +70,7 @@ class RefundMallPayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -104,7 +82,7 @@ class RefundMallPayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

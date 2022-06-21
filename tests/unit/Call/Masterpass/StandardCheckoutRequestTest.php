@@ -43,14 +43,14 @@ class StandardCheckoutRequestTest extends TestCase
 						'version' => 'v6',
 						'shippingLocationProfile' => 'SP-0001',
 					],
-				])
+				]),
 			);
 
 		$paymentRequest = new StandardCheckoutRequest(
 			'012345',
 			'123456789',
 			'https://www.vasobchod.cz/masterpass/callback',
-			'SP-0001'
+			'SP-0001',
 		);
 
 		$checkoutResponse = $paymentRequest->send($apiClient);

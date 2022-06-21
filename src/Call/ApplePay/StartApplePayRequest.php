@@ -10,48 +10,28 @@ use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
-use const JSON_ERROR_NONE;
-use const JSON_UNESCAPED_SLASHES;
-use const JSON_UNESCAPED_UNICODE;
 use function base64_encode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
+use const JSON_ERROR_NONE;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 class StartApplePayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var array|mixed[] */
-	private $payload;
-
-	/** @var int|null */
-	private $totalAmount;
-
 	/**
-	 * @param string $merchantId
-	 * @param string $payId
 	 * @param mixed[] $payload
-	 * @param int|null $totalAmount
 	 */
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		array $payload,
-		?int $totalAmount
+		private string $merchantId,
+		private string $payId,
+		private array $payload,
+		private ?int $totalAmount = null,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->payload = $payload;
-		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -87,7 +67,7 @@ class StartApplePayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -99,7 +79,7 @@ class StartApplePayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

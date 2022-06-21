@@ -7,27 +7,12 @@ use SlevomatCsobGateway\Validator;
 class OrderItemReference
 {
 
-	/** @var string */
-	private $code;
-
-	/** @var string|null */
-	private $ean;
-
-	/** @var string */
-	private $name;
-
-	/** @var OrderItemType|null */
-	private $type;
-
-	/** @var int|null */
-	private $quantity;
-
 	public function __construct(
-		string $code,
-		?string $ean,
-		string $name,
-		?OrderItemType $type,
-		?int $quantity
+		private string $code,
+		private ?string $ean,
+		private string $name,
+		private ?OrderItemType $type = null,
+		private ?int $quantity = null,
 	)
 	{
 		Validator::checkWhitespacesAndLength($code, OrderItem::CODE_VARIANT_PRODUCER_LENGTH_MAX);
@@ -38,12 +23,6 @@ class OrderItemReference
 		if ($quantity !== null) {
 			Validator::checkNumberPositive($quantity);
 		}
-
-		$this->code = $code;
-		$this->ean = $ean;
-		$this->name = $name;
-		$this->type = $type;
-		$this->quantity = $quantity;
 	}
 
 	/**

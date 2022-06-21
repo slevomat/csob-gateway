@@ -18,67 +18,22 @@ use function sprintf;
 class InitPaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var PayOperation */
-	private $payOperation;
-
-	/** @var PayMethod */
-	private $payMethod;
-
-	/** @var bool */
-	private $closePayment;
-
-	/** @var string */
-	private $returnUrl;
-
-	/** @var HttpMethod */
-	private $returnMethod;
-
-	/** @var Cart */
-	private $cart;
-
-	/** @var string|null */
-	private $merchantData;
-
-	/** @var string|null */
-	private $customerId;
-
-	/** @var Language */
-	private $language;
-
-	/** @var int|null */
-	private $ttlSec;
-
-	/** @var int|null */
-	private $logoVersion;
-
-	/** @var int|null */
-	private $colorSchemeVersion;
-
-	/** @var DateTimeImmutable|null */
-	private $customExpiry;
-
 	public function __construct(
-		string $merchantId,
-		string $orderId,
-		PayOperation $payOperation,
-		PayMethod $payMethod,
-		bool $closePayment,
-		string $returnUrl,
-		HttpMethod $returnMethod,
-		Cart $cart,
-		?string $merchantData,
-		?string $customerId,
-		Language $language,
-		?int $ttlSec = null,
-		?int $logoVersion = null,
-		?int $colorSchemeVersion = null,
-		?DateTimeImmutable $customExpiry = null
+		private string $merchantId,
+		private string $orderId,
+		private PayOperation $payOperation,
+		private PayMethod $payMethod,
+		private bool $closePayment,
+		private string $returnUrl,
+		private HttpMethod $returnMethod,
+		private Cart $cart,
+		private ?string $merchantData,
+		private ?string $customerId,
+		private Language $language,
+		private ?int $ttlSec = null,
+		private ?int $logoVersion = null,
+		private ?int $colorSchemeVersion = null,
+		private ?DateTimeImmutable $customExpiry = null,
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -96,22 +51,6 @@ class InitPaymentRequest
 		if ($payOperation->equals(PayOperation::get(PayOperation::CUSTOM_PAYMENT)) && $customExpiry === null) {
 			throw new InvalidArgumentException(sprintf('Custom expiry parameter is required for custom payment.'));
 		}
-
-		$this->merchantId = $merchantId;
-		$this->orderId = $orderId;
-		$this->payOperation = $payOperation;
-		$this->payMethod = $payMethod;
-		$this->closePayment = $closePayment;
-		$this->returnUrl = $returnUrl;
-		$this->returnMethod = $returnMethod;
-		$this->cart = $cart;
-		$this->merchantData = $merchantData;
-		$this->customerId = $customerId;
-		$this->language = $language;
-		$this->ttlSec = $ttlSec;
-		$this->logoVersion = $logoVersion;
-		$this->colorSchemeVersion = $colorSchemeVersion;
-		$this->customExpiry = $customExpiry;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -206,7 +145,7 @@ class InitPaymentRequest
 				'paymentStatus' => null,
 				'authCode' => null,
 				'customerCode' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -220,7 +159,7 @@ class InitPaymentRequest
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
 			null,
-			$data['customerCode'] ?? null
+			$data['customerCode'] ?? null,
 		);
 	}
 

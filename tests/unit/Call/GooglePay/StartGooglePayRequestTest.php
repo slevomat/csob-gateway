@@ -32,13 +32,13 @@ class StartGooglePayRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 2,
-				])
+				]),
 			);
 
 		$startGooglePayRequest = new StartGooglePayRequest(
 			'012345',
 			'ef08b6e9f22345c',
-			['paymentMethodData' => ['tokenizationData' => ['token' => 'foo']]]
+			['paymentMethodData' => ['tokenizationData' => ['token' => 'foo']]],
 		);
 
 		$paymentResponse = $startGooglePayRequest->send($apiClient);

@@ -12,31 +12,16 @@ use SlevomatCsobGateway\Validator;
 class StandardExtractRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var mixed[] */
-	private $callbackParams;
-
 	/**
-	 * @param string $merchantId
-	 * @param string $payId
 	 * @param mixed[] $callbackParams
 	 */
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		array $callbackParams
+		private string $merchantId,
+		private string $payId,
+		private array $callbackParams,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->callbackParams = $callbackParams;
 	}
 
 	public function send(ApiClient $apiClient): ExtractResponse
@@ -107,7 +92,7 @@ class StandardExtractRequest
 						'expiration' => null,
 					],
 				],
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -119,7 +104,7 @@ class StandardExtractRequest
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['checkoutParams'] ?? null
+			$data['checkoutParams'] ?? null,
 		);
 	}
 

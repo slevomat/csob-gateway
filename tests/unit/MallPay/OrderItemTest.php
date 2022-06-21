@@ -26,7 +26,7 @@ class OrderItemTest extends TestCase
 			new Vat(20, Currency::get(Currency::EUR), 20),
 			new Price(200, Currency::get(Currency::EUR)),
 			new Vat(40, Currency::get(Currency::EUR), 20),
-			'https://obchod.cz/produkt/123-345'
+			'https://obchod.cz/produkt/123-345',
 		);
 
 		$expected = [
@@ -80,7 +80,7 @@ class OrderItemTest extends TestCase
 				new Vat(20, Currency::get(Currency::EUR), 20),
 				new Price(200, Currency::get(Currency::EUR)),
 				new Vat(40, Currency::get(Currency::EUR), 20),
-				'https://obchod.cz/produkt/123-345'
+				'https://obchod.cz/produkt/123-345',
 			);
 
 			self::fail();
@@ -102,7 +102,7 @@ class OrderItemTest extends TestCase
 				new Vat(20, Currency::get(Currency::EUR), 20),
 				new Price(200, Currency::get(Currency::EUR)),
 				new Vat(40, Currency::get(Currency::EUR), 20),
-				'https://obchod.cz/produkt/123-345'
+				'https://obchod.cz/produkt/123-345',
 			);
 			self::fail();
 		} catch (InvalidArgumentException $e) {
@@ -123,7 +123,7 @@ class OrderItemTest extends TestCase
 				new Vat(20, Currency::get(Currency::EUR), 20),
 				new Price(200, Currency::get(Currency::EUR)),
 				new Vat(40, Currency::get(Currency::EUR), 20),
-				'https://obc hod.cz/produkt/123-345'
+				'https://obc hod.cz/produkt/123-345',
 			);
 			self::fail();
 		} catch (InvalidArgumentException $e) {

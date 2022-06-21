@@ -14,7 +14,7 @@ class OrderTest extends TestCase
 			Currency::get(Currency::EUR),
 			OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER),
 			OrderCarrierId::get(OrderCarrierId::TNT),
-			null
+			null,
 		);
 		$order->addItem(
 			'123',
@@ -31,7 +31,7 @@ class OrderTest extends TestCase
 			20,
 			40,
 			20,
-			'https://obchod.cz/produkt/123-345'
+			'https://obchod.cz/produkt/123-345',
 		);
 		$order->addItem(
 			'discount',
@@ -48,7 +48,7 @@ class OrderTest extends TestCase
 			null,
 			0,
 			0,
-			null
+			null,
 		);
 		$order->addAddress('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
 

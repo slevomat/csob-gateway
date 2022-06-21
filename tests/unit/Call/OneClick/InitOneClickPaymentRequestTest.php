@@ -40,7 +40,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
-				])
+				]),
 			);
 
 		$initPaymentRequest = new InitOneClickPaymentRequest(
@@ -50,7 +50,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
-			'some-base64-encoded-merchant-data'
+			'some-base64-encoded-merchant-data',
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

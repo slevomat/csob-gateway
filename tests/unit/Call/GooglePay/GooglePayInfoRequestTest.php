@@ -28,7 +28,7 @@ class GooglePayInfoRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'checkoutParams' => ['foo' => 'bar'],
-				])
+				]),
 			);
 
 		$googlePayInfoRequest = new GooglePayInfoRequest('012345');

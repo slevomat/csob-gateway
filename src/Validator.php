@@ -3,8 +3,6 @@
 namespace SlevomatCsobGateway;
 
 use InvalidArgumentException;
-use const FILTER_VALIDATE_EMAIL;
-use const FILTER_VALIDATE_URL;
 use function base64_encode;
 use function ctype_digit;
 use function filter_var;
@@ -13,6 +11,8 @@ use function preg_replace;
 use function sprintf;
 use function strlen;
 use function utf8_decode;
+use const FILTER_VALIDATE_EMAIL;
+use const FILTER_VALIDATE_URL;
 
 class Validator
 {
@@ -56,7 +56,7 @@ class Validator
 		if ($quantity < 1) {
 			throw new InvalidArgumentException(sprintf(
 				'Quantity must be greater than 0. %d given.',
-				$quantity
+				$quantity,
 			));
 		}
 	}
@@ -68,7 +68,7 @@ class Validator
 		if (!ctype_digit($orderId)) {
 			throw new InvalidArgumentException(sprintf(
 				'OrderId must be numeric value. %s given.',
-				$orderId
+				$orderId,
 			));
 		}
 

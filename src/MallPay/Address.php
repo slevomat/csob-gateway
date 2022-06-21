@@ -13,35 +13,14 @@ class Address
 	public const STREET_NUMBER_LENGTH_MAX = 25;
 	public const ZIP_LENGTH_MAX = 10;
 
-	/** @var string|null */
-	private $name;
-
-	/** @var Country */
-	private $country;
-
-	/** @var string */
-	private $city;
-
-	/** @var string */
-	private $streetAddress;
-
-	/** @var string|null */
-	private $streetNumber;
-
-	/** @var string */
-	private $zip;
-
-	/** @var AddressType */
-	private $addressType;
-
 	public function __construct(
-		?string $name,
-		Country $country,
-		string $city,
-		string $streetAddress,
-		?string $streetNumber,
-		string $zip,
-		AddressType $addressType
+		private ?string $name,
+		private Country $country,
+		private string $city,
+		private string $streetAddress,
+		private ?string $streetNumber,
+		private string $zip,
+		private AddressType $addressType,
 	)
 	{
 		Validator::checkWhitespacesAndLength($city, self::CITY_LENGTH_MAX);
@@ -53,14 +32,6 @@ class Address
 		if ($streetNumber !== null) {
 			Validator::checkWhitespacesAndLength($streetNumber, self::STREET_NUMBER_LENGTH_MAX);
 		}
-
-		$this->name = $name;
-		$this->country = $country;
-		$this->city = $city;
-		$this->streetAddress = $streetAddress;
-		$this->streetNumber = $streetNumber;
-		$this->zip = $zip;
-		$this->addressType = $addressType;
 	}
 
 	/**

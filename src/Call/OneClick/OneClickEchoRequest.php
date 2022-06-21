@@ -11,16 +11,8 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class OneClickEchoRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $origPayId;
-
-	public function __construct(string $merchantId, string $origPayId)
+	public function __construct(private string $merchantId, private string $origPayId)
 	{
-		$this->merchantId = $merchantId;
-		$this->origPayId = $origPayId;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -43,7 +35,7 @@ class OneClickEchoRequest
 				'dttm' => null,
 				'resultCode' => null,
 				'resultMessage' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -54,7 +46,7 @@ class OneClickEchoRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			null
+			null,
 		);
 	}
 

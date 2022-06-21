@@ -10,26 +10,13 @@ use SlevomatCsobGateway\Validator;
 class ClosePaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var int|null */
-	private $totalAmount;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		?int $totalAmount = null
+		private string $merchantId,
+		private string $payId,
+		private ?int $totalAmount = null,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -59,7 +46,7 @@ class ClosePaymentRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -71,7 +58,7 @@ class ClosePaymentRequest
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			$data['authCode'] ?? null,
 		);
 	}
 

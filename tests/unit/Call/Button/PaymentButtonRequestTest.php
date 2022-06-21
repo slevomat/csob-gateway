@@ -46,7 +46,7 @@ class PaymentButtonRequestTest extends TestCase
 						'method' => 'GET',
 						'url' => 'https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob',
 					],
-				])
+				]),
 			);
 
 		$paymentRequest = new PaymentButtonRequest(
@@ -58,7 +58,7 @@ class PaymentButtonRequestTest extends TestCase
 			HttpMethod::get(HttpMethod::GET),
 			PaymentButtonBrand::get(PaymentButtonBrand::CSOB),
 			null,
-			Language::get(Language::EN)
+			Language::get(Language::EN),
 		);
 
 		$paymentButtonResponse = $paymentRequest->send($apiClient);

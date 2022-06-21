@@ -13,24 +13,12 @@ use SlevomatCsobGateway\MallPay\CancelReason;
 class CancelMallPayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var CancelReason */
-	private $reason;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		CancelReason $reason
+		private string $merchantId,
+		private string $payId,
+		private CancelReason $reason,
 	)
 	{
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->reason = $reason;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -56,7 +44,7 @@ class CancelMallPayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -68,7 +56,7 @@ class CancelMallPayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

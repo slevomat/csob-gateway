@@ -24,8 +24,7 @@ use SlevomatCsobGateway\MallPay\Vat;
 class RequestFactoryTest extends TestCase
 {
 
-	/** @var RequestFactory */
-	private $requestFactory;
+	private RequestFactory $requestFactory;
 
 	protected function setUp(): void
 	{
@@ -35,7 +34,7 @@ class RequestFactoryTest extends TestCase
 	public function testCreateInitPayment(): void
 	{
 		$cart = new Cart(
-			Currency::get(Currency::CZK)
+			Currency::get(Currency::CZK),
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
@@ -53,7 +52,7 @@ class RequestFactoryTest extends TestCase
 			Language::get(Language::CZ),
 			1800,
 			1,
-			1
+			1,
 		);
 
 		self::assertTrue(true);
@@ -130,7 +129,7 @@ class RequestFactoryTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
-			'some-base64-encoded-merchant-data'
+			'some-base64-encoded-merchant-data',
 		);
 
 		self::assertTrue(true);
@@ -200,7 +199,7 @@ class RequestFactoryTest extends TestCase
 			HttpMethod::get(HttpMethod::GET),
 			PaymentButtonBrand::get(PaymentButtonBrand::ERA),
 			null,
-			Language::get(Language::EN)
+			Language::get(Language::EN),
 		);
 
 		self::assertTrue(true);
@@ -214,7 +213,7 @@ class RequestFactoryTest extends TestCase
 			new Price(1789600, Currency::get(Currency::CZK)),
 			true,
 			'Order from example.com',
-			null
+			null,
 		);
 
 		self::assertTrue(true);
@@ -224,7 +223,7 @@ class RequestFactoryTest extends TestCase
 	{
 		$this->requestFactory->createApplePayStartRequest(
 			'ef08b6e9f22345c',
-			[]
+			[],
 		);
 
 		self::assertTrue(true);
@@ -255,13 +254,13 @@ class RequestFactoryTest extends TestCase
 			'john@example.com',
 			'+420601123456',
 			null,
-			null
+			null,
 		);
 		$order = new Order(
 			Currency::get(Currency::CZK),
 			OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER),
 			OrderCarrierId::get(OrderCarrierId::CZ_POST_OFFICE),
-			'123456'
+			'123456',
 		);
 		$order->addItem(
 			'123',
@@ -278,7 +277,7 @@ class RequestFactoryTest extends TestCase
 			12000,
 			24000,
 			21,
-			null
+			null,
 		);
 		$order->addAddress(
 			'John Doe',
@@ -287,7 +286,7 @@ class RequestFactoryTest extends TestCase
 			'Pernerova',
 			'42',
 			'186 00',
-			AddressType::get(AddressType::BILLING)
+			AddressType::get(AddressType::BILLING),
 		);
 
 		$this->requestFactory->createMallPayInitRequest(
@@ -299,7 +298,7 @@ class RequestFactoryTest extends TestCase
 			HttpMethod::get(HttpMethod::GET),
 			'https://www.example.com/return',
 			null,
-			null
+			null,
 		);
 
 		self::assertTrue(true);
@@ -315,7 +314,7 @@ class RequestFactoryTest extends TestCase
 			new DateTimeImmutable('2021-01-01'),
 			$orderReference,
 			null,
-			'123456'
+			'123456',
 		);
 
 		self::assertTrue(true);
@@ -336,7 +335,7 @@ class RequestFactoryTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			true,
-			'Order from example.com'
+			'Order from example.com',
 		);
 
 		self::assertTrue(true);
@@ -346,7 +345,7 @@ class RequestFactoryTest extends TestCase
 	{
 		$this->requestFactory->createGooglePayStartRequest(
 			'ef08b6e9f22345c',
-			[]
+			[],
 		);
 
 		self::assertTrue(true);

@@ -24,26 +24,16 @@ use function urlencode;
 class ApiClient
 {
 
-	/** @var ApiClientDriver */
-	private $driver;
+	private ?LoggerInterface $logger = null;
 
-	/** @var CryptoService */
-	private $cryptoService;
-
-	/** @var LoggerInterface|null */
-	private $logger;
-
-	/** @var string|null */
-	private $apiUrl;
+	private ?string $apiUrl = null;
 
 	public function __construct(
-		ApiClientDriver $driver,
-		CryptoService $cryptoService,
-		string $apiUrl
+		private ApiClientDriver $driver,
+		private CryptoService $cryptoService,
+		string $apiUrl,
 	)
 	{
-		$this->driver = $driver;
-		$this->cryptoService = $cryptoService;
 		$this->apiUrl = $apiUrl;
 	}
 
@@ -53,13 +43,8 @@ class ApiClient
 	}
 
 	/**
-	 * @param string $url
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $requestSignatureDataFormatter
-	 * @param SignatureDataFormatter $responseSignatureDataFormatter
-	 * @param Closure|null $responseValidityCallback
 	 * @param ResponseExtensionHandler[] $extensions
-	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -75,7 +60,7 @@ class ApiClient
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
 		?Closure $responseValidityCallback = null,
-		array $extensions = []
+		array $extensions = [],
 	): Response
 	{
 		return $this->request(
@@ -85,17 +70,13 @@ class ApiClient
 			null,
 			$responseSignatureDataFormatter,
 			$responseValidityCallback,
-			$extensions
+			$extensions,
 		);
 	}
 
 	/**
-	 * @param string $url
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $requestSignatureDataFormatter
-	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
-	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -110,7 +91,7 @@ class ApiClient
 		array $data,
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		array $extensions = []
+		array $extensions = [],
 	): Response
 	{
 		return $this->request(
@@ -120,17 +101,13 @@ class ApiClient
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			$responseSignatureDataFormatter,
 			null,
-			$extensions
+			$extensions,
 		);
 	}
 
 	/**
-	 * @param string $url
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $requestSignatureDataFormatter
-	 * @param SignatureDataFormatter $responseSignatureDataFormatter
 	 * @param ResponseExtensionHandler[] $extensions
-	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -145,7 +122,7 @@ class ApiClient
 		array $data,
 		SignatureDataFormatter $requestSignatureDataFormatter,
 		SignatureDataFormatter $responseSignatureDataFormatter,
-		array $extensions = []
+		array $extensions = [],
 	): Response
 	{
 		return $this->request(
@@ -155,19 +132,14 @@ class ApiClient
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			$responseSignatureDataFormatter,
 			null,
-			$extensions
+			$extensions,
 		);
 	}
 
 	/**
-	 * @param HttpMethod $method
-	 * @param string $url
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $data
-	 * @param SignatureDataFormatter $responseSignatureDataFormatter
-	 * @param Closure|null $responseValidityCallback
 	 * @param ResponseExtensionHandler[] $extensions
-	 * @return Response
 	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -184,7 +156,7 @@ class ApiClient
 		?array $data,
 		SignatureDataFormatter $responseSignatureDataFormatter,
 		?Closure $responseValidityCallback,
-		array $extensions = []
+		array $extensions = [],
 	): Response
 	{
 		$urlFirstQueryPosition = strpos($url, '{');
@@ -209,7 +181,7 @@ class ApiClient
 		$response = $this->driver->request(
 			$method,
 			$this->apiUrl . '/' . $url,
-			$data
+			$data,
 		);
 
 		$this->logRequest($method, $endpointName, $originalQueries, $data, $response, microtime(true) - $requestStartTime);
@@ -240,7 +212,7 @@ class ApiClient
 				$response->getResponseCode(),
 				$responseData,
 				$response->getHeaders(),
-				$decodedExtensions
+				$decodedExtensions,
 			);
 
 		}
@@ -248,7 +220,7 @@ class ApiClient
 			return new Response(
 				$response->getResponseCode(),
 				null,
-				$response->getHeaders()
+				$response->getHeaders(),
 			);
 
 		}
@@ -276,8 +248,6 @@ class ApiClient
 
 	/**
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $responseSignatureDataFormatter
-	 * @return Response
 	 *
 	 * @throws InvalidSignatureException
 	 * @throws PrivateKeyFileException
@@ -289,7 +259,7 @@ class ApiClient
 	{
 		$response = new Response(
 			ResponseCode::get(ResponseCode::S200_OK),
-			$data
+			$data,
 		);
 
 		$this->logRequest(HttpMethod::get(HttpMethod::GET), 'payment/response', [], [], $response, 0.0);
@@ -297,13 +267,12 @@ class ApiClient
 		return new Response(
 			$response->getResponseCode(),
 			$this->decodeData($data, $responseSignatureDataFormatter),
-			$response->getHeaders()
+			$response->getHeaders(),
 		);
 	}
 
 	/**
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $signatureDataFormatter
 	 * @return mixed[]
 	 *
 	 * @throws PrivateKeyFileException
@@ -319,7 +288,6 @@ class ApiClient
 
 	/**
 	 * @param mixed[] $responseData
-	 * @param SignatureDataFormatter $signatureDataFormatter
 	 * @return mixed[]
 	 *
 	 * @throws InvalidSignatureException
@@ -343,12 +311,8 @@ class ApiClient
 	}
 
 	/**
-	 * @param HttpMethod $method
-	 * @param string $url
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $requestData
-	 * @param Response $response
-	 * @param float $responseTime
 	 */
 	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response, float $responseTime): void
 	{

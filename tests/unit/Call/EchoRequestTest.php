@@ -26,11 +26,11 @@ class EchoRequestTest extends TestCase
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
-				])
+				]),
 			);
 
 		$echoRequest = new EchoRequest(
-			'012345'
+			'012345',
 		);
 
 		$echoResponse = $echoRequest->send($apiClient);

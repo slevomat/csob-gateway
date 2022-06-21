@@ -2,41 +2,30 @@
 
 namespace SlevomatCsobGateway\Crypto;
 
-use const OPENSSL_ALGO_SHA256;
-use const PHP_VERSION_ID;
 use function base64_decode;
 use function base64_encode;
 use function file_get_contents;
+use const OPENSSL_ALGO_SHA256;
+use const PHP_VERSION_ID;
 
 class CryptoService
 {
 
 	public const HASH_METHOD = OPENSSL_ALGO_SHA256;
 
-	/** @var string */
-	private $privateKeyFile;
-
-	/** @var string */
-	private $bankPublicKeyFile;
-
-	/** @var string|null */
-	private $privateKeyPassword;
+	private ?string $privateKeyPassword = null;
 
 	public function __construct(
-		string $privateKeyFile,
-		string $bankPublicKeyFile,
-		string $privateKeyPassword = ''
+		private string $privateKeyFile,
+		private string $bankPublicKeyFile,
+		string $privateKeyPassword = '',
 	)
 	{
-		$this->privateKeyFile = $privateKeyFile;
-		$this->bankPublicKeyFile = $bankPublicKeyFile;
 		$this->privateKeyPassword = $privateKeyPassword;
 	}
 
 	/**
 	 * @param mixed[] $data
-	 * @param SignatureDataFormatter $signatureDataFormatter
-	 * @return string
 	 *
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
@@ -68,9 +57,6 @@ class CryptoService
 
 	/**
 	 * @param mixed[] $data
-	 * @param string $signature
-	 * @param SignatureDataFormatter $signatureDataFormatter
-	 * @return bool
 	 *
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException

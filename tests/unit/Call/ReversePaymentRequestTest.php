@@ -29,12 +29,12 @@ class ReversePaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 5,
-				])
+				]),
 			);
 
 		$reversePaymentRequest = new ReversePaymentRequest(
 			'012345',
-			'123456789'
+			'123456789',
 		);
 
 		$paymentResponse = $reversePaymentRequest->send($apiClient);

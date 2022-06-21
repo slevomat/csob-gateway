@@ -7,6 +7,11 @@ use SlevomatCsobGateway\Api\ApiClientDriver;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
+use function explode;
+use function json_decode;
+use function json_encode;
+use function substr;
+use function trim;
 use const CURLINFO_HEADER_SIZE;
 use const CURLINFO_HTTP_CODE;
 use const CURLOPT_COOKIESESSION;
@@ -19,24 +24,15 @@ use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_SSL_VERIFYPEER;
 use const CURLOPT_TIMEOUT;
 use const PHP_VERSION_ID;
-use function explode;
-use function json_decode;
-use function json_encode;
-use function substr;
-use function trim;
 
 class CurlDriver implements ApiClientDriver
 {
 
-	/** @var int */
-	private $timeout = 20;
+	private int $timeout = 20;
 
 	/**
-	 * @param HttpMethod $method
-	 * @param string $url
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
-	 * @return Response
 	 *
 	 * @throws CurlDriverException
 	 */
@@ -80,12 +76,11 @@ class CurlDriver implements ApiClientDriver
 		return new Response(
 			$responseCode,
 			json_decode($body, true),
-			$this->parseHeaders($headers)
+			$this->parseHeaders($headers),
 		);
 	}
 
 	/**
-	 * @param string $rawHeaders
 	 * @return string[]
 	 */
 	private function parseHeaders(string $rawHeaders): array

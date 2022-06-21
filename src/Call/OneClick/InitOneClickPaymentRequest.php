@@ -15,35 +15,14 @@ use function base64_encode;
 class InitOneClickPaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $origPayId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var Price|null */
-	private $price;
-
-	/** @var string|null */
-	private $description;
-
-	/** @var string */
-	private $clientIp;
-
-	/** @var string|null */
-	private $merchantData;
-
 	public function __construct(
-		string $merchantId,
-		string $origPayId,
-		string $orderId,
-		string $clientIp,
-		?Price $price = null,
-		?string $description = null,
-		?string $merchantData = null
+		private string $merchantId,
+		private string $origPayId,
+		private string $orderId,
+		private string $clientIp,
+		private ?Price $price = null,
+		private ?string $description = null,
+		private ?string $merchantData = null,
 	)
 	{
 		Validator::checkPayId($origPayId);
@@ -54,14 +33,6 @@ class InitOneClickPaymentRequest
 		if ($merchantData !== null) {
 			Validator::checkMerchantData($merchantData);
 		}
-
-		$this->merchantId = $merchantId;
-		$this->origPayId = $origPayId;
-		$this->orderId = $orderId;
-		$this->clientIp = $clientIp;
-		$this->price = $price;
-		$this->description = $description;
-		$this->merchantData = $merchantData;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -106,7 +77,7 @@ class InitOneClickPaymentRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -117,7 +88,7 @@ class InitOneClickPaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

@@ -24,7 +24,7 @@ class CurlDriverTest extends TestCase
 			null,
 			[
 				'Content-Type' => 'application/json',
-			]
+			],
 		);
 
 		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
@@ -52,7 +52,7 @@ class CurlDriverTest extends TestCase
 				null,
 				[
 					'Content-Type' => 'application/json',
-				]
+				],
 			);
 
 		} catch (CurlDriverException $e) {

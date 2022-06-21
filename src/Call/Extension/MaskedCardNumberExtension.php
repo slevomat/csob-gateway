@@ -14,14 +14,13 @@ class MaskedCardNumberExtension implements ResponseExtensionHandler
 
 	/**
 	 * @param mixed[] $data
-	 * @return MaskedCardNumberResponse
 	 */
 	public function createResponse(array $data): MaskedCardNumberResponse
 	{
 		return new MaskedCardNumberResponse(
 			$data['longMaskedCln'],
 			$data['maskedCln'],
-			$this->parseExpiration($data['expiration'])
+			$this->parseExpiration($data['expiration']),
 		);
 	}
 

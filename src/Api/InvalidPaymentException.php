@@ -8,13 +8,9 @@ use function sprintf;
 class InvalidPaymentException extends RequestException
 {
 
-	/** @var ProcessPaymentRequest */
-	private $request;
-
-	public function __construct(ProcessPaymentRequest $request, Response $response, string $payId)
+	public function __construct(private ProcessPaymentRequest $request, Response $response, string $payId)
 	{
 		parent::__construct(sprintf('PayId %s is invalid or expired.', $payId), $response);
-		$this->request = $request;
 	}
 
 	public function getRequest(): ProcessPaymentRequest

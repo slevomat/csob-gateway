@@ -24,12 +24,12 @@ class ProcessPaymentRequestTest extends TestCase
 			->willReturn(
 				new Response(ResponseCode::get(ResponseCode::S200_OK), [], [
 					'Location' => 'https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/',
-				])
+				]),
 			);
 
 		$processPaymentRequest = new ProcessPaymentRequest(
 			'012345',
-			'123456789'
+			'123456789',
 		);
 
 		$processPaymentResponse = $processPaymentRequest->send($apiClient);

@@ -29,12 +29,12 @@ class RefundPaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 8,
-				])
+				]),
 			);
 
 		$refundPaymentRequest = new RefundPaymentRequest(
 			'012345',
-			'123456789'
+			'123456789',
 		);
 
 		$paymentResponse = $refundPaymentRequest->send($apiClient);

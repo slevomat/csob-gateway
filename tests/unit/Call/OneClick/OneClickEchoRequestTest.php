@@ -29,12 +29,12 @@ class OneClickEchoRequestTest extends TestCase
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
-				])
+				]),
 			);
 
 		$initPaymentRequest = new OneClickEchoRequest(
 			'012345',
-			'ef08b6e9f22345c'
+			'ef08b6e9f22345c',
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

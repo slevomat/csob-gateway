@@ -61,11 +61,11 @@ class InitPaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
-				])
+				]),
 			);
 
 		$cart = new Cart(
-			Currency::get(Currency::CZK)
+			Currency::get(Currency::CZK),
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
@@ -84,7 +84,7 @@ class InitPaymentRequestTest extends TestCase
 			Language::get(Language::CZ),
 			1800,
 			1,
-			2
+			2,
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

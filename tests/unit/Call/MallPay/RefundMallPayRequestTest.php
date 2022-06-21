@@ -44,7 +44,7 @@ class RefundMallPayRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
 					'mallpayUrl' => 'https://mallpay.cz',
-				])
+				]),
 			);
 
 		$request = new RefundMallPayRequest(
@@ -53,7 +53,7 @@ class RefundMallPayRequestTest extends TestCase
 			10000,
 			[
 				new OrderItemReference('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2),
-			]
+			],
 		);
 
 		$response = $request->send($apiClient);

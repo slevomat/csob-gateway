@@ -10,49 +10,19 @@ use SlevomatCsobGateway\Validator;
 class CheckoutResponse
 {
 
-	/** @var string */
-	private $payId;
-
-	/** @var DateTimeImmutable */
-	private $responseDateTime;
-
-	/** @var ResultCode */
-	private $resultCode;
-
-	/** @var string */
-	private $resultMessage;
-
-	/** @var PaymentStatus|null */
-	private $paymentStatus;
-
-	/** @var mixed[]|null */
-	private $lightboxParams;
-
 	/**
-	 * @param string $payId
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param PaymentStatus|null $paymentStatus
 	 * @param mixed[]|null $lightboxParams
 	 */
 	public function __construct(
-		string $payId,
-		DateTimeImmutable $responseDateTime,
-		ResultCode $resultCode,
-		string $resultMessage,
-		?PaymentStatus $paymentStatus,
-		?array $lightboxParams
+		private string $payId,
+		private DateTimeImmutable $responseDateTime,
+		private ResultCode $resultCode,
+		private string $resultMessage,
+		private ?PaymentStatus $paymentStatus = null,
+		private ?array $lightboxParams = null,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->payId = $payId;
-		$this->responseDateTime = $responseDateTime;
-		$this->resultCode = $resultCode;
-		$this->resultMessage = $resultMessage;
-		$this->paymentStatus = $paymentStatus;
-		$this->lightboxParams = $lightboxParams;
 	}
 
 	public function getPayId(): string

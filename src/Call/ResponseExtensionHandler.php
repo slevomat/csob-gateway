@@ -9,9 +9,8 @@ interface ResponseExtensionHandler
 
 	/**
 	 * @param mixed[] $decodeData
-	 * @return mixed
 	 */
-	public function createResponse(array $decodeData);
+	public function createResponse(array $decodeData): mixed;
 
 	public function getSignatureDataFormatter(): SignatureDataFormatter;
 

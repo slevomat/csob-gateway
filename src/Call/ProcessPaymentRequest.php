@@ -12,21 +12,9 @@ use SlevomatCsobGateway\Validator;
 class ProcessPaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	public function __construct(
-		string $merchantId,
-		string $payId
-	)
+	public function __construct(private string $merchantId, private string $payId)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
 	}
 
 	public function send(ApiClient $apiClient): ProcessPaymentResponse
@@ -57,7 +45,7 @@ class ProcessPaymentRequest
 				if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
 					throw new InvalidPaymentException($this, $response, $this->payId);
 				}
-			}
+			},
 		);
 
 		/** @var string $gatewayLocationUrl */
