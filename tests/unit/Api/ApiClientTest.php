@@ -3,7 +3,6 @@
 namespace SlevomatCsobGateway\Api;
 
 use PHPUnit\Framework\Constraint\RegularExpression;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use SlevomatCsobGateway\Call\ResponseExtensionHandler;
@@ -119,7 +118,6 @@ class ApiClientTest extends TestCase
 	 */
 	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData, ?array $responseData, ResponseCode $responseCode, array $responseHeaders): void
 	{
-		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -262,7 +260,6 @@ class ApiClientTest extends TestCase
 	 */
 	public function testExceptions(Response $response, string $expectedExceptionClass): void
 	{
-		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -275,7 +272,6 @@ class ApiClientTest extends TestCase
 			->method('verifyData')
 			->willReturn(true);
 
-		/** @var ApiClientDriver|MockObject $apiClientDriver */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -302,7 +298,6 @@ class ApiClientTest extends TestCase
 			[]
 		);
 
-		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -311,7 +306,6 @@ class ApiClientTest extends TestCase
 			->method('signData')
 			->willReturn('signature');
 
-		/** @var ApiClientDriver|MockObject $apiClientDriver */
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
@@ -338,7 +332,6 @@ class ApiClientTest extends TestCase
 			]
 		);
 
-		/** @var CryptoService|MockObject $cryptoService */
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -350,7 +343,7 @@ class ApiClientTest extends TestCase
 		$cryptoService
 			->method('verifyData')
 			->willReturn(false);
-		/** @var ApiClientDriver|MockObject $apiClientDriver */
+
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 

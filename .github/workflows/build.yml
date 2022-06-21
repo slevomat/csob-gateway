@@ -45,7 +45,7 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Lint"
-        run: "vendor/bin/phing check-phplint"
+        run: "composer run check:lint"
 
   coding-standards:
     name: "Coding standards"
@@ -74,10 +74,10 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Lint"
-        run: "vendor/bin/phing check-phplint"
+        run: "composer run check:lint"
 
       - name: "Coding Standard"
-        run: "vendor/bin/phing check-phpcs"
+        run: "composer run check:cs"
 
   static-analysis:
     name: "Static analysis"
@@ -113,7 +113,7 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "PHPStan"
-        run: "vendor/bin/phing check-phpstan"
+        run: "composer run check:types"
 
   tests:
     name: "Tests"
@@ -159,7 +159,7 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Tests"
-        run: "vendor/bin/phing check-tests"
+        run: "composer run check:tests"
 
   code-coverage:
     name: "Code coverage"
@@ -188,7 +188,7 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Tests"
-        run: "vendor/bin/phing check-tests"
+        run: "composer run check:tests"
 
       - name: "Upload to Codecov.io"
         env:
