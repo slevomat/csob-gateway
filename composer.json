@@ -14,7 +14,7 @@
 		"issues": "https://github.com/slevomat/csob-gateway/issues"
 	},
 	"require": {
-		"php": "^7.2 || ^8.0",
+		"php": "^8.1",
 		"ext-openssl": "*",
 		"slevomat/consistence": "^2.1.0"
 	},
@@ -68,9 +68,6 @@
 	},
 	"config": {
 		"sort-packages": true,
-		"platform": {
-			"php": "8.0"
-		},
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"ocramius/package-versions": true
