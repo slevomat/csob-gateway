@@ -34,22 +34,22 @@ class RequestFactoryTest extends TestCase
 	public function testCreateInitPayment(): void
 	{
 		$cart = new Cart(
-			Currency::get(Currency::CZK),
+			Currency::CZK,
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
 		$this->requestFactory->createInitPayment(
 			'5547',
-			PayOperation::get(PayOperation::PAYMENT),
-			PayMethod::get(PayMethod::CARD),
+			PayOperation::PAYMENT,
+			PayMethod::CARD,
 			true,
 			'https://vasobchod.cz/gateway-return',
-			HttpMethod::get(HttpMethod::POST),
+			HttpMethod::POST,
 			$cart,
 			'some-base64-encoded-merchant-data',
 			'123',
-			Language::get(Language::CZ),
+			Language::CZ,
 			1800,
 			1,
 			1,
@@ -127,7 +127,7 @@ class RequestFactoryTest extends TestCase
 			'ef08b6e9f22345c',
 			'5547123',
 			'127.0.0.1',
-			new Price(1789600, Currency::get(Currency::CZK)),
+			new Price(1789600, Currency::CZK),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 		);
@@ -194,12 +194,12 @@ class RequestFactoryTest extends TestCase
 		$this->requestFactory->createPaymentButtonRequest(
 			'123456',
 			'::1',
-			new Price(12500, Currency::get(Currency::CZK)),
+			new Price(12500, Currency::CZK),
 			'https://www.example.com/return',
-			HttpMethod::get(HttpMethod::GET),
-			PaymentButtonBrand::get(PaymentButtonBrand::ERA),
+			HttpMethod::GET,
+			PaymentButtonBrand::ERA,
 			null,
-			Language::get(Language::EN),
+			Language::EN,
 		);
 
 		self::assertTrue(true);
@@ -210,7 +210,7 @@ class RequestFactoryTest extends TestCase
 		$this->requestFactory->createApplePayInitRequest(
 			'1234567',
 			'127.0.0.1',
-			new Price(1789600, Currency::get(Currency::CZK)),
+			new Price(1789600, Currency::CZK),
 			true,
 			'Order from example.com',
 			null,
@@ -238,7 +238,7 @@ class RequestFactoryTest extends TestCase
 
 	public function testCreateMallPayCancelRequest(): void
 	{
-		$this->requestFactory->createMallPayCancelRequest('ef08b6e9f22345c', CancelReason::get(CancelReason::ABANDONED));
+		$this->requestFactory->createMallPayCancelRequest('ef08b6e9f22345c', CancelReason::ABANDONED);
 
 		self::assertTrue(true);
 	}
@@ -257,16 +257,16 @@ class RequestFactoryTest extends TestCase
 			null,
 		);
 		$order = new Order(
-			Currency::get(Currency::CZK),
-			OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER),
-			OrderCarrierId::get(OrderCarrierId::CZ_POST_OFFICE),
+			Currency::CZK,
+			OrderDeliveryType::DELIVERY_CARRIER,
+			OrderCarrierId::CZ_POST_OFFICE,
 			'123456',
 		);
 		$order->addItem(
 			'123',
 			null,
 			'Thing',
-			OrderItemType::get(OrderItemType::PHYSICAL),
+			OrderItemType::PHYSICAL,
 			2,
 			null,
 			null,
@@ -281,12 +281,12 @@ class RequestFactoryTest extends TestCase
 		);
 		$order->addAddress(
 			'John Doe',
-			Country::get(Country::CZE),
+			Country::CZE,
 			'Praha 8',
 			'Pernerova',
 			'42',
 			'186 00',
-			AddressType::get(AddressType::BILLING),
+			AddressType::BILLING,
 		);
 
 		$this->requestFactory->createMallPayInitRequest(
@@ -295,7 +295,7 @@ class RequestFactoryTest extends TestCase
 			$order,
 			false,
 			'127.0.0.1',
-			HttpMethod::get(HttpMethod::GET),
+			HttpMethod::GET,
 			'https://www.example.com/return',
 			null,
 			null,
@@ -306,11 +306,11 @@ class RequestFactoryTest extends TestCase
 
 	public function testCreateMMallPayLogisticsRequest(): void
 	{
-		$orderReference = new OrderReference(new Price(100000, Currency::get(Currency::CZK)), [new Vat(100000, Currency::get(Currency::CZK), 21)]);
+		$orderReference = new OrderReference(new Price(100000, Currency::CZK), [new Vat(100000, Currency::CZK, 21)]);
 		$orderReference->addItem('123', null, 'Thing', null, 1);
 		$this->requestFactory->createMallPayLogisticsRequest(
 			'ef08b6e9f22345c',
-			LogisticsEvent::get(LogisticsEvent::SENT),
+			LogisticsEvent::SENT,
 			new DateTimeImmutable('2021-01-01'),
 			$orderReference,
 			null,
@@ -322,7 +322,7 @@ class RequestFactoryTest extends TestCase
 
 	public function testCreateMallPayRefundRequest(): void
 	{
-		$orderItemReference = new OrderItemReference('123', null, 'Thing', OrderItemType::get(OrderItemType::DIGITAL), 1);
+		$orderItemReference = new OrderItemReference('123', null, 'Thing', OrderItemType::DIGITAL, 1);
 		$this->requestFactory->createMallPayRefundRequest('ef08b6e9f22345c', null, [$orderItemReference]);
 
 		self::assertTrue(true);
@@ -333,7 +333,7 @@ class RequestFactoryTest extends TestCase
 		$this->requestFactory->createGooglePayInitRequest(
 			'1234567',
 			'127.0.0.1',
-			new Price(1789600, Currency::get(Currency::CZK)),
+			new Price(1789600, Currency::CZK),
 			true,
 			'Order from example.com',
 		);

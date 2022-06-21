@@ -44,8 +44,8 @@ class CurlDriver implements ApiClientDriver
 			throw new ErrorException('Failed to initialize curl resource.');
 		}
 
-		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method->getValue());
+		if ($method === HttpMethod::POST || $method === HttpMethod::PUT) {
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method->value);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		}
 
@@ -68,7 +68,7 @@ class CurlDriver implements ApiClientDriver
 		$headers = substr((string) $output, 0, $headerSize);
 		$body = substr((string) $output, $headerSize);
 
-		$responseCode = ResponseCode::get(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+		$responseCode = ResponseCode::from(curl_getinfo($ch, CURLINFO_HTTP_CODE));
 		if (PHP_VERSION_ID < 80000) {
 			curl_close($ch);
 		}

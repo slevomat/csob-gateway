@@ -2,19 +2,17 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
-use Consistence\Enum\Enum;
-
-class OrderItemType extends Enum
+enum OrderItemType: string
 {
 
-	public const PHYSICAL = 'PHYSICAL';
-	public const DISCOUNT = 'DISCOUNT';
-	public const DIGITAL = 'DIGITAL';
-	public const GIFT_CARD = 'GIFT_CARD';
-	public const STORE_CREDIT = 'STORE_CREDIT';
-	public const SALES_TAX = 'SALES_TAX';
-	public const SHIPPING_FEE = 'SHIPPING_FEE';
-	public const INSURANCE = 'INSURANCE';
-	public const FEE = 'FEE';
+	case PHYSICAL = 'PHYSICAL';
+	case DISCOUNT = 'DISCOUNT';
+	case DIGITAL = 'DIGITAL';
+	case GIFT_CARD = 'GIFT_CARD';
+	case STORE_CREDIT = 'STORE_CREDIT';
+	case SALES_TAX = 'SALES_TAX';
+	case SHIPPING_FEE = 'SHIPPING_FEE';
+	case INSURANCE = 'INSURANCE';
+	case FEE = 'FEE';
 
 }

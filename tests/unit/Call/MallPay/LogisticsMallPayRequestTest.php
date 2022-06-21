@@ -29,7 +29,7 @@ class LogisticsMallPayRequestTest extends TestCase
 			->with('mallpay/logistics', [
 				'merchantId' => '012345',
 				'payId' => '12345',
-				'event' => LogisticsEvent::SENT,
+				'event' => LogisticsEvent::SENT->value,
 				'date' => '20210505',
 				'fulfilled' => [
 					'totalPrice' => [
@@ -56,7 +56,7 @@ class LogisticsMallPayRequestTest extends TestCase
 				'deliveryTrackingNumber' => '876',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20210505092159',
 					'resultCode' => 0,
@@ -67,17 +67,17 @@ class LogisticsMallPayRequestTest extends TestCase
 			);
 
 		$orderReference = new OrderReference(
-			new Price(200, Currency::get(Currency::EUR)),
+			new Price(200, Currency::EUR),
 			[
-				new Vat(40, Currency::get(Currency::EUR), 20),
+				new Vat(40, Currency::EUR, 20),
 			],
 		);
-		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2);
+		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::PHYSICAL, 2);
 
 		$request = new LogisticsMallPayRequest(
 			'012345',
 			'12345',
-			LogisticsEvent::get(LogisticsEvent::SENT),
+			LogisticsEvent::SENT,
 			new DateTimeImmutable('2021-05-05 09:21:59'),
 			$orderReference,
 			null,
@@ -88,9 +88,9 @@ class LogisticsMallPayRequestTest extends TestCase
 
 		self::assertSame('123456789', $response->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20210505092159'), $response->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $response->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $response->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 	}
 
 }

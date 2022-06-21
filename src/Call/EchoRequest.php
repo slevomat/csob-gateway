@@ -36,7 +36,7 @@ class EchoRequest
 
 		return new EchoResponse(
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
 		);
 	}

@@ -42,7 +42,7 @@ class ProcessPaymentRequest
 				// This handles edge case when provided payId is missing or already expired on gateway
 				// In this case gateway responds with HTTP 200 and HTML content. Bad API.
 				// See https://github.com/csob/paymentgateway/issues/135
-				if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
+				if ($response->getResponseCode() === ResponseCode::S200_OK) {
 					throw new InvalidPaymentException($this, $response, $this->payId);
 				}
 			},

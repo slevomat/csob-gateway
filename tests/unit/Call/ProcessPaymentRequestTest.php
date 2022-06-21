@@ -22,7 +22,7 @@ class ProcessPaymentRequestTest extends TestCase
 				'payId' => '123456789',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [], [
+				new Response(ResponseCode::S200_OK, [], [
 					'Location' => 'https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/',
 				]),
 			);

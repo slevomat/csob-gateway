@@ -73,7 +73,7 @@ class OrderItem
 			$data['ean'] = $this->ean;
 		}
 		if ($this->type !== null) {
-			$data['type'] = $this->type->getValue();
+			$data['type'] = $this->type->value;
 		}
 		if ($this->quantity !== null) {
 			$data['quantity'] = $this->quantity;

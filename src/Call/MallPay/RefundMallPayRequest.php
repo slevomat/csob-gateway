@@ -80,9 +80,9 @@ class RefundMallPayRequest
 		return new PaymentResponse(
 			$data['payId'],
 			$responseDateTime,
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 		);
 	}
 

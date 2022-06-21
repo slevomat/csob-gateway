@@ -2,13 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use Consistence\Enum\Enum;
-
-class PayOperation extends Enum
+enum PayOperation: string
 {
 
-	public const PAYMENT = 'payment';
-	public const ONECLICK_PAYMENT = 'oneclickPayment';
-	public const CUSTOM_PAYMENT = 'customPayment';
+	case PAYMENT = 'payment';
+	case ONECLICK_PAYMENT = 'oneclickPayment';
+	case CUSTOM_PAYMENT = 'customPayment';
 
 }

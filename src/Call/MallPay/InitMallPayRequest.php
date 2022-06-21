@@ -44,7 +44,7 @@ class InitMallPayRequest
 		}
 		$hasBillingAddress = false;
 		foreach ($order->getAddresses() as $address) {
-			if ($address->getAddressType()->equals(AddressType::get(AddressType::BILLING))) {
+			if ($address->getAddressType() === AddressType::BILLING) {
 				$hasBillingAddress = true;
 				break;
 			}
@@ -52,7 +52,7 @@ class InitMallPayRequest
 		if (!$hasBillingAddress) {
 			throw new InvalidArgumentException('Order doesnt have billing address.');
 		}
-		if ($returnMethod->equals(HttpMethod::get(HttpMethod::PUT))) {
+		if ($returnMethod === HttpMethod::PUT) {
 			throw new InvalidArgumentException('Unsupported return method PUT.');
 		}
 	}
@@ -67,7 +67,7 @@ class InitMallPayRequest
 			'agreeTC' => $this->agreeTC,
 			'clientIp' => $this->clientIp,
 			'returnUrl' => $this->returnUrl,
-			'returnMethod' => $this->returnMethod->getValue(),
+			'returnMethod' => $this->returnMethod->value,
 		];
 
 		if ($this->merchantData !== null) {
@@ -178,9 +178,9 @@ class InitMallPayRequest
 		return new InitMallPayResponse(
 			$data['payId'],
 			$responseDateTime,
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? PaymentStatus::get($data['paymentStatus']) : null,
+			array_key_exists('paymentStatus', $data) ? PaymentStatus::from($data['paymentStatus']) : null,
 			null,
 			null,
 			[],

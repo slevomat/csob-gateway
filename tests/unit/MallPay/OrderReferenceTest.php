@@ -12,12 +12,12 @@ class OrderReferenceTest extends TestCase
 	public function testEncode(): void
 	{
 		$orderReference = new OrderReference(
-			new Price(200, Currency::get(Currency::EUR)),
+			new Price(200, Currency::EUR),
 			[
-				new Vat(40, Currency::get(Currency::EUR), 20),
+				new Vat(40, Currency::EUR, 20),
 			],
 		);
-		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2);
+		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::PHYSICAL, 2);
 
 		$expected = [
 			'totalPrice' => [

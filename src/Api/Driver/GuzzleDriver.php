@@ -32,11 +32,11 @@ class GuzzleDriver implements ApiClientDriver
 	public function request(HttpMethod $method, string $url, ?array $data, array $headers = []): Response
 	{
 		$postData = null;
-		if ($method->equalsValue(HttpMethod::POST) || $method->equalsValue(HttpMethod::PUT)) {
+		if ($method === HttpMethod::POST || $method === HttpMethod::PUT) {
 			$postData = (string) json_encode($data);
 		}
 		$headers += ['Content-Type' => 'application/json'];
-		$request = new Request($method->getValue(), $url, $headers, $postData);
+		$request = new Request($method->value, $url, $headers, $postData);
 
 		try {
 			$httpResponse = $this->client->send($request, [
@@ -44,7 +44,7 @@ class GuzzleDriver implements ApiClientDriver
 				RequestOptions::ALLOW_REDIRECTS => false,
 			]);
 
-			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
+			$responseCode = ResponseCode::from($httpResponse->getStatusCode());
 
 			/** @var string[]|string[][] $responseHeaders */
 			$responseHeaders = array_map(static fn ($item) => count($item) > 1

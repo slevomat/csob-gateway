@@ -27,7 +27,7 @@ class Order
 		?string $carrierCustom,
 	)
 	{
-		if ($deliveryType !== null && $deliveryType->equals(OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER))) {
+		if ($deliveryType === OrderDeliveryType::DELIVERY_CARRIER) {
 			$this->carrierId = $carrierId;
 			if ($carrierId === null) {
 				if ($carrierCustom === null) {
@@ -111,10 +111,10 @@ class Order
 		];
 
 		if ($this->deliveryType !== null) {
-			$data['deliveryType'] = $this->deliveryType->getValue();
+			$data['deliveryType'] = $this->deliveryType->value;
 		}
 		if ($this->carrierId !== null) {
-			$data['carrierId'] = $this->carrierId->getValue();
+			$data['carrierId'] = $this->carrierId->value;
 		}
 		if ($this->carrierCustom !== null) {
 			$data['carrierCustom'] = $this->carrierCustom;

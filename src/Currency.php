@@ -2,20 +2,18 @@
 
 namespace SlevomatCsobGateway;
 
-use Consistence\Enum\Enum;
-
-class Currency extends Enum
+enum Currency: string
 {
 
-	public const CZK = 'CZK';
-	public const EUR = 'EUR';
-	public const USD = 'USD';
-	public const GBP = 'GBP';
-	public const HRK = 'HRK';
-	public const HUF = 'HUF';
-	public const PLN = 'PLN';
-	public const RON = 'RON';
-	public const NOK = 'NOK';
-	public const SEK = 'SEK';
+	case CZK = 'CZK';
+	case EUR = 'EUR';
+	case USD = 'USD';
+	case GBP = 'GBP';
+	case HRK = 'HRK';
+	case HUF = 'HUF';
+	case PLN = 'PLN';
+	case RON = 'RON';
+	case NOK = 'NOK';
+	case SEK = 'SEK';
 
 }

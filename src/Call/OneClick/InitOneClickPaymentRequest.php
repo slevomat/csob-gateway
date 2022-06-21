@@ -46,7 +46,7 @@ class InitOneClickPaymentRequest
 
 		if ($this->price !== null) {
 			$requestData['totalAmount'] = $this->price->getAmount();
-			$requestData['currency'] = $this->price->getCurrency()->getValue();
+			$requestData['currency'] = $this->price->getCurrency()->value;
 		}
 
 		if ($this->description !== null) {
@@ -86,9 +86,9 @@ class InitOneClickPaymentRequest
 		return new PaymentResponse(
 			$data['payId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 		);
 	}
 

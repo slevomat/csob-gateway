@@ -27,7 +27,7 @@ class StandardCheckoutRequestTest extends TestCase
 				'shippingLocationProfile' => 'SP-0001',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -57,9 +57,9 @@ class StandardCheckoutRequestTest extends TestCase
 
 		self::assertSame('123456789', $checkoutResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $checkoutResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $checkoutResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $checkoutResponse->getResultCode());
 		self::assertSame('OK', $checkoutResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $checkoutResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $checkoutResponse->getPaymentStatus());
 		self::assertNotNull($checkoutResponse->getLightboxParams());
 	}
 

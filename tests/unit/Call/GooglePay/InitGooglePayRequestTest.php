@@ -31,7 +31,7 @@ class InitGooglePayRequestTest extends TestCase
 				'closePayment' => true,
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20190425131559',
 					'resultCode' => 0,
@@ -44,7 +44,7 @@ class InitGooglePayRequestTest extends TestCase
 			'012345',
 			'12345',
 			'127.0.0.1',
-			new Price(1789600, Currency::get(Currency::CZK)),
+			new Price(1789600, Currency::CZK),
 			true,
 			null,
 		);
@@ -53,9 +53,9 @@ class InitGooglePayRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

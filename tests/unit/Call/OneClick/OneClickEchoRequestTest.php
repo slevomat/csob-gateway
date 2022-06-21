@@ -24,7 +24,7 @@ class OneClickEchoRequestTest extends TestCase
 				'origPayId' => 'ef08b6e9f22345c',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'origPayId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -41,7 +41,7 @@ class OneClickEchoRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
 	}
 

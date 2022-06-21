@@ -26,7 +26,7 @@ class StartApplePayRequestTest extends TestCase
 				'payload' => 'eyJmb28iOiJiYXIifQ==',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => 'ef08b6e9f22345c',
 					'dttm' => '20190425131559',
 					'resultCode' => 0,
@@ -46,9 +46,9 @@ class StartApplePayRequestTest extends TestCase
 
 		self::assertSame('ef08b6e9f22345c', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S2_IN_PROGRESS, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

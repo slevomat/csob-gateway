@@ -16,7 +16,7 @@ class Price
 	{
 		return [
 			'amount' => $this->amount,
-			'currency' => $this->currency->getValue(),
+			'currency' => $this->currency->value,
 		];
 	}
 

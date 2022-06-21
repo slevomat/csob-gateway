@@ -11,16 +11,16 @@ class OrderTest extends TestCase
 	public function testEncode(): void
 	{
 		$order = new Order(
-			Currency::get(Currency::EUR),
-			OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER),
-			OrderCarrierId::get(OrderCarrierId::TNT),
+			Currency::EUR,
+			OrderDeliveryType::DELIVERY_CARRIER,
+			OrderCarrierId::TNT,
 			null,
 		);
 		$order->addItem(
 			'123',
 			'345',
 			'Super věc',
-			OrderItemType::get(OrderItemType::PHYSICAL),
+			OrderItemType::PHYSICAL,
 			2,
 			'Varianta 1',
 			'Popisek',
@@ -37,7 +37,7 @@ class OrderTest extends TestCase
 			'discount',
 			null,
 			'Sleva',
-			OrderItemType::get(OrderItemType::DISCOUNT),
+			OrderItemType::DISCOUNT,
 			2,
 			null,
 			null,
@@ -50,7 +50,7 @@ class OrderTest extends TestCase
 			0,
 			null,
 		);
-		$order->addAddress('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
+		$order->addAddress('Slevomat', Country::CZE, 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::BILLING);
 
 		$expected = [
 			'totalPrice' => [

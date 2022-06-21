@@ -44,20 +44,20 @@ $apiClient = new ApiClient(
 $requestFactory = new RequestFactory('012345');
 
 // cart has to have at least 1 but most of 2 items
-$cart = new Cart(Currency::get(Currency::EUR));
+$cart = new Cart(Currency::EUR);
 $cart->addItem('Nákup', 1, 1.9 * 100);
 
 $paymentResponse = $requestFactory->createInitPayment(
 	123,
-	PayOperation::get(PayOperation::PAYMENT),
-	PayMethod::get(PayMethod::CARD),
+	PayOperation::PAYMENT,
+	PayMethod::CARD,
 	true,
 	$returnUrl,
-	HttpMethod::get(HttpMethod::POST),
+	HttpMethod::POST,
 	$cart,
 	null,
 	null,
-	Language::get(Language::CZ)
+	Language::CZ
 )->send($apiClient);
 $payId = $paymentResponse->getPayId();
 
@@ -69,7 +69,7 @@ header('Location: ' . $processPaymentResponse->getGatewayLocationUrl());
 After customer returns from gateway, he is redirected to `$returnUrl` where you have to process the payment.
 ```
 $paymentResponse = $requestFactory->createReceivePaymentRequest()->send($apiClient, $_POST);
-if ($paymentResponse->getPaymentStatus()->equalsValue(PaymentStatus::S7_AWAITING_SETTLEMENT)) {
+if ($paymentResponse->getPaymentStatus() === PaymentStatus::S7_AWAITING_SETTLEMENT) {
 	// payment was successful!
 }
 ```

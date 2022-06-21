@@ -40,11 +40,11 @@ class PaymentButtonRequest
 			'orderNo' => $this->orderId,
 			'clientIp' => $this->clientIp,
 			'totalAmount' => $this->totalPrice->getAmount(),
-			'currency' => $this->totalPrice->getCurrency()->getValue(),
+			'currency' => $this->totalPrice->getCurrency()->value,
 			'returnUrl' => $this->returnUrl,
-			'returnMethod' => $this->returnMethod->getValue(),
-			'brand' => $this->brand->getValue(),
-			'language' => $this->language->getValue(),
+			'returnMethod' => $this->returnMethod->value,
+			'brand' => $this->brand->value,
+			'language' => $this->language->value,
 		];
 
 		if ($this->merchantData !== null) {
@@ -89,16 +89,16 @@ class PaymentButtonRequest
 		$redirectParams = [];
 		if (isset($data['redirect'])) {
 			$redirectUrl = $data['redirect']['url'];
-			$redirectMethod = HttpMethod::get($data['redirect']['method']);
+			$redirectMethod = HttpMethod::from($data['redirect']['method']);
 			$redirectParams = $data['redirect']['params'] ?? null;
 		}
 
 		return new PaymentButtonResponse(
 			$data['payId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 			$redirectMethod,
 			$redirectUrl,
 			$redirectParams,

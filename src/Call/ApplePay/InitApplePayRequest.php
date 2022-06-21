@@ -44,7 +44,7 @@ class InitApplePayRequest
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'totalAmount' => $this->totalPrice->getAmount(),
-			'currency' => $this->totalPrice->getCurrency()->getValue(),
+			'currency' => $this->totalPrice->getCurrency()->value,
 			'closePayment' => $this->closePayment,
 			'clientIp' => $this->clientIp,
 		];
@@ -87,9 +87,9 @@ class InitApplePayRequest
 		return new PaymentResponse(
 			$data['payId'],
 			$responseDateTime,
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 		);
 	}
 

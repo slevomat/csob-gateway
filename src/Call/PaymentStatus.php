@@ -2,20 +2,18 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use Consistence\Enum\Enum;
-
-class PaymentStatus extends Enum
+enum PaymentStatus: int
 {
 
-	public const S1_CREATED = 1;
-	public const S2_IN_PROGRESS = 2;
-	public const S3_CANCELED = 3;
-	public const S4_CONFIRMED = 4;
-	public const S5_REVOKED = 5;
-	public const S6_REJECTED = 6;
-	public const S7_AWAITING_SETTLEMENT = 7;
-	public const S8_CHARGED = 8;
-	public const S9_PROCESSING_REFUND = 9;
-	public const S10_PAYMENT_REFUNDED = 10;
+	case S1_CREATED = 1;
+	case S2_IN_PROGRESS = 2;
+	case S3_CANCELED = 3;
+	case S4_CONFIRMED = 4;
+	case S5_REVOKED = 5;
+	case S6_REJECTED = 6;
+	case S7_AWAITING_SETTLEMENT = 7;
+	case S8_CHARGED = 8;
+	case S9_PROCESSING_REFUND = 9;
+	case S10_PAYMENT_REFUNDED = 10;
 
 }
