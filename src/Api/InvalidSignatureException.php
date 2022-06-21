@@ -7,16 +7,12 @@ use RuntimeException;
 class InvalidSignatureException extends RuntimeException
 {
 
-	/** @var mixed[] */
-	private $responseData;
-
 	/**
 	 * @param mixed[] $responseData
 	 */
-	public function __construct(array $responseData)
+	public function __construct(private array $responseData)
 	{
 		parent::__construct('Invalid signature.');
-		$this->responseData = $responseData;
 	}
 
 	/**

@@ -15,31 +15,15 @@ use function base64_encode;
 class InitGooglePayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var string|null */
-	private $clientIp;
-
-	/** @var Price */
-	private $totalPrice;
-
-	/** @var bool */
-	private $closePayment;
-
-	/** @var string|null */
-	private $merchantData;
+	private ?string $clientIp = null;
 
 	public function __construct(
-		string $merchantId,
-		string $orderId,
+		private string $merchantId,
+		private string $orderId,
 		string $clientIp,
-		Price $totalPrice,
-		bool $closePayment,
-		?string $merchantData
+		private Price $totalPrice,
+		private bool $closePayment,
+		private ?string $merchantData = null,
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -47,12 +31,7 @@ class InitGooglePayRequest
 			Validator::checkMerchantData($merchantData);
 		}
 
-		$this->merchantId = $merchantId;
-		$this->orderId = $orderId;
 		$this->clientIp = $clientIp;
-		$this->totalPrice = $totalPrice;
-		$this->closePayment = $closePayment;
-		$this->merchantData = $merchantData;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -89,7 +68,7 @@ class InitGooglePayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -101,7 +80,7 @@ class InitGooglePayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

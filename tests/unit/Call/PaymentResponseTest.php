@@ -17,7 +17,7 @@ class PaymentResponseTest extends TestCase
 			'foo message',
 			null,
 			null,
-			'merchant data'
+			'merchant data',
 		);
 
 		self::assertSame('merchant data', $paymentResponse->getMerchantData());

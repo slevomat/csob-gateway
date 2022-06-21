@@ -12,20 +12,15 @@ use function is_int;
 class SignatureDataFormatter
 {
 
-	/** @var mixed[] */
-	private $keysPriority;
-
 	/**
 	 * @param mixed[] $keysPriority
 	 */
-	public function __construct(array $keysPriority)
+	public function __construct(private array $keysPriority)
 	{
-		$this->keysPriority = $keysPriority;
 	}
 
 	/**
 	 * @param mixed[] $data
-	 * @return string
 	 */
 	public function formatDataForSignature(array $data): string
 	{
@@ -69,11 +64,7 @@ class SignatureDataFormatter
 		return $message;
 	}
 
-	/**
-	 * @param int|bool|string|float|null $value
-	 * @return string
-	 */
-	private function formatSingleValue($value): string
+	private function formatSingleValue(int|bool|string|float|null $value): string
 	{
 		if (is_bool($value)) {
 			return $value ? 'true' : 'false';

@@ -15,7 +15,7 @@ class OrderReferenceTest extends TestCase
 			new Price(200, Currency::get(Currency::EUR)),
 			[
 				new Vat(40, Currency::get(Currency::EUR), 20),
-			]
+			],
 		);
 		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2);
 

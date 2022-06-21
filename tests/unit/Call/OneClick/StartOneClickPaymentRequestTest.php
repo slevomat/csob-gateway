@@ -31,12 +31,12 @@ class StartOneClickPaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 2,
-				])
+				]),
 			);
 
 		$initPaymentRequest = new StartOneClickPaymentRequest(
 			'012345',
-			'ef08b6e9f22345c'
+			'ef08b6e9f22345c',
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

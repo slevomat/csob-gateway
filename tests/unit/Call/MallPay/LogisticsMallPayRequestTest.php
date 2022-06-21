@@ -63,14 +63,14 @@ class LogisticsMallPayRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
 					'mallpayUrl' => 'https://mallpay.cz',
-				])
+				]),
 			);
 
 		$orderReference = new OrderReference(
 			new Price(200, Currency::get(Currency::EUR)),
 			[
 				new Vat(40, Currency::get(Currency::EUR), 20),
-			]
+			],
 		);
 		$orderReference->addItem('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2);
 
@@ -81,7 +81,7 @@ class LogisticsMallPayRequestTest extends TestCase
 			new DateTimeImmutable('2021-05-05 09:21:59'),
 			$orderReference,
 			null,
-			'876'
+			'876',
 		);
 
 		$response = $request->send($apiClient);

@@ -15,35 +15,16 @@ use function base64_encode;
 class InitApplePayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var string|null */
-	private $clientIp;
-
-	/** @var bool */
-	private $closePayment;
-
-	/** @var Price */
-	private $totalPrice;
-
-	/** @var string|null */
-	private $merchantData;
-
-	/** @var int|null */
-	private $ttlSec;
+	private ?string $clientIp = null;
 
 	public function __construct(
-		string $merchantId,
-		string $orderId,
+		private string $merchantId,
+		private string $orderId,
 		string $clientIp,
-		Price $totalPrice,
-		bool $closePayment,
-		?string $merchantData,
-		?int $ttlSec = null
+		private Price $totalPrice,
+		private bool $closePayment,
+		private ?string $merchantData = null,
+		private ?int $ttlSec = null,
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -54,13 +35,7 @@ class InitApplePayRequest
 			Validator::checkTtlSec($ttlSec);
 		}
 
-		$this->merchantId = $merchantId;
-		$this->orderId = $orderId;
 		$this->clientIp = $clientIp;
-		$this->totalPrice = $totalPrice;
-		$this->closePayment = $closePayment;
-		$this->merchantData = $merchantData;
-		$this->ttlSec = $ttlSec;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -102,7 +77,7 @@ class InitApplePayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -114,7 +89,7 @@ class InitApplePayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

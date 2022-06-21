@@ -19,47 +19,17 @@ use function base64_encode;
 class InitMallPayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var Customer */
-	private $customer;
-
-	/** @var Order */
-	private $order;
-
-	/** @var bool */
-	private $agreeTC;
-
-	/** @var string */
-	private $clientIp;
-
-	/** @var string */
-	private $returnUrl;
-
-	/** @var HttpMethod */
-	private $returnMethod;
-
-	/** @var string|null */
-	private $merchantData;
-
-	/** @var int|null */
-	private $ttlSec;
-
 	public function __construct(
-		string $merchantId,
-		string $orderId,
-		Customer $customer,
-		Order $order,
-		bool $agreeTC,
-		string $clientIp,
-		HttpMethod $returnMethod,
-		string $returnUrl,
-		?string $merchantData,
-		?int $ttlSec
+		private string $merchantId,
+		private string $orderId,
+		private Customer $customer,
+		private Order $order,
+		private bool $agreeTC,
+		private string $clientIp,
+		private HttpMethod $returnMethod,
+		private string $returnUrl,
+		private ?string $merchantData = null,
+		private ?int $ttlSec = null,
 	)
 	{
 		Validator::checkOrderId($orderId);
@@ -85,17 +55,6 @@ class InitMallPayRequest
 		if ($returnMethod->equals(HttpMethod::get(HttpMethod::PUT))) {
 			throw new InvalidArgumentException('Unsupported return method PUT.');
 		}
-
-		$this->merchantId = $merchantId;
-		$this->orderId = $orderId;
-		$this->customer = $customer;
-		$this->order = $order;
-		$this->agreeTC = $agreeTC;
-		$this->clientIp = $clientIp;
-		$this->returnUrl = $returnUrl;
-		$this->returnMethod = $returnMethod;
-		$this->merchantData = $merchantData;
-		$this->ttlSec = $ttlSec;
 	}
 
 	public function send(ApiClient $apiClient): InitMallPayResponse
@@ -209,7 +168,7 @@ class InitMallPayRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'mallpayUrl' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -225,7 +184,7 @@ class InitMallPayRequest
 			null,
 			null,
 			[],
-			$data['mallpayUrl'] ?? null
+			$data['mallpayUrl'] ?? null,
 		);
 	}
 

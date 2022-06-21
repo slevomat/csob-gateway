@@ -10,14 +10,9 @@ use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 class GooglePayInfoRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	public function __construct(string $merchantId)
+	public function __construct(private string $merchantId)
 	{
-		$this->merchantId = $merchantId;
 	}
-
 
 	public function send(ApiClient $apiClient): GooglePayInfoResponse
 	{
@@ -45,7 +40,7 @@ class GooglePayInfoRequest
 					'merchantName' => null,
 					'totalPriceStatus' => null,
 				],
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -56,7 +51,7 @@ class GooglePayInfoRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'] ?? '',
-			$data['checkoutParams'] ?? []
+			$data['checkoutParams'] ?? [],
 		);
 	}
 

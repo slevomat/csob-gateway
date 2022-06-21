@@ -33,14 +33,14 @@ class StandardFinishRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 2,
-				])
+				]),
 			);
 
 		$paymentRequest = new StandardFinishRequest(
 			'012345',
 			'123456789',
 			'123456789123456789',
-			15000
+			15000,
 		);
 
 		$checkoutResponse = $paymentRequest->send($apiClient);

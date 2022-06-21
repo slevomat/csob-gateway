@@ -15,35 +15,14 @@ use SlevomatCsobGateway\MallPay\OrderReference;
 class LogisticsMallPayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var LogisticsEvent */
-	private $event;
-
-	/** @var DateTimeImmutable */
-	private $date;
-
-	/** @var OrderReference */
-	private $fulfilled;
-
-	/** @var OrderReference|null */
-	private $cancelled;
-
-	/** @var string|null */
-	private $deliveryTrackingNumber;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		LogisticsEvent $event,
-		DateTimeImmutable $date,
-		OrderReference $fulfilled,
-		?OrderReference $cancelled,
-		?string $deliveryTrackingNumber
+		private string $merchantId,
+		private string $payId,
+		private LogisticsEvent $event,
+		private DateTimeImmutable $date,
+		private OrderReference $fulfilled,
+		private ?OrderReference $cancelled = null,
+		private ?string $deliveryTrackingNumber = null,
 	)
 	{
 		if ($fulfilled->getItems() === []) {
@@ -52,14 +31,6 @@ class LogisticsMallPayRequest
 		if ($cancelled !== null && $cancelled->getItems() === []) {
 			throw new InvalidArgumentException('Cancelled has no items.');
 		}
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->event = $event;
-		$this->date = $date;
-		$this->fulfilled = $fulfilled;
-		$this->cancelled = $cancelled;
-		$this->deliveryTrackingNumber = $deliveryTrackingNumber;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -140,7 +111,7 @@ class LogisticsMallPayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -152,7 +123,7 @@ class LogisticsMallPayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

@@ -30,12 +30,12 @@ class PaymentStatusRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 4,
 					'authCode' => 'F7A23E',
-				])
+				]),
 			);
 
 		$paymentStatusRequest = new PaymentStatusRequest(
 			'012345',
-			'123456789'
+			'123456789',
 		);
 
 		$paymentResponse = $paymentStatusRequest->send($apiClient);

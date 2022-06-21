@@ -28,12 +28,12 @@ class CustomerInfoRequestTest extends TestCase
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
-				])
+				]),
 			);
 
 		$customerInfoRequest = new CustomerInfoRequest(
 			'012345',
-			'cust123@mail.com'
+			'cust123@mail.com',
 		);
 
 		$customerInfoResponse = $customerInfoRequest->send($apiClient);

@@ -34,13 +34,13 @@ class CancelMallPayRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
 					'mallpayUrl' => 'https://mallpay.cz',
-				])
+				]),
 			);
 
 		$request = new CancelMallPayRequest(
 			'012345',
 			'12345',
-			CancelReason::get(CancelReason::ABANDONED)
+			CancelReason::get(CancelReason::ABANDONED),
 		);
 
 		$response = $request->send($apiClient);

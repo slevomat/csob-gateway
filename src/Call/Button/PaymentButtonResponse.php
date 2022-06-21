@@ -11,61 +11,21 @@ use SlevomatCsobGateway\Validator;
 class PaymentButtonResponse
 {
 
-	/** @var string */
-	private $payId;
-
-	/** @var DateTimeImmutable */
-	private $responseDateTime;
-
-	/** @var ResultCode */
-	private $resultCode;
-
-	/** @var string */
-	private $resultMessage;
-
-	/** @var PaymentStatus|null */
-	private $paymentStatus;
-
-	/** @var HttpMethod|null */
-	private $redirectMethod;
-
-	/** @var string|null */
-	private $redirectUrl;
-
-	/** @var mixed[]|null */
-	private $redirectParams;
-
 	/**
-	 * @param string $payId
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param PaymentStatus|null $paymentStatus
-	 * @param HttpMethod|null $redirectMethod
-	 * @param string|null $redirectUrl
 	 * @param mixed[]|null $redirectParams
 	 */
 	public function __construct(
-		string $payId,
-		DateTimeImmutable $responseDateTime,
-		ResultCode $resultCode,
-		string $resultMessage,
-		?PaymentStatus $paymentStatus,
-		?HttpMethod $redirectMethod,
-		?string $redirectUrl,
-		?array $redirectParams
+		private string $payId,
+		private DateTimeImmutable $responseDateTime,
+		private ResultCode $resultCode,
+		private string $resultMessage,
+		private ?PaymentStatus $paymentStatus = null,
+		private ?HttpMethod $redirectMethod = null,
+		private ?string $redirectUrl = null,
+		private ?array $redirectParams = null,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->payId = $payId;
-		$this->responseDateTime = $responseDateTime;
-		$this->resultCode = $resultCode;
-		$this->resultMessage = $resultMessage;
-		$this->paymentStatus = $paymentStatus;
-		$this->redirectMethod = $redirectMethod;
-		$this->redirectUrl = $redirectUrl;
-		$this->redirectParams = $redirectParams;
 	}
 
 	public function getPayId(): string

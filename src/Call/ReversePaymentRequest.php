@@ -10,21 +10,9 @@ use SlevomatCsobGateway\Validator;
 class ReversePaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	public function __construct(
-		string $merchantId,
-		string $payId
-	)
+	public function __construct(private string $merchantId, private string $payId)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -47,7 +35,7 @@ class ReversePaymentRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -59,7 +47,7 @@ class ReversePaymentRequest
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			$data['authCode'] ?? null,
 		);
 	}
 

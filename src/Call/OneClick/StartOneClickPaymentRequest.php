@@ -13,21 +13,9 @@ use SlevomatCsobGateway\Validator;
 class StartOneClickPaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	public function __construct(
-		string $merchantId,
-		string $payId
-	)
+	public function __construct(private string $merchantId, private string $payId)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -51,7 +39,7 @@ class StartOneClickPaymentRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -62,7 +50,7 @@ class StartOneClickPaymentRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

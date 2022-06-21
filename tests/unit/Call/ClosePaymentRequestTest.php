@@ -30,13 +30,13 @@ class ClosePaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 7,
-				])
+				]),
 			);
 
 		$paymentRequest = new ClosePaymentRequest(
 			'012345',
 			'123456789',
-			987
+			987,
 		);
 
 		$closePaymentResponse = $paymentRequest->send($apiClient);

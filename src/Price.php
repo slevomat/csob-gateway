@@ -5,19 +5,8 @@ namespace SlevomatCsobGateway;
 class Price
 {
 
-	/** @var int */
-	private $amount;
-
-	/** @var Currency */
-	private $currency;
-
-	public function __construct(
-		int $amount,
-		Currency $currency
-	)
+	public function __construct(private int $amount, private Currency $currency)
 	{
-		$this->amount = $amount;
-		$this->currency = $currency;
 	}
 
 	/**

@@ -112,7 +112,7 @@ class InitMallPayRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
 					'mallpayUrl' => 'https://mallpay.cz',
-				])
+				]),
 			);
 
 		$order = new Order(Currency::get(Currency::EUR), OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER), OrderCarrierId::get(OrderCarrierId::TNT), null);
@@ -131,7 +131,7 @@ class InitMallPayRequestTest extends TestCase
 			20,
 			40,
 			20,
-			'https://obchod.cz/produkt/123-345'
+			'https://obchod.cz/produkt/123-345',
 		);
 		$order->addAddress('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
 
@@ -145,7 +145,7 @@ class InitMallPayRequestTest extends TestCase
 			HttpMethod::get(HttpMethod::GET),
 			'https://www.slevomat.cz',
 			null,
-			null
+			null,
 		);
 
 		$response = $request->send($apiClient);

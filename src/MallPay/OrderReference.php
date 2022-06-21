@@ -8,23 +8,14 @@ use function array_map;
 class OrderReference
 {
 
-	/** @var Price */
-	private $totalPrice;
-
-	/** @var Vat[] */
-	private $totalVat;
-
 	/** @var OrderItemReference[] */
-	private $items = [];
+	private array $items = [];
 
 	/**
-	 * @param Price $totalPrice
 	 * @param Vat[] $totalVat
 	 */
-	public function __construct(Price $totalPrice, array $totalVat)
+	public function __construct(private Price $totalPrice, private array $totalVat)
 	{
-		$this->totalPrice = $totalPrice;
-		$this->totalVat = $totalVat;
 	}
 
 	public function addItem(string $code, ?string $ean, string $name, ?OrderItemType $type, ?int $quantity): void
@@ -39,12 +30,8 @@ class OrderReference
 	{
 		return [
 			'totalPrice' => $this->totalPrice->encode(),
-			'totalVat' => array_map(static function (Vat $vat): array {
-					return $vat->encode();
-			}, $this->totalVat),
-			'items' => array_map(static function (OrderItemReference $item): array {
-					return $item->encode();
-			}, $this->items),
+			'totalVat' => array_map(static fn (Vat $vat): array => $vat->encode(), $this->totalVat),
+			'items' => array_map(static fn (OrderItemReference $item): array => $item->encode(), $this->items),
 		];
 	}
 

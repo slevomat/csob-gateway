@@ -5,35 +5,18 @@ namespace SlevomatCsobGateway\Api;
 class Response
 {
 
-	/** @var ResponseCode */
-	private $responseCode;
-
-	/** @var mixed[]|null */
-	private $data;
-
-	/** @var string[]|string[][] */
-	private $headers;
-
-	/** @var mixed[] */
-	private $extensions;
-
 	/**
-	 * @param ResponseCode $responseCode
 	 * @param mixed[]|null $data
 	 * @param string[]|string[][] $headers
 	 * @param mixed[] $extensions
 	 */
 	public function __construct(
-		ResponseCode $responseCode,
-		?array $data,
-		array $headers = [],
-		array $extensions = []
+		private ResponseCode $responseCode,
+		private ?array $data = null,
+		private array $headers = [],
+		private array $extensions = [],
 	)
 	{
-		$this->responseCode = $responseCode;
-		$this->data = $data;
-		$this->headers = $headers;
-		$this->extensions = $extensions;
 	}
 
 	public function getResponseCode(): ResponseCode

@@ -45,12 +45,8 @@ use SlevomatCsobGateway\MallPay\OrderReference;
 class RequestFactory
 {
 
-	/** @var string */
-	private $merchantId;
-
-	public function __construct(string $merchantId)
+	public function __construct(private string $merchantId)
 	{
-		$this->merchantId = $merchantId;
 	}
 
 	public function createInitPayment(
@@ -67,7 +63,7 @@ class RequestFactory
 		?int $ttlSec = null,
 		?int $logoVersion = null,
 		?int $colorSchemeVersion = null,
-		?DateTimeImmutable $customExpiry = null
+		?DateTimeImmutable $customExpiry = null,
 	): InitPaymentRequest
 	{
 		return new InitPaymentRequest(
@@ -85,7 +81,7 @@ class RequestFactory
 			$ttlSec,
 			$logoVersion,
 			$colorSchemeVersion,
-			$customExpiry
+			$customExpiry,
 		);
 	}
 
@@ -93,7 +89,7 @@ class RequestFactory
 	{
 		return new ProcessPaymentRequest(
 			$this->merchantId,
-			$payId
+			$payId,
 		);
 	}
 
@@ -101,7 +97,7 @@ class RequestFactory
 	{
 		return new PaymentStatusRequest(
 			$this->merchantId,
-			$payId
+			$payId,
 		);
 	}
 
@@ -109,7 +105,7 @@ class RequestFactory
 	{
 		return new ReversePaymentRequest(
 			$this->merchantId,
-			$payId
+			$payId,
 		);
 	}
 
@@ -118,7 +114,7 @@ class RequestFactory
 		return new ClosePaymentRequest(
 			$this->merchantId,
 			$payId,
-			$totalAmount
+			$totalAmount,
 		);
 	}
 
@@ -127,21 +123,21 @@ class RequestFactory
 		return new RefundPaymentRequest(
 			$this->merchantId,
 			$payId,
-			$amount
+			$amount,
 		);
 	}
 
 	public function createEchoRequest(): EchoRequest
 	{
 		return new EchoRequest(
-			$this->merchantId
+			$this->merchantId,
 		);
 	}
 
 	public function createPostEchoRequest(): PostEchoRequest
 	{
 		return new PostEchoRequest(
-			$this->merchantId
+			$this->merchantId,
 		);
 	}
 
@@ -149,7 +145,7 @@ class RequestFactory
 	{
 		return new CustomerInfoRequest(
 			$this->merchantId,
-			$customerId
+			$customerId,
 		);
 	}
 
@@ -164,7 +160,7 @@ class RequestFactory
 		string $clientIp,
 		?Price $price = null,
 		?string $description = null,
-		?string $merchantData = null
+		?string $merchantData = null,
 	): InitOneClickPaymentRequest
 	{
 		return new InitOneClickPaymentRequest(
@@ -174,7 +170,7 @@ class RequestFactory
 			$clientIp,
 			$price,
 			$description,
-			$merchantData
+			$merchantData,
 		);
 	}
 
@@ -182,7 +178,7 @@ class RequestFactory
 	{
 		return new StartOneClickPaymentRequest(
 			$this->merchantId,
-			$payId
+			$payId,
 		);
 	}
 
@@ -191,21 +187,19 @@ class RequestFactory
 		return new BasicCheckoutRequest(
 			$this->merchantId,
 			$payId,
-			$callbackUrl
+			$callbackUrl,
 		);
 	}
 
 	/**
-	 * @param string $payId
 	 * @param mixed[] $callbackParams
-	 * @return BasicFinishRequest
 	 */
 	public function createMasterpassBasicFinishRequest(string $payId, array $callbackParams): BasicFinishRequest
 	{
 		return new BasicFinishRequest(
 			$this->merchantId,
 			$payId,
-			$callbackParams
+			$callbackParams,
 		);
 	}
 
@@ -215,9 +209,7 @@ class RequestFactory
 	}
 
 	/**
-	 * @param string $payId
 	 * @param mixed[] $callbackParams
-	 * @return StandardExtractRequest
 	 */
 	public function createMasterpassStandardExtractRequest(string $payId, array $callbackParams): StandardExtractRequest
 	{
@@ -230,7 +222,7 @@ class RequestFactory
 			$this->merchantId,
 			$payId,
 			$oauthToken,
-			$totalAmount
+			$totalAmount,
 		);
 	}
 
@@ -242,7 +234,7 @@ class RequestFactory
 		HttpMethod $returnMethod,
 		PaymentButtonBrand $brand,
 		?string $merchantData,
-		Language $language
+		Language $language,
 	): PaymentButtonRequest
 	{
 		return new PaymentButtonRequest(
@@ -254,7 +246,7 @@ class RequestFactory
 			$returnMethod,
 			$brand,
 			$merchantData,
-			$language
+			$language,
 		);
 	}
 
@@ -264,7 +256,7 @@ class RequestFactory
 		Price $totalPrice,
 		bool $closePayment,
 		?string $merchantData,
-		?int $ttlSec = null
+		?int $ttlSec = null,
 	): InitApplePayRequest
 	{
 		return new InitApplePayRequest(
@@ -274,15 +266,12 @@ class RequestFactory
 			$totalPrice,
 			$closePayment,
 			$merchantData,
-			$ttlSec
+			$ttlSec,
 		);
 	}
 
 	/**
-	 * @param string $payId
 	 * @param mixed[] $payload
-	 * @param int|null $totalAmount
-	 * @return StartApplePayRequest
 	 */
 	public function createApplePayStartRequest(string $payId, array $payload, ?int $totalAmount = null): StartApplePayRequest
 	{
@@ -290,7 +279,7 @@ class RequestFactory
 			$this->merchantId,
 			$payId,
 			$payload,
-			$totalAmount
+			$totalAmount,
 		);
 	}
 
@@ -298,7 +287,7 @@ class RequestFactory
 	{
 		return new OneClickEchoRequest(
 			$this->merchantId,
-			$payId
+			$payId,
 		);
 	}
 
@@ -311,7 +300,7 @@ class RequestFactory
 		HttpMethod $returnMethod,
 		string $returnUrl,
 		?string $merchantData,
-		?int $ttlSec
+		?int $ttlSec,
 	): InitMallPayRequest
 	{
 		return new InitMallPayRequest(
@@ -324,7 +313,7 @@ class RequestFactory
 			$returnMethod,
 			$returnUrl,
 			$merchantData,
-			$ttlSec
+			$ttlSec,
 		);
 	}
 
@@ -334,7 +323,7 @@ class RequestFactory
 		DateTimeImmutable $date,
 		OrderReference $fulfilled,
 		?OrderReference $cancelled,
-		?string $deliveryTrackingNumber
+		?string $deliveryTrackingNumber,
 	): LogisticsMallPayRequest
 	{
 		return new LogisticsMallPayRequest(
@@ -344,39 +333,36 @@ class RequestFactory
 			$date,
 			$fulfilled,
 			$cancelled,
-			$deliveryTrackingNumber
+			$deliveryTrackingNumber,
 		);
 	}
 
 	public function createMallPayCancelRequest(
 		string $payId,
-		CancelReason $reason
+		CancelReason $reason,
 	): CancelMallPayRequest
 	{
 		return new CancelMallPayRequest(
 			$this->merchantId,
 			$payId,
-			$reason
+			$reason,
 		);
 	}
 
 	/**
-	 * @param string $payId
-	 * @param int|null $amount
 	 * @param OrderItemReference[] $refundedItems
-	 * @return RefundMallPayRequest
 	 */
 	public function createMallPayRefundRequest(
 		string $payId,
 		?int $amount,
-		array $refundedItems
+		array $refundedItems,
 	): RefundMallPayRequest
 	{
 		return new RefundMallPayRequest(
 			$this->merchantId,
 			$payId,
 			$amount,
-			$refundedItems
+			$refundedItems,
 		);
 	}
 
@@ -390,7 +376,7 @@ class RequestFactory
 		string $clientIp,
 		Price $totalPrice,
 		bool $closePayment,
-		?string $merchantData
+		?string $merchantData,
 	): InitGooglePayRequest
 	{
 		return new InitGooglePayRequest(
@@ -399,21 +385,19 @@ class RequestFactory
 			$clientIp,
 			$totalPrice,
 			$closePayment,
-			$merchantData
+			$merchantData,
 		);
 	}
 
 	/**
-	 * @param string $payId
 	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
-	 * @return StartGooglePayRequest
 	 */
 	public function createGooglePayStartRequest(string $payId, array $payload): StartGooglePayRequest
 	{
 		return new StartGooglePayRequest(
 			$this->merchantId,
 			$payId,
-			$payload
+			$payload,
 		);
 	}
 

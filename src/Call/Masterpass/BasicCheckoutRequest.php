@@ -12,27 +12,14 @@ use SlevomatCsobGateway\Validator;
 class BasicCheckoutRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var string */
-	private $callbackUrl;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		string $callbackUrl
+		private string $merchantId,
+		private string $payId,
+		private string $callbackUrl,
 	)
 	{
 		Validator::checkPayId($payId);
 		Validator::checkReturnUrl($callbackUrl);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->callbackUrl = $callbackUrl;
 	}
 
 	public function send(ApiClient $apiClient): CheckoutResponse
@@ -68,7 +55,7 @@ class BasicCheckoutRequest
 					'version' => null,
 					'shippingLocationProfile' => null,
 				],
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -80,7 +67,7 @@ class BasicCheckoutRequest
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['lightboxParams'] ?? null
+			$data['lightboxParams'] ?? null,
 		);
 	}
 

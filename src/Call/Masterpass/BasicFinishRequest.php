@@ -13,31 +13,16 @@ use SlevomatCsobGateway\Validator;
 class BasicFinishRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var mixed[] */
-	private $callbackParams;
-
 	/**
-	 * @param string $merchantId
-	 * @param string $payId
 	 * @param mixed[] $callbackParams
 	 */
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		array $callbackParams
+		private string $merchantId,
+		private string $payId,
+		private array $callbackParams,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->callbackParams = $callbackParams;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -68,7 +53,7 @@ class BasicFinishRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -79,7 +64,7 @@ class BasicFinishRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

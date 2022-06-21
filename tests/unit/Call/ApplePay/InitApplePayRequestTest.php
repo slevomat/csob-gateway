@@ -37,7 +37,7 @@ class InitApplePayRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 1,
-				])
+				]),
 			);
 
 		$initPaymentRequest = new InitApplePayRequest(
@@ -46,7 +46,7 @@ class InitApplePayRequestTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::get(Currency::CZK)),
 			true,
-			null
+			null,
 		);
 
 		$paymentResponse = $initPaymentRequest->send($apiClient);

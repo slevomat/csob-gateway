@@ -14,79 +14,24 @@ class OrderItem
 	public const DESCRIPTION_LENGTH_MAX = 100;
 	public const PRODUCT_URL_LENGTH_MAX = 250;
 
-	/** @var string */
-	private $code;
-
-	/** @var string|null */
-	private $ean;
-
-	/** @var string */
-	private $name;
-
-	/** @var OrderItemType|null */
-	private $type;
-
-	/** @var int|null */
-	private $quantity;
-
-	/** @var string|null */
-	private $variant;
-
-	/** @var string|null */
-	private $description;
-
-	/** @var string|null */
-	private $producer;
-
-	/** @var string[]|null */
-	private $categories;
-
-	/** @var Price|null */
-	private $unitPrice;
-
-	/** @var Vat|null */
-	private $unitVat;
-
-	/** @var Price */
-	private $totalPrice;
-
-	/** @var Vat */
-	private $totalVat;
-
-	/** @var string|null */
-	private $productUrl;
-
 	/**
-	 * @param string $code
-	 * @param string|null $ean
-	 * @param string $name
-	 * @param OrderItemType|null $type
-	 * @param int|null $quantity
-	 * @param string|null $variant
-	 * @param string|null $description
-	 * @param string|null $producer
 	 * @param string[]|null $categories
-	 * @param Price|null $unitPrice
-	 * @param Vat|null $unitVat
-	 * @param Price $totalPrice
-	 * @param Vat $totalVat
-	 * @param string|null $productUrl
 	 */
 	public function __construct(
-		string $code,
-		?string $ean,
-		string $name,
-		?OrderItemType $type,
-		?int $quantity,
-		?string $variant,
-		?string $description,
-		?string $producer,
-		?array $categories,
-		?Price $unitPrice,
-		?Vat $unitVat,
-		Price $totalPrice,
-		Vat $totalVat,
-		?string $productUrl
+		private string $code,
+		private ?string $ean,
+		private string $name,
+		private ?OrderItemType $type,
+		private ?int $quantity,
+		private ?string $variant,
+		private ?string $description,
+		private ?string $producer,
+		private ?array $categories,
+		private ?Price $unitPrice,
+		private ?Vat $unitVat,
+		private Price $totalPrice,
+		private Vat $totalVat,
+		private ?string $productUrl = null,
 	)
 	{
 		Validator::checkWhitespacesAndLength($code, self::CODE_VARIANT_PRODUCER_LENGTH_MAX);
@@ -110,21 +55,6 @@ class OrderItem
 			Validator::checkUrl($productUrl);
 			Validator::checkWhitespacesAndLength($productUrl, self::PRODUCT_URL_LENGTH_MAX);
 		}
-
-		$this->code = $code;
-		$this->ean = $ean;
-		$this->name = $name;
-		$this->type = $type;
-		$this->quantity = $quantity;
-		$this->variant = $variant;
-		$this->description = $description;
-		$this->producer = $producer;
-		$this->categories = $categories;
-		$this->unitPrice = $unitPrice;
-		$this->unitVat = $unitVat;
-		$this->totalPrice = $totalPrice;
-		$this->totalVat = $totalVat;
-		$this->productUrl = $productUrl;
 	}
 
 	/**

@@ -10,24 +10,12 @@ use SlevomatCsobGateway\Validator;
 class PaymentStatusRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
 	/** @var ResponseExtensionHandler[] */
-	private $extensions = [];
+	private array $extensions = [];
 
-	public function __construct(
-		string $merchantId,
-		string $payId
-	)
+	public function __construct(private string $merchantId, private string $payId)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -53,7 +41,7 @@ class PaymentStatusRequest
 				'statusDetail' => null,
 			]),
 			null,
-			$this->extensions
+			$this->extensions,
 		);
 
 		/** @var mixed[] $data */
@@ -68,7 +56,7 @@ class PaymentStatusRequest
 			$data['authCode'] ?? null,
 			null,
 			$response->getExtensions(),
-			$data['statusDetail'] ?? null
+			$data['statusDetail'] ?? null,
 		);
 	}
 

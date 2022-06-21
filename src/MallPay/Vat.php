@@ -8,26 +8,9 @@ use SlevomatCsobGateway\Validator;
 class Vat
 {
 
-	/** @var int */
-	private $amount;
-
-	/** @var Currency */
-	private $currency;
-
-	/** @var int */
-	private $vatRate;
-
-	public function __construct(
-		int $amount,
-		Currency $currency,
-		int $vatRate
-	)
+	public function __construct(private int $amount, private Currency $currency, private int $vatRate)
 	{
 		Validator::checkNumberPositiveOrZero($amount);
-
-		$this->amount = $amount;
-		$this->currency = $currency;
-		$this->vatRate = $vatRate;
 	}
 
 	/**

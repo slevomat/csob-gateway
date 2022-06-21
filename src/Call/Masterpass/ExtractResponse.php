@@ -9,47 +9,18 @@ use SlevomatCsobGateway\Call\ResultCode;
 class ExtractResponse
 {
 
-	/** @var string */
-	private $payId;
-
-	/** @var DateTimeImmutable */
-	private $responseDateTime;
-
-	/** @var ResultCode */
-	private $resultCode;
-
-	/** @var string */
-	private $resultMessage;
-
-	/** @var PaymentStatus|null */
-	private $paymentStatus;
-
-	/** @var mixed[]|null */
-	private $checkoutParams;
-
 	/**
-	 * @param string $payId
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
-	 * @param PaymentStatus|null $paymentStatus
 	 * @param mixed[]|null $checkoutParams
 	 */
 	public function __construct(
-		string $payId,
-		DateTimeImmutable $responseDateTime,
-		ResultCode $resultCode,
-		string $resultMessage,
-		?PaymentStatus $paymentStatus,
-		?array $checkoutParams
+		private string $payId,
+		private DateTimeImmutable $responseDateTime,
+		private ResultCode $resultCode,
+		private string $resultMessage,
+		private ?PaymentStatus $paymentStatus = null,
+		private ?array $checkoutParams = null,
 	)
 	{
-		$this->payId = $payId;
-		$this->responseDateTime = $responseDateTime;
-		$this->resultCode = $resultCode;
-		$this->resultMessage = $resultMessage;
-		$this->paymentStatus = $paymentStatus;
-		$this->checkoutParams = $checkoutParams;
 	}
 
 	public function getPayId(): string

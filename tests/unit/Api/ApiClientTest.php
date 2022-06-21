@@ -107,16 +107,21 @@ class ApiClientTest extends TestCase
 	/**
 	 * @dataProvider getRequests
 	 *
-	 * @param HttpMethod $httpMethod
-	 * @param string $url
-	 * @param string $expectedUrl
 	 * @param mixed[] $requestData
 	 * @param mixed[]|null $expectedRequestData
 	 * @param mixed[]|null $responseData
-	 * @param ResponseCode $responseCode
 	 * @param mixed[] $responseHeaders
 	 */
-	public function testRequests(HttpMethod $httpMethod, string $url, string $expectedUrl, array $requestData, ?array $expectedRequestData, ?array $responseData, ResponseCode $responseCode, array $responseHeaders): void
+	public function testRequests(
+		HttpMethod $httpMethod,
+		string $url,
+		string $expectedUrl,
+		array $requestData,
+		?array $expectedRequestData,
+		?array $responseData,
+		ResponseCode $responseCode,
+		array $responseHeaders,
+	): void
 	{
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
 			->disableOriginalConstructor()
@@ -142,7 +147,7 @@ class ApiClientTest extends TestCase
 					($responseData ?? []) + [
 						'signature' => 'signature',
 					],
-					$responseHeaders
+					$responseHeaders,
 				));
 
 		} else {
@@ -161,7 +166,7 @@ class ApiClientTest extends TestCase
 						($responseData ?? []) + [
 							'signature' => 'signature',
 						],
-						$responseHeaders
+						$responseHeaders,
 					);
 				});
 		}
@@ -201,49 +206,49 @@ class ApiClientTest extends TestCase
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S400_BAD_REQUEST),
-					[]
+					[],
 				),
 				BadRequestException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S403_FORBIDDEN),
-					[]
+					[],
 				),
 				ForbiddenException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S404_NOT_FOUND),
-					[]
+					[],
 				),
 				NotFoundException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S405_METHOD_NOT_ALLOWED),
-					[]
+					[],
 				),
 				MethodNotAllowedException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S429_TOO_MANY_REQUESTS),
-					[]
+					[],
 				),
 				TooManyRequestsException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S503_SERVICE_UNAVAILABLE),
-					[]
+					[],
 				),
 				ServiceUnavailableException::class,
 			],
 			[
 				new Response(
 					ResponseCode::get(ResponseCode::S500_INTERNAL_ERROR),
-					[]
+					[],
 				),
 				InternalErrorException::class,
 			],
@@ -252,9 +257,6 @@ class ApiClientTest extends TestCase
 
 	/**
 	 * @dataProvider getTestExceptions
-	 *
-	 * @param Response $response
-	 * @param string $expectedExceptionClass
 	 *
 	 * @phpstan-param class-string $expectedExceptionClass
 	 */
@@ -295,7 +297,7 @@ class ApiClientTest extends TestCase
 	{
 		$response = new Response(
 			ResponseCode::get(ResponseCode::S200_OK),
-			[]
+			[],
 		);
 
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
@@ -329,7 +331,7 @@ class ApiClientTest extends TestCase
 			ResponseCode::get(ResponseCode::S200_OK),
 			[
 				'signature' => 'invalidSignature',
-			]
+			],
 		);
 
 		$cryptoService = $this->getMockBuilder(CryptoService::class)
@@ -416,7 +418,7 @@ class ApiClientTest extends TestCase
 			->willReturn(new Response(
 				ResponseCode::get(ResponseCode::S200_OK),
 				['id' => '123', 'signature' => 'signature', 'extensions' => [['extension' => 'foo', 'foo' => 'bar', 'signature' => 'signatureExtension']]],
-				[]
+				[],
 			));
 
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
@@ -426,7 +428,6 @@ class ApiClientTest extends TestCase
 
 				/**
 				 * @param mixed[] $decodeData
-				 * @return stdClass
 				 */
 				public function createResponse(array $decodeData): stdClass
 				{

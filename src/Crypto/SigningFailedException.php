@@ -7,17 +7,12 @@ use RuntimeException;
 class SigningFailedException extends RuntimeException
 {
 
-	/** @var mixed[] */
-	private $data;
-
 	/**
 	 * @param mixed[] $data
 	 */
-	public function __construct(array $data)
+	public function __construct(private array $data)
 	{
 		parent::__construct('Signing failed');
-
-		$this->data = $data;
 	}
 
 	/**

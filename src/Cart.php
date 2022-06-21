@@ -6,14 +6,10 @@ class Cart
 {
 
 	/** @var CartItem[] */
-	private $items = [];
+	private array $items = [];
 
-	/** @var Currency */
-	private $currency;
-
-	public function __construct(Currency $currency)
+	public function __construct(private Currency $currency)
 	{
-		$this->currency = $currency;
 	}
 
 	public function addItem(string $name, int $quantity, int $amount, ?string $description = null): void
@@ -33,7 +29,7 @@ class Cart
 	{
 		return new Price(
 			$this->countTotalAmount(),
-			$this->currency
+			$this->currency,
 		);
 	}
 

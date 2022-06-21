@@ -13,9 +13,7 @@ class ReceivePaymentRequest
 {
 
 	/**
-	 * @param ApiClient $apiClient
 	 * @param mixed[] $data
-	 * @return PaymentResponse
 	 */
 	public function send(ApiClient $apiClient, array $data): PaymentResponse
 	{
@@ -47,7 +45,7 @@ class ReceivePaymentRequest
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
-			isset($data['merchantData']) ? (string) base64_decode($data['merchantData'], true) : null
+			isset($data['merchantData']) ? (string) base64_decode($data['merchantData'], true) : null,
 		);
 	}
 

@@ -13,31 +13,14 @@ use SlevomatCsobGateway\Validator;
 class StandardFinishRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var string */
-	private $oauthToken;
-
-	/** @var int */
-	private $totalAmount;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		string $oauthToken,
-		int $totalAmount
+		private string $merchantId,
+		private string $payId,
+		private string $oauthToken,
+		private int $totalAmount,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->oauthToken = $oauthToken;
-		$this->totalAmount = $totalAmount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -65,7 +48,7 @@ class StandardFinishRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -76,7 +59,7 @@ class StandardFinishRequest
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

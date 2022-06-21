@@ -19,20 +19,13 @@ use function json_encode;
 class GuzzleDriver implements ApiClientDriver
 {
 
-	/** @var Client */
-	private $client;
-
-	public function __construct(Client $client)
+	public function __construct(private Client $client)
 	{
-		$this->client = $client;
 	}
 
 	/**
-	 * @param HttpMethod $method
-	 * @param string $url
 	 * @param mixed[]|null $data
 	 * @param string[] $headers
-	 * @return Response
 	 *
 	 * @throws GuzzleDriverException
 	 */
@@ -54,16 +47,14 @@ class GuzzleDriver implements ApiClientDriver
 			$responseCode = ResponseCode::get($httpResponse->getStatusCode());
 
 			/** @var string[]|string[][] $responseHeaders */
-			$responseHeaders = array_map(static function ($item) {
-				return count($item) > 1
+			$responseHeaders = array_map(static fn ($item) => count($item) > 1
 					? $item
-					: array_shift($item);
-			}, $httpResponse->getHeaders());
+					: array_shift($item), $httpResponse->getHeaders());
 
 			return new Response(
 				$responseCode,
 				json_decode((string) $httpResponse->getBody(), true),
-				$responseHeaders
+				$responseHeaders,
 			);
 		} catch (Throwable $e) {
 			throw new GuzzleDriverException($e);

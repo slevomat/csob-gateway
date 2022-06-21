@@ -10,26 +10,13 @@ use SlevomatCsobGateway\Validator;
 class RefundPaymentRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var int|null */
-	private $amount;
-
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		?int $amount = null
+		private string $merchantId,
+		private string $payId,
+		private ?int $amount = null,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->amount = $amount;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -57,7 +44,7 @@ class RefundPaymentRequest
 				'resultMessage' => null,
 				'paymentStatus' => null,
 				'authCode' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -69,7 +56,7 @@ class RefundPaymentRequest
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
-			$data['authCode'] ?? null
+			$data['authCode'] ?? null,
 		);
 	}
 

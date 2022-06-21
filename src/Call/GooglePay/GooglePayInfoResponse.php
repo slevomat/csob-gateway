@@ -8,30 +8,11 @@ use SlevomatCsobGateway\Call\ResultCode;
 class GooglePayInfoResponse
 {
 
-	/** @var DateTimeImmutable */
-	private $responseDateTime;
-
-	/** @var ResultCode */
-	private $resultCode;
-
-	/** @var string */
-	private $resultMessage;
-
-	/** @var mixed[] */
-	private $checkoutParams;
-
 	/**
-	 * @param DateTimeImmutable $responseDateTime
-	 * @param ResultCode $resultCode
-	 * @param string $resultMessage
 	 * @param mixed[] $checkoutParams
 	 */
-	public function __construct(DateTimeImmutable $responseDateTime, ResultCode $resultCode, string $resultMessage, array $checkoutParams)
+	public function __construct(private DateTimeImmutable $responseDateTime, private ResultCode $resultCode, private string $resultMessage, private array $checkoutParams)
 	{
-		$this->responseDateTime = $responseDateTime;
-		$this->resultCode = $resultCode;
-		$this->resultMessage = $resultMessage;
-		$this->checkoutParams = $checkoutParams;
 	}
 
 	public function getResponseDateTime(): DateTimeImmutable

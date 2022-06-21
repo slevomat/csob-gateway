@@ -10,34 +10,23 @@ use function array_map;
 class Order
 {
 
-	/** @var Currency */
-	private $currency;
-
 	/** @var Address[] */
-	private $addresses = [];
+	private array $addresses = [];
 
-	/** @var OrderDeliveryType|null */
-	private $deliveryType;
+	private ?OrderCarrierId $carrierId = null;
 
-	/** @var OrderCarrierId|null */
-	private $carrierId;
-
-	/** @var string|null */
-	private $carrierCustom;
+	private ?string $carrierCustom = null;
 
 	/** @var OrderItem[] */
-	private $items = [];
+	private array $items = [];
 
 	public function __construct(
-		Currency $currency,
-		?OrderDeliveryType $deliveryType,
+		private Currency $currency,
+		private ?OrderDeliveryType $deliveryType,
 		?OrderCarrierId $carrierId,
-		?string $carrierCustom
+		?string $carrierCustom,
 	)
 	{
-		$this->currency = $currency;
-		$this->deliveryType = $deliveryType;
-
 		if ($deliveryType !== null && $deliveryType->equals(OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER))) {
 			$this->carrierId = $carrierId;
 			if ($carrierId === null) {
@@ -50,21 +39,7 @@ class Order
 	}
 
 	/**
-	 * @param string $code
-	 * @param string|null $ean
-	 * @param string $name
-	 * @param OrderItemType|null $type
-	 * @param int|null $quantity
-	 * @param string|null $variant
-	 * @param string|null $description
-	 * @param string|null $producer
 	 * @param string[]|null $categories
-	 * @param int|null $unitAmount
-	 * @param int $totalAmount
-	 * @param int|null $unitVatAmount
-	 * @param int $totalVatAmount
-	 * @param int $vatRate
-	 * @param string|null $productUrl
 	 */
 	public function addItem(
 		string $code,
@@ -81,7 +56,7 @@ class Order
 		?int $unitVatAmount,
 		int $totalVatAmount,
 		int $vatRate,
-		?string $productUrl
+		?string $productUrl,
 	): void
 	{
 		$this->items[] = new OrderItem(
@@ -98,7 +73,7 @@ class Order
 			$unitVatAmount !== null ? new Vat($unitVatAmount, $this->currency, $vatRate) : null,
 			new Price($totalAmount, $this->currency),
 			new Vat($totalVatAmount, $this->currency, $vatRate),
-			$productUrl
+			$productUrl,
 		);
 	}
 
@@ -109,7 +84,7 @@ class Order
 		string $streetAddress,
 		?string $streetNumber,
 		string $zip,
-		AddressType $addressType
+		AddressType $addressType,
 	): void
 	{
 		$this->addresses[] = new Address(
@@ -119,7 +94,7 @@ class Order
 			$streetAddress,
 			$streetNumber,
 			$zip,
-			$addressType
+			$addressType,
 		);
 	}
 
@@ -130,15 +105,9 @@ class Order
 	{
 		$data = [
 			'totalPrice' => $this->getTotalPrice()->encode(),
-			'totalVat' => array_map(static function (Vat $vat): array {
-					return $vat->encode();
-			}, $this->getTotalVat()),
-			'addresses' => array_map(static function (Address $address): array {
-					return $address->encode();
-			}, $this->addresses),
-			'items' => array_map(static function (OrderItem $item): array {
-					return $item->encode();
-			}, $this->items),
+			'totalVat' => array_map(static fn (Vat $vat): array => $vat->encode(), $this->getTotalVat()),
+			'addresses' => array_map(static fn (Address $address): array => $address->encode(), $this->addresses),
+			'items' => array_map(static fn (OrderItem $item): array => $item->encode(), $this->items),
 		];
 
 		if ($this->deliveryType !== null) {
@@ -158,7 +127,7 @@ class Order
 	{
 		return new Price(
 			$this->countTotalPrice(),
-			$this->currency
+			$this->currency,
 		);
 	}
 

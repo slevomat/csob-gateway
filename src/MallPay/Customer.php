@@ -15,43 +15,16 @@ class Customer
 	public const PHONE_LENGTH_MAX = 16;
 	public const TIN_VATIN_LENGTH_MAX = 10;
 
-	/** @var string|null */
-	private $firstName;
-
-	/** @var string|null */
-	private $lastName;
-
-	/** @var string|null */
-	private $fullName;
-
-	/** @var string|null */
-	private $titleBefore;
-
-	/** @var string|null */
-	private $titleAfter;
-
-	/** @var string */
-	private $email;
-
-	/** @var string */
-	private $phone;
-
-	/** @var string|null */
-	private $tin;
-
-	/** @var string|null */
-	private $vatin;
-
 	public function __construct(
-		?string $firstName,
-		?string $lastName,
-		?string $fullName,
-		?string $titleBefore,
-		?string $titleAfter,
-		string $email,
-		string $phone,
-		?string $tin,
-		?string $vatin
+		private ?string $firstName,
+		private ?string $lastName,
+		private ?string $fullName,
+		private ?string $titleBefore,
+		private ?string $titleAfter,
+		private string $email,
+		private string $phone,
+		private ?string $tin = null,
+		private ?string $vatin = null,
 	)
 	{
 		if ($fullName === null && ($firstName === null || $lastName === null)) {
@@ -81,16 +54,6 @@ class Customer
 		if ($vatin !== null) {
 			Validator::checkWhitespacesAndLength($vatin, self::TIN_VATIN_LENGTH_MAX);
 		}
-
-		$this->firstName = $firstName;
-		$this->lastName = $lastName;
-		$this->fullName = $fullName;
-		$this->titleBefore = $titleBefore;
-		$this->titleAfter = $titleAfter;
-		$this->email = $email;
-		$this->phone = $phone;
-		$this->tin = $tin;
-		$this->vatin = $vatin;
 	}
 
 	/**

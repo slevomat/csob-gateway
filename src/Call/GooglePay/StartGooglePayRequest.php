@@ -15,31 +15,16 @@ use function base64_encode;
 class StartGooglePayRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $payId;
-
-	/** @var array|mixed[] */
-	private $payload;
-
 	/**
-	 * @param string $merchantId
-	 * @param string $payId
 	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
 	 */
 	public function __construct(
-		string $merchantId,
-		string $payId,
-		array $payload
+		private string $merchantId,
+		private string $payId,
+		private array $payload,
 	)
 	{
 		Validator::checkPayId($payId);
-
-		$this->merchantId = $merchantId;
-		$this->payId = $payId;
-		$this->payload = $payload;
 	}
 
 	public function send(ApiClient $apiClient): PaymentResponse
@@ -69,7 +54,7 @@ class StartGooglePayRequest
 				'resultCode' => null,
 				'resultMessage' => null,
 				'paymentStatus' => null,
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -81,7 +66,7 @@ class StartGooglePayRequest
 			$responseDateTime,
 			ResultCode::get($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null
+			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 		);
 	}
 

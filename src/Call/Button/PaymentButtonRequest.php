@@ -15,59 +15,22 @@ use SlevomatCsobGateway\Validator;
 class PaymentButtonRequest
 {
 
-	/** @var string */
-	private $merchantId;
-
-	/** @var string */
-	private $orderId;
-
-	/** @var string */
-	private $clientIp;
-
-	/** @var Price */
-	private $totalPrice;
-
-	/** @var string */
-	private $returnUrl;
-
-	/** @var HttpMethod */
-	private $returnMethod;
-
-	/** @var PaymentButtonBrand */
-	private $brand;
-
-	/** @var string|null */
-	private $merchantData;
-
-	/** @var Language */
-	private $language;
-
 	public function __construct(
-		string $merchantId,
-		string $orderId,
-		string $clientIp,
-		Price $totalPrice,
-		string $returnUrl,
-		HttpMethod $returnMethod,
-		PaymentButtonBrand $brand,
-		?string $merchantData,
-		Language $language
+		private string $merchantId,
+		private string $orderId,
+		private string $clientIp,
+		private Price $totalPrice,
+		private string $returnUrl,
+		private HttpMethod $returnMethod,
+		private PaymentButtonBrand $brand,
+		private ?string $merchantData,
+		private Language $language,
 	)
 	{
 		Validator::checkReturnUrl($returnUrl);
 		if ($merchantData !== null) {
 			Validator::checkMerchantData($merchantData);
 		}
-
-		$this->merchantId = $merchantId;
-		$this->orderId = $orderId;
-		$this->clientIp = $clientIp;
-		$this->totalPrice = $totalPrice;
-		$this->returnUrl = $returnUrl;
-		$this->returnMethod = $returnMethod;
-		$this->brand = $brand;
-		$this->merchantData = $merchantData;
-		$this->language = $language;
 	}
 
 	public function send(ApiClient $apiClient): PaymentButtonResponse
@@ -115,7 +78,7 @@ class PaymentButtonRequest
 					'url' => null,
 					'params' => null,
 				],
-			])
+			]),
 		);
 
 		/** @var mixed[] $data */
@@ -138,7 +101,7 @@ class PaymentButtonRequest
 			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
 			$redirectMethod,
 			$redirectUrl,
-			$redirectParams
+			$redirectParams,
 		);
 	}
 

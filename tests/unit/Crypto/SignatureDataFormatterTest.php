@@ -160,7 +160,6 @@ class SignatureDataFormatterTest extends TestCase
 	 *
 	 * @param mixed[] $keyPriority
 	 * @param mixed[] $data
-	 * @param string $expectedData
 	 */
 	public function testFormatDataForSignature(array $keyPriority, array $data, string $expectedData): void
 	{

@@ -7,24 +7,12 @@ use DateTimeImmutable;
 class TransactionSettlementResponse
 {
 
-	/** @var DateTimeImmutable */
-	private $createdDate;
-
-	/** @var DateTimeImmutable|null */
-	private $authDate;
-
-	/** @var DateTimeImmutable|null */
-	private $settlementDate;
-
 	public function __construct(
-		DateTimeImmutable $createdDate,
-		?DateTimeImmutable $authDate,
-		?DateTimeImmutable $settlementDate
+		private DateTimeImmutable $createdDate,
+		private ?DateTimeImmutable $authDate = null,
+		private ?DateTimeImmutable $settlementDate = null,
 	)
 	{
-		$this->createdDate = $createdDate;
-		$this->authDate = $authDate;
-		$this->settlementDate = $settlementDate;
 	}
 
 	public function getCreatedDate(): DateTimeImmutable
