@@ -3,7 +3,6 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -22,7 +21,6 @@ class ReceivePaymentRequestTest extends TestCase
 			'paymentStatus' => 5,
 		];
 
-		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -54,7 +52,6 @@ class ReceivePaymentRequestTest extends TestCase
 			'paymentStatus' => '5',
 		];
 
-		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();

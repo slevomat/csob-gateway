@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\Extension;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class TransactionSettlementExtensionTest extends TestCase
@@ -17,9 +18,11 @@ class TransactionSettlementExtensionTest extends TestCase
 		]);
 
 		self::assertSame('2016-04-12 12:06:20 848000', $transactionSettlementResponse->getCreatedDate()->format('Y-m-d H:i:s u'));
+		/** @var DateTimeImmutable $authDate */
 		$authDate = $transactionSettlementResponse->getAuthDate();
 		self::assertNotNull($authDate);
 		self::assertSame('2016-04-12 10:06:35', $authDate->format('Y-m-d H:i:s'));
+		/** @var DateTimeImmutable $settlementDate */
 		$settlementDate = $transactionSettlementResponse->getSettlementDate();
 		self::assertNotNull($settlementDate);
 		self::assertSame('2016-04-12', $settlementDate->format('Y-m-d'));

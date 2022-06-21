@@ -1,10 +1,10 @@
 includes:
-	- ../vendor/phpstan/phpstan-strict-rules/rules.neon
-	- ../vendor/phpstan/phpstan-phpunit/extension.neon
-	- ../vendor/phpstan/phpstan-phpunit/rules.neon
+	#- ../vendor/phpstan/phpstan-strict-rules/rules.neon
+	#- ../vendor/phpstan/phpstan-phpunit/extension.neon
+	#- ../vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
-	excludes_analyse:
+	excludePaths:
 		- *tests/unit/Api/Driver/CurlMock.php
 		- *tests/unit/Api/Driver/Curl_exec_false_Mock.php
 		- *tests/unit/Crypto/GlobalFunctionsMock.php
@@ -12,4 +12,3 @@ parameters:
 		- '#expects DateTimeImmutable, DateTimeImmutable\|false given#'
 		- '#should return DateTimeImmutable but returns DateTimeImmutable\|false#'
 		- '#Cannot call method .+ on DateTimeImmutable\|false.#'
-		- '#Call to static method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true\.#'

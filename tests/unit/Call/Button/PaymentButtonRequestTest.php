@@ -3,7 +3,6 @@
 namespace SlevomatCsobGateway\Call\Button;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
@@ -20,7 +19,6 @@ class PaymentButtonRequestTest extends TestCase
 
 	public function testSend(): void
 	{
-		/** @var ApiClient|MockObject $apiClient */
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
