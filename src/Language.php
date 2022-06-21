@@ -2,27 +2,25 @@
 
 namespace SlevomatCsobGateway;
 
-use Consistence\Enum\Enum;
-
-class Language extends Enum
+enum Language: string
 {
 
-	public const CZ = 'CZ';
-	public const EN = 'EN';
-	public const DE = 'DE';
-	public const SK = 'SK';
-	public const FR = 'FR';
-	public const HU = 'HU';
-	public const HR = 'HR';
-	public const IT = 'IT';
-	public const JP = 'JP';
-	public const PL = 'PL';
-	public const PT = 'PT';
-	public const RO = 'RO';
-	public const RU = 'RU';
-	public const ES = 'ES';
-	public const TR = 'TR';
-	public const SI = 'SI';
-	public const VN = 'VN';
+	case CZ = 'CZ';
+	case EN = 'EN';
+	case DE = 'DE';
+	case SK = 'SK';
+	case FR = 'FR';
+	case HU = 'HU';
+	case HR = 'HR';
+	case IT = 'IT';
+	case JP = 'JP';
+	case PL = 'PL';
+	case PT = 'PT';
+	case RO = 'RO';
+	case RU = 'RU';
+	case ES = 'ES';
+	case TR = 'TR';
+	case SI = 'SI';
+	case VN = 'VN';
 
 }

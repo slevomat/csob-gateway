@@ -13,7 +13,7 @@ class PaymentResponseTest extends TestCase
 		$paymentResponse = new PaymentResponse(
 			'123',
 			new DateTimeImmutable(),
-			ResultCode::get(ResultCode::C0_OK),
+			ResultCode::C0_OK,
 			'foo message',
 			null,
 			null,

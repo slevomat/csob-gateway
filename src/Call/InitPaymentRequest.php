@@ -48,7 +48,7 @@ class InitPaymentRequest
 			Validator::checkTtlSec($ttlSec);
 		}
 
-		if ($payOperation->equals(PayOperation::get(PayOperation::CUSTOM_PAYMENT)) && $customExpiry === null) {
+		if ($payOperation === PayOperation::CUSTOM_PAYMENT && $customExpiry === null) {
 			throw new InvalidArgumentException(sprintf('Custom expiry parameter is required for custom payment.'));
 		}
 	}
@@ -60,13 +60,13 @@ class InitPaymentRequest
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
-			'payOperation' => $this->payOperation->getValue(),
-			'payMethod' => $this->payMethod->getValue(),
+			'payOperation' => $this->payOperation->value,
+			'payMethod' => $this->payMethod->value,
 			'totalAmount' => $price->getAmount(),
-			'currency' => $price->getCurrency()->getValue(),
+			'currency' => $price->getCurrency()->value,
 			'closePayment' => $this->closePayment,
 			'returnUrl' => $this->returnUrl,
-			'returnMethod' => $this->returnMethod->getValue(),
+			'returnMethod' => $this->returnMethod->value,
 			'cart' => array_map(static function (CartItem $cartItem): array {
 				$cartItemValues = [
 					'name' => $cartItem->getName(),
@@ -80,7 +80,7 @@ class InitPaymentRequest
 
 				return $cartItemValues;
 			}, $this->cart->getItems()),
-			'language' => $this->language->getValue(),
+			'language' => $this->language->value,
 		];
 
 		if ($this->merchantData !== null) {
@@ -154,9 +154,9 @@ class InitPaymentRequest
 		return new InitPaymentResponse(
 			$data['payId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 			$data['authCode'] ?? null,
 			null,
 			$data['customerCode'] ?? null,

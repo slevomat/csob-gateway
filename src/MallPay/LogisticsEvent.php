@@ -2,12 +2,10 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
-use Consistence\Enum\Enum;
-
-class LogisticsEvent extends Enum
+enum LogisticsEvent: string
 {
 
-	public const DELIVERED = 'delivered';
-	public const SENT = 'sent';
+	case DELIVERED = 'delivered';
+	case SENT = 'sent';
 
 }

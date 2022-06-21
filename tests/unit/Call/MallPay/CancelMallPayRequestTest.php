@@ -24,10 +24,10 @@ class CancelMallPayRequestTest extends TestCase
 			->with('mallpay/cancel', [
 				'merchantId' => '012345',
 				'payId' => '12345',
-				'reason' => CancelReason::ABANDONED,
+				'reason' => CancelReason::ABANDONED->value,
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20210505092159',
 					'resultCode' => 0,
@@ -40,16 +40,16 @@ class CancelMallPayRequestTest extends TestCase
 		$request = new CancelMallPayRequest(
 			'012345',
 			'12345',
-			CancelReason::get(CancelReason::ABANDONED),
+			CancelReason::ABANDONED,
 		);
 
 		$response = $request->send($apiClient);
 
 		self::assertSame('123456789', $response->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20210505092159'), $response->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $response->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $response->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 	}
 
 }

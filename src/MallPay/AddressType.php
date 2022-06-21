@@ -2,12 +2,10 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
-use Consistence\Enum\Enum;
-
-class AddressType extends Enum
+enum AddressType: string
 {
 
-	public const DELIVERY = 'DELIVERY';
-	public const BILLING = 'BILLING';
+	case DELIVERY = 'DELIVERY';
+	case BILLING = 'BILLING';
 
 }

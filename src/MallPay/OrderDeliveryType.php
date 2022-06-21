@@ -2,14 +2,12 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
-use Consistence\Enum\Enum;
-
-class OrderDeliveryType extends Enum
+enum OrderDeliveryType: string
 {
 
-	public const DELIVERY_CARRIER = 'DELIVERY_CARRIER';
-	public const PERSONAL_BRANCH = 'PERSONAL_BRANCH';
-	public const PERSONAL_PARTNER = 'PERSONAL_PARTNER';
-	public const ONLINE = 'ONLINE';
+	case DELIVERY_CARRIER = 'DELIVERY_CARRIER';
+	case PERSONAL_BRANCH = 'PERSONAL_BRANCH';
+	case PERSONAL_PARTNER = 'PERSONAL_PARTNER';
+	case ONLINE = 'ONLINE';
 
 }

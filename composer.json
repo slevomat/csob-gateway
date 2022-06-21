@@ -15,8 +15,7 @@
 	},
 	"require": {
 		"php": "^8.1",
-		"ext-openssl": "*",
-		"slevomat/consistence": "^2.1.0"
+		"ext-openssl": "*"
 	},
 	"require-dev": {
 		"ext-curl": "*",

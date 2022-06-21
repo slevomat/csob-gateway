@@ -34,7 +34,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 				'merchantData' => base64_encode('some-base64-encoded-merchant-data'),
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -48,7 +48,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 			'ef08b6e9f22345c',
 			'5547',
 			'127.0.0.1',
-			new Price(1789600, Currency::get(Currency::CZK)),
+			new Price(1789600, Currency::CZK),
 			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
 			'some-base64-encoded-merchant-data',
 		);
@@ -57,9 +57,9 @@ class InitOneClickPaymentRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

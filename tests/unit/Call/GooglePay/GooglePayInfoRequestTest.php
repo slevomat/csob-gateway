@@ -23,7 +23,7 @@ class GooglePayInfoRequestTest extends TestCase
 				'merchantId' => '012345',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'dttm' => '20190425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
@@ -36,7 +36,7 @@ class GooglePayInfoRequestTest extends TestCase
 		$paymentResponse = $googlePayInfoRequest->send($apiClient);
 
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
 		self::assertNotEmpty($paymentResponse->getCheckoutParams());
 	}

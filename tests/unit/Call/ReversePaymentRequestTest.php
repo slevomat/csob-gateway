@@ -23,7 +23,7 @@ class ReversePaymentRequestTest extends TestCase
 				'payId' => '123456789',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -41,9 +41,9 @@ class ReversePaymentRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

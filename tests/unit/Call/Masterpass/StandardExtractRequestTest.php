@@ -31,7 +31,7 @@ class StandardExtractRequestTest extends TestCase
 				],
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -76,9 +76,9 @@ class StandardExtractRequestTest extends TestCase
 
 		self::assertSame('123456789', $extractResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $extractResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $extractResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $extractResponse->getResultCode());
 		self::assertSame('OK', $extractResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S2_IN_PROGRESS), $extractResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S2_IN_PROGRESS, $extractResponse->getPaymentStatus());
 		self::assertNotNull($extractResponse->getCheckoutParams());
 	}
 

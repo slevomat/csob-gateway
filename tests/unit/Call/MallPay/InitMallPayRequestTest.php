@@ -105,7 +105,7 @@ class InitMallPayRequestTest extends TestCase
 				'returnMethod' => 'GET',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20210505092159',
 					'resultCode' => 0,
@@ -115,12 +115,12 @@ class InitMallPayRequestTest extends TestCase
 				]),
 			);
 
-		$order = new Order(Currency::get(Currency::EUR), OrderDeliveryType::get(OrderDeliveryType::DELIVERY_CARRIER), OrderCarrierId::get(OrderCarrierId::TNT), null);
+		$order = new Order(Currency::EUR, OrderDeliveryType::DELIVERY_CARRIER, OrderCarrierId::TNT, null);
 		$order->addItem(
 			'123',
 			'345',
 			'Super věc',
-			OrderItemType::get(OrderItemType::PHYSICAL),
+			OrderItemType::PHYSICAL,
 			2,
 			'Varianta 1',
 			'Popisek',
@@ -133,7 +133,7 @@ class InitMallPayRequestTest extends TestCase
 			20,
 			'https://obchod.cz/produkt/123-345',
 		);
-		$order->addAddress('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
+		$order->addAddress('Slevomat', Country::CZE, 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::BILLING);
 
 		$request = new InitMallPayRequest(
 			'012345',
@@ -142,7 +142,7 @@ class InitMallPayRequestTest extends TestCase
 			$order,
 			true,
 			'127.0.0.1',
-			HttpMethod::get(HttpMethod::GET),
+			HttpMethod::GET,
 			'https://www.slevomat.cz',
 			null,
 			null,
@@ -152,9 +152,9 @@ class InitMallPayRequestTest extends TestCase
 
 		self::assertSame('123456789', $response->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20210505092159'), $response->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $response->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $response->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 		self::assertSame('https://mallpay.cz', $response->getMallpayUrl());
 	}
 

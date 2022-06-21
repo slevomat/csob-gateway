@@ -10,7 +10,7 @@ class AddressTest extends TestCase
 
 	public function testEncode(): void
 	{
-		$address = new Address('Slevomat', Country::get(Country::CZE), 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
+		$address = new Address('Slevomat', Country::CZE, 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::BILLING);
 
 		$expected = [
 			'country' => 'CZ',
@@ -28,7 +28,7 @@ class AddressTest extends TestCase
 	public function testValidation(): void
 	{
 		try {
-			new Address('Slevomat', Country::get(Country::CZE), 'Praha 888 Praha 888 Praha 888 Praha 888 Praha 888 Praha 888', 'Pernerova 691/42', 'xxx', '186 00', AddressType::get(AddressType::BILLING));
+			new Address('Slevomat', Country::CZE, 'Praha 888 Praha 888 Praha 888 Praha 888 Praha 888 Praha 888', 'Pernerova 691/42', 'xxx', '186 00', AddressType::BILLING);
 			self::fail();
 		} catch (InvalidArgumentException $e) {
 			self::assertSame('Field must have maximum of 50 characters.', $e->getMessage());

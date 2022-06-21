@@ -26,7 +26,7 @@ class ReceivePaymentRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::get(ResponseCode::S200_OK), $postData));
+			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::S200_OK, $postData));
 
 		$receivePaymentRequest = new ReceivePaymentRequest();
 
@@ -34,9 +34,9 @@ class ReceivePaymentRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 
@@ -55,7 +55,7 @@ class ReceivePaymentRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::get(ResponseCode::S200_OK), $postData));
+			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::S200_OK, $postData));
 
 		$receivePaymentRequest = new ReceivePaymentRequest();
 
@@ -63,9 +63,9 @@ class ReceivePaymentRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S5_REVOKED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

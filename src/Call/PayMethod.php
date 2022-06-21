@@ -2,11 +2,9 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use Consistence\Enum\Enum;
-
-class PayMethod extends Enum
+enum PayMethod: string
 {
 
-	public const CARD = 'card';
+	case CARD = 'card';
 
 }

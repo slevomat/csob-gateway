@@ -44,7 +44,7 @@ class OneClickEchoRequest
 		return new PaymentResponse(
 			$data['origPayId'],
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
 			null,
 		);

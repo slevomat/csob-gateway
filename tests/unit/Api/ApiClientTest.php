@@ -24,7 +24,7 @@ class ApiClientTest extends TestCase
 	{
 		return [
 			[
-				HttpMethod::get(HttpMethod::GET),
+				HttpMethod::GET,
 				'fooUrl/{dttm}/{signature}',
 				'fooUrl/\\d{14}/signature',
 				[],
@@ -32,13 +32,13 @@ class ApiClientTest extends TestCase
 				[
 					'bar' => 2,
 				],
-				ResponseCode::get(ResponseCode::S200_OK),
+				ResponseCode::S200_OK,
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				HttpMethod::get(HttpMethod::GET),
+				HttpMethod::GET,
 				'fooUrl/{fooId}/{dttm}/{signature}',
 				'fooUrl/3/\\d{14}/signature',
 				[
@@ -48,13 +48,13 @@ class ApiClientTest extends TestCase
 				[
 					'bar' => 2,
 				],
-				ResponseCode::get(ResponseCode::S200_OK),
+				ResponseCode::S200_OK,
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				HttpMethod::get(HttpMethod::POST),
+				HttpMethod::POST,
 				'fooUrl',
 				'fooUrl',
 				[
@@ -66,13 +66,13 @@ class ApiClientTest extends TestCase
 				[
 					'bar' => 2,
 				],
-				ResponseCode::get(ResponseCode::S200_OK),
+				ResponseCode::S200_OK,
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				HttpMethod::get(HttpMethod::PUT),
+				HttpMethod::PUT,
 				'fooUrl',
 				'fooUrl',
 				[
@@ -84,19 +84,19 @@ class ApiClientTest extends TestCase
 				[
 					'bar' => 2,
 				],
-				ResponseCode::get(ResponseCode::S200_OK),
+				ResponseCode::S200_OK,
 				[
 					'header' => 'value',
 				],
 			],
 			[
-				HttpMethod::get(HttpMethod::GET),
+				HttpMethod::GET,
 				'fooUrl/{dttm}/{signature}',
 				'fooUrl/\\d{14}/signature',
 				[],
 				null,
 				null,
-				ResponseCode::get(ResponseCode::S303_SEE_OTHER),
+				ResponseCode::S303_SEE_OTHER,
 				[
 					'header' => 'value',
 				],
@@ -138,7 +138,7 @@ class ApiClientTest extends TestCase
 		$apiClientDriver = $this->getMockBuilder(ApiClientDriver::class)
 			->getMock();
 
-		if ($httpMethod->equalsValue(HttpMethod::GET)) {
+		if ($httpMethod === HttpMethod::GET) {
 			$apiClientDriver->expects(self::once())
 				->method('request')
 				->with($httpMethod, self::matchesRegularExpression(sprintf('~^%s/%s$~', preg_quote(self::API_URL, '~'), $expectedUrl)), $expectedRequestData)
@@ -182,17 +182,17 @@ class ApiClientTest extends TestCase
 		$apiClient = new ApiClient($apiClientDriver, $cryptoService, self::API_URL);
 		$apiClient->setLogger($logger);
 
-		if ($httpMethod->equalsValue(HttpMethod::GET)) {
+		if ($httpMethod === HttpMethod::GET) {
 			$response = $apiClient->get($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 
-		} elseif ($httpMethod->equalsValue(HttpMethod::POST)) {
+		} elseif ($httpMethod === HttpMethod::POST) {
 			$response = $apiClient->post($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 
 		} else {
 			$response = $apiClient->put($url, $requestData, new SignatureDataFormatter([]), new SignatureDataFormatter([]));
 		}
 
-		self::assertSame($responseCode->getValue(), $response->getResponseCode()->getValue());
+		self::assertSame($responseCode->value, $response->getResponseCode()->value);
 		self::assertEquals($responseHeaders, $response->getHeaders());
 		self::assertEquals($responseData, $response->getData());
 	}
@@ -205,49 +205,49 @@ class ApiClientTest extends TestCase
 		return [
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S400_BAD_REQUEST),
+					ResponseCode::S400_BAD_REQUEST,
 					[],
 				),
 				BadRequestException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S403_FORBIDDEN),
+					ResponseCode::S403_FORBIDDEN,
 					[],
 				),
 				ForbiddenException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S404_NOT_FOUND),
+					ResponseCode::S404_NOT_FOUND,
 					[],
 				),
 				NotFoundException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S405_METHOD_NOT_ALLOWED),
+					ResponseCode::S405_METHOD_NOT_ALLOWED,
 					[],
 				),
 				MethodNotAllowedException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S429_TOO_MANY_REQUESTS),
+					ResponseCode::S429_TOO_MANY_REQUESTS,
 					[],
 				),
 				TooManyRequestsException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S503_SERVICE_UNAVAILABLE),
+					ResponseCode::S503_SERVICE_UNAVAILABLE,
 					[],
 				),
 				ServiceUnavailableException::class,
 			],
 			[
 				new Response(
-					ResponseCode::get(ResponseCode::S500_INTERNAL_ERROR),
+					ResponseCode::S500_INTERNAL_ERROR,
 					[],
 				),
 				InternalErrorException::class,
@@ -296,7 +296,7 @@ class ApiClientTest extends TestCase
 	public function testMissingSignature(): void
 	{
 		$response = new Response(
-			ResponseCode::get(ResponseCode::S200_OK),
+			ResponseCode::S200_OK,
 			[],
 		);
 
@@ -328,7 +328,7 @@ class ApiClientTest extends TestCase
 	public function testInvalidSignature(): void
 	{
 		$response = new Response(
-			ResponseCode::get(ResponseCode::S200_OK),
+			ResponseCode::S200_OK,
 			[
 				'signature' => 'invalidSignature',
 			],
@@ -391,7 +391,7 @@ class ApiClientTest extends TestCase
 
 		unset($data['signature']);
 
-		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode());
 		self::assertEquals([], $response->getHeaders());
 		self::assertEquals($data, $response->getData());
 	}
@@ -416,7 +416,7 @@ class ApiClientTest extends TestCase
 		$apiClientDriver->expects(self::once())
 			->method('request')
 			->willReturn(new Response(
-				ResponseCode::get(ResponseCode::S200_OK),
+				ResponseCode::S200_OK,
 				['id' => '123', 'signature' => 'signature', 'extensions' => [['extension' => 'foo', 'foo' => 'bar', 'signature' => 'signatureExtension']]],
 				[],
 			));
@@ -444,7 +444,7 @@ class ApiClientTest extends TestCase
 
 		$response = $apiClient->get('payment/status/{dttm}/{signature}', [], new SignatureDataFormatter([]), new SignatureDataFormatter([]), null, $extensions);
 
-		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode());
 		self::assertEquals([], $response->getHeaders());
 		self::assertEquals(['id' => '123'], $response->getData());
 		self::assertCount(1, $response->getExtensions());

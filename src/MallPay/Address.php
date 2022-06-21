@@ -40,11 +40,11 @@ class Address
 	public function encode(): array
 	{
 		$data = [
-			'country' => $this->country->getValue(),
+			'country' => $this->country->value,
 			'city' => $this->city,
 			'streetAddress' => $this->streetAddress,
 			'zip' => $this->zip,
-			'addressType' => $this->addressType->getValue(),
+			'addressType' => $this->addressType->value,
 		];
 
 		if ($this->name !== null) {

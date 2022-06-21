@@ -37,7 +37,7 @@ class RefundMallPayRequestTest extends TestCase
 				],
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20210505092159',
 					'resultCode' => 0,
@@ -52,7 +52,7 @@ class RefundMallPayRequestTest extends TestCase
 			'12345',
 			10000,
 			[
-				new OrderItemReference('123', '345', 'Super věc', OrderItemType::get(OrderItemType::PHYSICAL), 2),
+				new OrderItemReference('123', '345', 'Super věc', OrderItemType::PHYSICAL, 2),
 			],
 		);
 
@@ -60,9 +60,9 @@ class RefundMallPayRequestTest extends TestCase
 
 		self::assertSame('123456789', $response->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20210505092159'), $response->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $response->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $response->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 	}
 
 }

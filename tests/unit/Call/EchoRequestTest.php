@@ -22,7 +22,7 @@ class EchoRequestTest extends TestCase
 				'merchantId' => '012345',
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
@@ -36,7 +36,7 @@ class EchoRequestTest extends TestCase
 		$echoResponse = $echoRequest->send($apiClient);
 
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $echoResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $echoResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $echoResponse->getResultCode());
 		self::assertSame('OK', $echoResponse->getResultMessage());
 	}
 

@@ -2,17 +2,15 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
-use Consistence\Enum\Enum;
-
-class CancelReason extends Enum
+enum CancelReason: string
 {
 
-	public const ABORTED = 'aborted';
-	public const OTHER_PAYMENT = 'other_payment';
-	public const UNDELIVERABLE = 'undeliverable';
-	public const UNAVAILABLE = 'unavailable';
-	public const ABANDONED = 'abandoned';
-	public const CHANGED = 'changed';
-	public const UNPROCESSED = 'unprocessed';
+	case ABORTED = 'aborted';
+	case OTHER_PAYMENT = 'other_payment';
+	case UNDELIVERABLE = 'undeliverable';
+	case UNAVAILABLE = 'unavailable';
+	case ABANDONED = 'abandoned';
+	case CHANGED = 'changed';
+	case UNPROCESSED = 'unprocessed';
 
 }

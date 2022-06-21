@@ -2,13 +2,11 @@
 
 namespace SlevomatCsobGateway\Api;
 
-use Consistence\Enum\Enum;
-
-class HttpMethod extends Enum
+enum HttpMethod: string
 {
 
-	public const GET = 'GET';
-	public const POST = 'POST';
-	public const PUT = 'PUT';
+	case GET = 'GET';
+	case POST = 'POST';
+	case PUT = 'PUT';
 
 }

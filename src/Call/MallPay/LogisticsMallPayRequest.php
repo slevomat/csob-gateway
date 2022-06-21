@@ -38,7 +38,7 @@ class LogisticsMallPayRequest
 		$requestData = [
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
-			'event' => $this->event->getValue(),
+			'event' => $this->event->value,
 			'date' => $this->date->format('Ymd'),
 			'fulfilled' => $this->fulfilled->encode(),
 		];
@@ -121,9 +121,9 @@ class LogisticsMallPayRequest
 		return new PaymentResponse(
 			$data['payId'],
 			$responseDateTime,
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::get($data['paymentStatus']) : null,
+			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
 		);
 	}
 

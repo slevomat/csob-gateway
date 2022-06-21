@@ -41,7 +41,7 @@ class CustomerInfoRequest
 
 		return new CustomerInfoResponse(
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
 			$data['customerId'] ?? null,
 		);

@@ -2,24 +2,22 @@
 
 namespace SlevomatCsobGateway\Api;
 
-use Consistence\Enum\Enum;
-
-class ResponseCode extends Enum
+enum ResponseCode: int
 {
 
-	public const S200_OK = 200;
+	case S200_OK = 200;
 
-	public const S303_SEE_OTHER = 303;
+	case S303_SEE_OTHER = 303;
 
-	public const S400_BAD_REQUEST = 400;
-	public const S403_FORBIDDEN = 403;
-	public const S404_NOT_FOUND = 404;
-	public const S405_METHOD_NOT_ALLOWED = 405;
-	public const S429_TOO_MANY_REQUESTS = 429;
+	case S400_BAD_REQUEST = 400;
+	case S403_FORBIDDEN = 403;
+	case S404_NOT_FOUND = 404;
+	case S405_METHOD_NOT_ALLOWED = 405;
+	case S429_TOO_MANY_REQUESTS = 429;
 
-	public const S500_INTERNAL_ERROR = 500;
-	public const S502_BAD_GATEWAY = 502;
-	public const S503_SERVICE_UNAVAILABLE = 503;
-	public const S504_GATEWAY_TIMEOUT = 504;
+	case S500_INTERNAL_ERROR = 500;
+	case S502_BAD_GATEWAY = 502;
+	case S503_SERVICE_UNAVAILABLE = 503;
+	case S504_GATEWAY_TIMEOUT = 504;
 
 }

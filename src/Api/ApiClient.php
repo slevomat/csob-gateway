@@ -64,7 +64,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			HttpMethod::get(HttpMethod::GET),
+			HttpMethod::GET,
 			$url,
 			$this->prepareData($data, $requestSignatureDataFormatter),
 			null,
@@ -95,7 +95,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			HttpMethod::get(HttpMethod::POST),
+			HttpMethod::POST,
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
@@ -126,7 +126,7 @@ class ApiClient
 	): Response
 	{
 		return $this->request(
-			HttpMethod::get(HttpMethod::PUT),
+			HttpMethod::PUT,
 			$url,
 			[],
 			$this->prepareData($data, $requestSignatureDataFormatter),
@@ -190,7 +190,7 @@ class ApiClient
 			$responseValidityCallback($response);
 		}
 
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S200_OK)) {
+		if ($response->getResponseCode() === ResponseCode::S200_OK) {
 			$decodedExtensions = [];
 			/** @var mixed[]|null $responseData */
 			$responseData = $response->getData();
@@ -216,7 +216,7 @@ class ApiClient
 			);
 
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S303_SEE_OTHER)) {
+		if ($response->getResponseCode() === ResponseCode::S303_SEE_OTHER) {
 			return new Response(
 				$response->getResponseCode(),
 				null,
@@ -224,22 +224,22 @@ class ApiClient
 			);
 
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S400_BAD_REQUEST)) {
+		if ($response->getResponseCode() === ResponseCode::S400_BAD_REQUEST) {
 			throw new BadRequestException($response);
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S403_FORBIDDEN)) {
+		if ($response->getResponseCode() === ResponseCode::S403_FORBIDDEN) {
 			throw new ForbiddenException($response);
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S404_NOT_FOUND)) {
+		if ($response->getResponseCode() === ResponseCode::S404_NOT_FOUND) {
 			throw new NotFoundException($response);
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S405_METHOD_NOT_ALLOWED)) {
+		if ($response->getResponseCode() === ResponseCode::S405_METHOD_NOT_ALLOWED) {
 			throw new MethodNotAllowedException($response);
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S429_TOO_MANY_REQUESTS)) {
+		if ($response->getResponseCode() === ResponseCode::S429_TOO_MANY_REQUESTS) {
 			throw new TooManyRequestsException($response);
 		}
-		if ($response->getResponseCode()->equalsValue(ResponseCode::S503_SERVICE_UNAVAILABLE)) {
+		if ($response->getResponseCode() === ResponseCode::S503_SERVICE_UNAVAILABLE) {
 			throw new ServiceUnavailableException($response);
 		}
 
@@ -258,11 +258,11 @@ class ApiClient
 	public function createResponseByData(array $data, SignatureDataFormatter $responseSignatureDataFormatter): Response
 	{
 		$response = new Response(
-			ResponseCode::get(ResponseCode::S200_OK),
+			ResponseCode::S200_OK,
 			$data,
 		);
 
-		$this->logRequest(HttpMethod::get(HttpMethod::GET), 'payment/response', [], [], $response, 0.0);
+		$this->logRequest(HttpMethod::GET, 'payment/response', [], [], $response, 0.0);
 
 		return new Response(
 			$response->getResponseCode(),
@@ -333,12 +333,12 @@ class ApiClient
 		}
 		$context = [
 			'request' => [
-				'method' => $method->getValue(),
+				'method' => $method->value,
 				'queries' => $queries,
 				'data' => $requestData,
 			],
 			'response' => [
-				'code' => $response->getResponseCode()->getValue(),
+				'code' => $response->getResponseCode()->value,
 				'data' => $responseData,
 				'headers' => $response->getHeaders(),
 				'time' => $responseTime,

@@ -9,15 +9,15 @@ class PriceTest extends TestCase
 
 	public function testGetters(): void
 	{
-		$price = new Price(123, Currency::get(Currency::USD));
+		$price = new Price(123, Currency::USD);
 
 		self::assertSame(123, $price->getAmount());
-		self::assertSame(Currency::USD, $price->getCurrency()->getValue());
+		self::assertSame(Currency::USD, $price->getCurrency());
 	}
 
 	public function testEncode(): void
 	{
-		$price = new Price(123, Currency::get(Currency::USD));
+		$price = new Price(123, Currency::USD);
 
 		self::assertSame(['amount' => 123, 'currency' => 'USD'], $price->encode());
 	}

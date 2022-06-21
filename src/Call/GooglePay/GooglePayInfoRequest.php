@@ -49,7 +49,7 @@ class GooglePayInfoRequest
 
 		return new GooglePayInfoResponse(
 			$responseDateTime,
-			ResultCode::get($data['resultCode']),
+			ResultCode::from($data['resultCode']),
 			$data['resultMessage'] ?? '',
 			$data['checkoutParams'] ?? [],
 		);

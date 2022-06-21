@@ -19,7 +19,7 @@ class CurlDriverTest extends TestCase
 		$curlDriver = new CurlDriver();
 
 		$response = $curlDriver->request(
-			HttpMethod::get(HttpMethod::POST),
+			HttpMethod::POST,
 			'foo/url',
 			null,
 			[
@@ -27,7 +27,7 @@ class CurlDriverTest extends TestCase
 			],
 		);
 
-		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode()->getValue());
+		self::assertSame(ResponseCode::S200_OK, $response->getResponseCode());
 		self::assertEquals([
 			'text' => 'foo text',
 		], $response->getData());
@@ -47,7 +47,7 @@ class CurlDriverTest extends TestCase
 
 		try {
 			$curlDriver->request(
-				HttpMethod::get(HttpMethod::POST),
+				HttpMethod::POST,
 				'foo/url',
 				null,
 				[

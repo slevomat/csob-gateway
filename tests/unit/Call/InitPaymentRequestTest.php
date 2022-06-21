@@ -55,7 +55,7 @@ class InitPaymentRequestTest extends TestCase
 				'colorSchemeVersion' => 2,
 			])
 			->willReturn(
-				new Response(ResponseCode::get(ResponseCode::S200_OK), [
+				new Response(ResponseCode::S200_OK, [
 					'payId' => '123456789',
 					'dttm' => '20140425131559',
 					'resultCode' => 0,
@@ -65,7 +65,7 @@ class InitPaymentRequestTest extends TestCase
 			);
 
 		$cart = new Cart(
-			Currency::get(Currency::CZK),
+			Currency::CZK,
 		);
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
@@ -73,15 +73,15 @@ class InitPaymentRequestTest extends TestCase
 		$initPaymentRequest = new InitPaymentRequest(
 			'012345',
 			'5547',
-			PayOperation::get(PayOperation::PAYMENT),
-			PayMethod::get(PayMethod::CARD),
+			PayOperation::PAYMENT,
+			PayMethod::CARD,
 			true,
 			'https://vasobchod.cz/gateway-return',
-			HttpMethod::get(HttpMethod::POST),
+			HttpMethod::POST,
 			$cart,
 			'some-base64-encoded-merchant-data',
 			'123',
-			Language::get(Language::CZ),
+			Language::CZ,
 			1800,
 			1,
 			2,
@@ -91,9 +91,9 @@ class InitPaymentRequestTest extends TestCase
 
 		self::assertSame('123456789', $paymentResponse->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::get(ResultCode::C0_OK), $paymentResponse->getResultCode());
+		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
 		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::get(PaymentStatus::S1_CREATED), $paymentResponse->getPaymentStatus());
+		self::assertEquals(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 

@@ -14,7 +14,7 @@ class OrderItemReferenceTest extends TestCase
 			'123',
 			'345',
 			'Super věc',
-			OrderItemType::get(OrderItemType::PHYSICAL),
+			OrderItemType::PHYSICAL,
 			2,
 		);
 
@@ -36,7 +36,7 @@ class OrderItemReferenceTest extends TestCase
 				'123 123 123 123 123 123 123 123 123 123 123 123 123 123',
 				'345',
 				'Super věc',
-				OrderItemType::get(OrderItemType::PHYSICAL),
+				OrderItemType::PHYSICAL,
 				2,
 			);
 
@@ -49,7 +49,7 @@ class OrderItemReferenceTest extends TestCase
 				'123',
 				'345',
 				'Super věc',
-				OrderItemType::get(OrderItemType::PHYSICAL),
+				OrderItemType::PHYSICAL,
 				-2,
 			);
 			self::fail();
