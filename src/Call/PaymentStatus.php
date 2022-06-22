@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call;
 enum PaymentStatus: int
 {
 
+	case S0_ERROR = 0;
 	case S1_CREATED = 1;
 	case S2_IN_PROGRESS = 2;
 	case S3_CANCELED = 3;
