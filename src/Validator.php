@@ -3,9 +3,11 @@
 namespace SlevomatCsobGateway;
 
 use InvalidArgumentException;
+use SlevomatCsobGateway\Api\HttpMethod;
 use function base64_encode;
 use function ctype_digit;
 use function filter_var;
+use function preg_match;
 use function preg_quote;
 use function preg_replace;
 use function sprintf;
@@ -83,6 +85,13 @@ class Validator
 
 		if (strlen(utf8_decode($returnUrl)) > self::RETURN_URL_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('ReturnUrl can have maximum of %d characters.', self::RETURN_URL_LENGTH_MAX));
+		}
+	}
+
+	public static function checkReturnMethod(HttpMethod $httpMethod): void
+	{
+		if ($httpMethod !== HttpMethod::POST && $httpMethod !== HttpMethod::GET) {
+			throw new InvalidArgumentException(sprintf('Only %s or %s is allowed as returnMethod.', HttpMethod::POST->value, HttpMethod::GET->value));
 		}
 	}
 
@@ -169,6 +178,13 @@ class Validator
 		}
 	}
 
+	public static function checkNumberRange(int $value, int $min, int $max): void
+	{
+		if ($value < $min || $value > $max) {
+			throw new InvalidArgumentException(sprintf('Value %d is not in range <%d, %d>.', $value, $min, $max));
+		}
+	}
+
 	public static function checkEmail(string $value): void
 	{
 		if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
@@ -180,6 +196,13 @@ class Validator
 	{
 		if (filter_var($value, FILTER_VALIDATE_URL) === false) {
 			throw new InvalidArgumentException('URL is not valid.');
+		}
+	}
+
+	public static function checkPhone(string $phone): void
+	{
+		if (preg_match('~^(\\+|00)?\\d{1,3}\\.( *\\d+)+\\z~', $phone) !== 1) {
+			throw new InvalidArgumentException(sprintf('Phone %s is not valid.', $phone));
 		}
 	}
 

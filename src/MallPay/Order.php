@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\MallPay;
 
 use InvalidArgumentException;
+use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Price;
 use function array_map;

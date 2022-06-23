@@ -4,6 +4,7 @@ namespace SlevomatCsobGateway\MallPay;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use SlevomatCsobGateway\Country;
 
 class AddressTest extends TestCase
 {

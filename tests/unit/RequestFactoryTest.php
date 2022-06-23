@@ -10,7 +10,6 @@ use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
 use SlevomatCsobGateway\MallPay\AddressType;
 use SlevomatCsobGateway\MallPay\CancelReason;
-use SlevomatCsobGateway\MallPay\Country;
 use SlevomatCsobGateway\MallPay\Customer;
 use SlevomatCsobGateway\MallPay\LogisticsEvent;
 use SlevomatCsobGateway\MallPay\Order;
@@ -39,6 +38,8 @@ class RequestFactoryTest extends TestCase
 		$cart->addItem('Nákup na vasobchodcz', 1, 1789600, 'Lenovo ThinkPad Edge E540');
 		$cart->addItem('Poštovné', 1, 0, 'Doprava PPL');
 
+		$customer = new \SlevomatCsobGateway\AdditionalData\Customer('Pepa Zdepa', 'pepa@zdepa.cz', '420.123 456 789', '00420.12 34 56 789', '+420.123456789');
+
 		$this->requestFactory->createInitPayment(
 			'5547',
 			PayOperation::PAYMENT,
@@ -47,6 +48,8 @@ class RequestFactoryTest extends TestCase
 			'https://vasobchod.cz/gateway-return',
 			HttpMethod::POST,
 			$cart,
+			$customer,
+			null,
 			'some-base64-encoded-merchant-data',
 			'123',
 			Language::CZ,

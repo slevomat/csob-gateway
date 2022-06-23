@@ -2,6 +2,8 @@
 
 namespace SlevomatCsobGateway;
 
+use function array_map;
+
 class Cart
 {
 
@@ -10,6 +12,24 @@ class Cart
 
 	public function __construct(private Currency $currency)
 	{
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_map(static fn (CartItem $item): array => $item->encode(), $this->items);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			CartItem::encodeForSignature(),
+		];
 	}
 
 	public function addItem(string $name, int $quantity, int $amount, ?string $description = null): void
