@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
@@ -30,6 +31,19 @@ class PaymentStatusRequestTest extends TestCase
 					'resultMessage' => 'OK',
 					'paymentStatus' => 4,
 					'authCode' => 'F7A23E',
+					'actions' => [
+						'fingerprint' => [
+							'browserInit' => [
+								'url' => 'https://example.com/3ds-method-endpoint',
+							],
+						],
+						'authenticate' => [
+							'browserChallenge' => [
+								'url' => 'https://example.com/challenge-endpoint',
+								'method' => 'GET',
+							],
+						],
+					],
 				]),
 			);
 
@@ -38,14 +52,17 @@ class PaymentStatusRequestTest extends TestCase
 			'123456789',
 		);
 
-		$paymentResponse = $paymentStatusRequest->send($apiClient);
+		$response = $paymentStatusRequest->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S4_CONFIRMED, $paymentResponse->getPaymentStatus());
-		self::assertSame('F7A23E', $paymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S4_CONFIRMED, $response->getPaymentStatus());
+		self::assertSame('F7A23E', $response->getAuthCode());
+		self::assertSame('https://example.com/3ds-method-endpoint', $response->getActions()?->getFingerprint()?->getBrowserInit()?->getUrl());
+		self::assertSame('https://example.com/challenge-endpoint', $response->getActions()?->getAuthenticate()?->getBrowserChallenge()?->getUrl());
+		self::assertSame(HttpMethod::GET, $response->getActions()?->getAuthenticate()?->getBrowserChallenge()?->getMethod());
 	}
 
 }
