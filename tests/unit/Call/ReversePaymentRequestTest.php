@@ -29,6 +29,7 @@ class ReversePaymentRequestTest extends TestCase
 					'resultCode' => 0,
 					'resultMessage' => 'OK',
 					'paymentStatus' => 5,
+					'statusDetail' => 'Status detail',
 				]),
 			);
 
@@ -37,14 +38,14 @@ class ReversePaymentRequestTest extends TestCase
 			'123456789',
 		);
 
-		$paymentResponse = $reversePaymentRequest->send($apiClient);
+		$response = $reversePaymentRequest->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
-		self::assertNull($paymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S5_REVOKED, $response->getPaymentStatus());
+		self::assertSame('Status detail', $response->getStatusDetail());
 	}
 
 }
