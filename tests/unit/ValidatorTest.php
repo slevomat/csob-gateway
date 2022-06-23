@@ -4,6 +4,7 @@ namespace SlevomatCsobGateway;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use SlevomatCsobGateway\Api\HttpMethod;
 use function array_fill;
 use function implode;
 
@@ -88,6 +89,20 @@ class ValidatorTest extends TestCase
 
 		} catch (InvalidArgumentException $e) {
 			self::assertSame('ReturnUrl can have maximum of 300 characters.', $e->getMessage());
+		}
+	}
+
+	public function testCheckReturnMethod(): void
+	{
+		Validator::checkReturnMethod(HttpMethod::POST);
+		Validator::checkReturnMethod(HttpMethod::GET);
+
+		try {
+			Validator::checkReturnMethod(HttpMethod::PUT);
+			self::fail();
+
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Only POST or GET is allowed as returnMethod.', $e->getMessage());
 		}
 	}
 
@@ -203,6 +218,19 @@ class ValidatorTest extends TestCase
 		}
 	}
 
+	public function testCheckNumberRange(): void
+	{
+		Validator::checkNumberRange(1, 0, 2);
+		Validator::checkNumberRange(1, 1, 2);
+		Validator::checkNumberRange(1, 0, 1);
+		try {
+			Validator::checkNumberRange(0, 1, 2);
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Value 0 is not in range <1, 2>.', $e->getMessage());
+		}
+	}
+
 	public function testCheckEmail(): void
 	{
 		Validator::checkEmail('pepa@zdepa.cz');
@@ -211,6 +239,21 @@ class ValidatorTest extends TestCase
 			self::fail();
 		} catch (InvalidArgumentException $e) {
 			self::assertSame('E-mail is not valid.', $e->getMessage());
+		}
+	}
+
+	public function testCheckPhone(): void
+	{
+		Validator::checkPhone('+420.123456');
+		Validator::checkPhone('+420.1 2345 6');
+		Validator::checkPhone('00420.123456');
+		Validator::checkPhone('420.123 456');
+		Validator::checkPhone('420.123  456');
+		try {
+			Validator::checkPhone('420123456789');
+			self::fail();
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Phone 420123456789 is not valid.', $e->getMessage());
 		}
 	}
 

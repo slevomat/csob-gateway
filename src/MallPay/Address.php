@@ -2,6 +2,7 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Validator;
 
 class Address

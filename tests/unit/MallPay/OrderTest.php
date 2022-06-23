@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\MallPay;
 
 use PHPUnit\Framework\TestCase;
+use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Currency;
 
 class OrderTest extends TestCase

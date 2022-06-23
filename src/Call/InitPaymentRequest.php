@@ -4,14 +4,16 @@ namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use SlevomatCsobGateway\AdditionalData\Customer;
+use SlevomatCsobGateway\AdditionalData\Order;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Cart;
-use SlevomatCsobGateway\CartItem;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Validator;
-use function array_map;
+use function array_filter;
 use function base64_encode;
 use function sprintf;
 
@@ -27,6 +29,8 @@ class InitPaymentRequest
 		private string $returnUrl,
 		private HttpMethod $returnMethod,
 		private Cart $cart,
+		private ?Customer $customer,
+		private ?Order $order,
 		private ?string $merchantData,
 		private ?string $customerId,
 		private Language $language,
@@ -36,28 +40,29 @@ class InitPaymentRequest
 		private ?DateTimeImmutable $customExpiry = null,
 	)
 	{
-		Validator::checkOrderId($orderId);
-		Validator::checkReturnUrl($returnUrl);
-		if ($merchantData !== null) {
-			Validator::checkMerchantData($merchantData);
+		Validator::checkOrderId($this->orderId);
+		Validator::checkReturnUrl($this->returnUrl);
+		Validator::checkReturnMethod($this->returnMethod);
+		if ($this->merchantData !== null) {
+			Validator::checkMerchantData($this->merchantData);
 		}
-		if ($customerId !== null) {
-			Validator::checkCustomerId($customerId);
+		if ($this->customerId !== null) {
+			Validator::checkCustomerId($this->customerId);
 		}
-		if ($ttlSec !== null) {
-			Validator::checkTtlSec($ttlSec);
+		if ($this->ttlSec !== null) {
+			Validator::checkTtlSec($this->ttlSec);
 		}
 
-		if ($payOperation === PayOperation::CUSTOM_PAYMENT && $customExpiry === null) {
+		if ($this->payOperation === PayOperation::CUSTOM_PAYMENT && $this->customExpiry === null) {
 			throw new InvalidArgumentException(sprintf('Custom expiry parameter is required for custom payment.'));
 		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): InitPaymentResponse
 	{
 		$price = $this->cart->getCurrentPrice();
 
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'payOperation' => $this->payOperation->value,
@@ -67,45 +72,17 @@ class InitPaymentRequest
 			'closePayment' => $this->closePayment,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->value,
-			'cart' => array_map(static function (CartItem $cartItem): array {
-				$cartItemValues = [
-					'name' => $cartItem->getName(),
-					'quantity' => $cartItem->getQuantity(),
-					'amount' => $cartItem->getAmount(),
-				];
-
-				if ($cartItem->getDescription() !== null) {
-					$cartItemValues['description'] = $cartItem->getDescription();
-				}
-
-				return $cartItemValues;
-			}, $this->cart->getItems()),
+			'cart' => $this->cart->encode(),
+			'customer' => $this->customer?->encode(),
+			'order' => $this->order?->encode(),
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'customerId' => $this->customerId,
 			'language' => $this->language->value,
-		];
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = base64_encode($this->merchantData);
-		}
-
-		if ($this->customerId !== null) {
-			$requestData['customerId'] = $this->customerId;
-		}
-
-		if ($this->ttlSec !== null) {
-			$requestData['ttlSec'] = $this->ttlSec;
-		}
-
-		if ($this->logoVersion !== null) {
-			$requestData['logoVersion'] = $this->logoVersion;
-		}
-
-		if ($this->colorSchemeVersion !== null) {
-			$requestData['colorSchemeVersion'] = $this->colorSchemeVersion;
-		}
-
-		if ($this->customExpiry !== null) {
-			$requestData['customExpiry'] = $this->customExpiry->format('YmdHis');
-		}
+			'ttlSec' => $this->ttlSec,
+			'logoVersion' => $this->logoVersion,
+			'colorSchemeVersion' => $this->colorSchemeVersion,
+			'customExpiry' => $this->customExpiry?->format('YmdHis'),
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'payment/init',
@@ -121,14 +98,9 @@ class InitPaymentRequest
 				'closePayment' => null,
 				'returnUrl' => null,
 				'returnMethod' => null,
-				'cart' => [
-					[
-						'name' => null,
-						'quantity' => null,
-						'amount' => null,
-						'description' => null,
-					],
-				],
+				'cart' => Cart::encodeForSignature(),
+				'customer' => Customer::encodeForSignature(),
+				'order' => Order::encodeForSignature(),
 				'merchantData' => null,
 				'customerId' => null,
 				'language' => null,
@@ -137,30 +109,13 @@ class InitPaymentRequest
 				'colorSchemeVersion' => null,
 				'customExpiry' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-				'authCode' => null,
-				'customerCode' => null,
-			]),
+			new SignatureDataFormatter(InitPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new InitPaymentResponse(
-			$data['payId'],
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-			$data['authCode'] ?? null,
-			null,
-			$data['customerCode'] ?? null,
-		);
+		return InitPaymentResponse::createFromResponseData($data);
 	}
 
 }

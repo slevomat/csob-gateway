@@ -2,6 +2,8 @@
 
 namespace SlevomatCsobGateway;
 
+use function array_filter;
+
 class CartItem
 {
 
@@ -12,6 +14,32 @@ class CartItem
 			Validator::checkCartItemDescription($description);
 		}
 		Validator::checkCartItemQuantity($quantity);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'name' => $this->name,
+			'quantity' => $this->quantity,
+			'amount' => $this->amount,
+			'description' => $this->description,
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'name' => null,
+			'quantity' => null,
+			'amount' => null,
+			'description' => null,
+		];
 	}
 
 	public function getName(): string
