@@ -9,6 +9,23 @@ class ProcessPaymentResponse
 	{
 	}
 
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'payId' => null,
+			'dttm' => null,
+			'resultCode' => null,
+			'resultMessage' => null,
+			'paymentStatus' => null,
+			'authCode' => null,
+			'merchantData' => null,
+			'statusDetail' => null,
+		];
+	}
+
 	public function getGatewayLocationUrl(): string
 	{
 		return $this->gatewayLocationUrl;

@@ -30,14 +30,7 @@ class ProcessPaymentRequest
 				'payId' => null,
 				'dttm' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-				'authCode' => null,
-			]),
+			new SignatureDataFormatter(ProcessPaymentResponse::encodeForSignature()),
 			function (Response $response): void {
 				// This handles edge case when provided payId is missing or already expired on gateway
 				// In this case gateway responds with HTTP 200 and HTML content. Bad API.
