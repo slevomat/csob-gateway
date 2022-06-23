@@ -32,9 +32,9 @@ class ProcessPaymentRequestTest extends TestCase
 			'123456789',
 		);
 
-		$processPaymentResponse = $processPaymentRequest->send($apiClient);
+		$response = $processPaymentRequest->send($apiClient);
 
-		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/', $processPaymentResponse->getGatewayLocationUrl());
+		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/6544-4564-sd65111-GF544DS/', $response->getGatewayLocationUrl());
 	}
 
 }
