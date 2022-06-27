@@ -2,12 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
-class CustomerInfoRequest
+class EchoCustomerRequest
 {
 
 	public function __construct(private string $merchantId, private string $customerId)
@@ -15,10 +14,10 @@ class CustomerInfoRequest
 		Validator::checkCustomerId($customerId);
 	}
 
-	public function send(ApiClient $apiClient): CustomerInfoResponse
+	public function send(ApiClient $apiClient): EchoCustomerResponse
 	{
 		$response = $apiClient->get(
-			'customer/echo/{merchantId}/{customerId}/{dttm}/{signature}',
+			'echo/customer',
 			[
 				'merchantId' => $this->merchantId,
 				'customerId' => $this->customerId,
@@ -28,23 +27,13 @@ class CustomerInfoRequest
 				'customerId' => null,
 				'dttm' => null,
 			]),
-			new SignatureDataFormatter([
-				'customerId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-			]),
+			new SignatureDataFormatter(EchoCustomerResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new CustomerInfoResponse(
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			$data['customerId'] ?? null,
-		);
+		return EchoCustomerResponse::createFromResponseData($data);
 	}
 
 }

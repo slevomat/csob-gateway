@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\Button\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
-use SlevomatCsobGateway\Call\CustomerInfoRequest;
+use SlevomatCsobGateway\Call\EchoCustomerRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\GooglePay\GooglePayInfoRequest;
 use SlevomatCsobGateway\Call\GooglePay\InitGooglePayRequest;
@@ -145,9 +145,9 @@ class RequestFactory
 		);
 	}
 
-	public function createCustomerInfo(string $customerId): CustomerInfoRequest
+	public function createEchoCustomer(string $customerId): EchoCustomerRequest
 	{
-		return new CustomerInfoRequest(
+		return new EchoCustomerRequest(
 			$this->merchantId,
 			$customerId,
 		);
