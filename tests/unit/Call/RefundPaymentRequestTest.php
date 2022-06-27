@@ -37,14 +37,15 @@ class RefundPaymentRequestTest extends TestCase
 			'123456789',
 		);
 
-		$paymentResponse = $refundPaymentRequest->send($apiClient);
+		$response = $refundPaymentRequest->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S8_CHARGED, $paymentResponse->getPaymentStatus());
-		self::assertNull($paymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S8_CHARGED, $response->getPaymentStatus());
+		self::assertNull($response->getAuthCode());
+		self::assertNull($response->getStatusDetail());
 	}
 
 }
