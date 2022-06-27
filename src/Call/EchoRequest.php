@@ -2,7 +2,6 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
@@ -24,21 +23,13 @@ class EchoRequest
 				'merchantId' => null,
 				'dttm' => null,
 			]),
-			new SignatureDataFormatter([
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-			]),
+			new SignatureDataFormatter(EchoResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new EchoResponse(
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-		);
+		return EchoResponse::createFromResponseData($data);
 	}
 
 }

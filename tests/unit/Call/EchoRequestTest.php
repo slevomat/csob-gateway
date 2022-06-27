@@ -36,7 +36,7 @@ class EchoRequestTest extends TestCase
 		$echoResponse = $echoRequest->send($apiClient);
 
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $echoResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $echoResponse->getResultCode());
+		self::assertSame(ResultCode::C0_OK, $echoResponse->getResultCode());
 		self::assertSame('OK', $echoResponse->getResultMessage());
 	}
 
