@@ -2,10 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
 class RefundPaymentRequest
 {
@@ -19,15 +20,14 @@ class RefundPaymentRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): AuthCodeStatusDetailPaymentResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
-		];
-		if ($this->amount !== null) {
-			$requestData['amount'] = $this->amount;
-		}
+			'amount' => $this->amount,
+		], EncodeHelper::filterValueCallback());
+
 		$response = $apiClient->put(
 			'payment/refund',
 			$requestData,
@@ -37,27 +37,13 @@ class RefundPaymentRequest
 				'dttm' => null,
 				'amount' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-				'authCode' => null,
-			]),
+			new SignatureDataFormatter(AuthCodeStatusDetailPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new PaymentResponse(
-			$data['payId'],
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-			$data['authCode'] ?? null,
-		);
+		return AuthCodeStatusDetailPaymentResponse::createFromResponseData($data);
 	}
 
 }
