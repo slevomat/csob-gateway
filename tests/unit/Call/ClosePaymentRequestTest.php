@@ -39,14 +39,15 @@ class ClosePaymentRequestTest extends TestCase
 			987,
 		);
 
-		$closePaymentResponse = $paymentRequest->send($apiClient);
+		$response = $paymentRequest->send($apiClient);
 
-		self::assertSame('123456789', $closePaymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $closePaymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $closePaymentResponse->getResultCode());
-		self::assertSame('OK', $closePaymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S7_AWAITING_SETTLEMENT, $closePaymentResponse->getPaymentStatus());
-		self::assertNull($closePaymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S7_AWAITING_SETTLEMENT, $response->getPaymentStatus());
+		self::assertNull($response->getAuthCode());
+		self::assertNull($response->getStatusDetail());
 	}
 
 }
