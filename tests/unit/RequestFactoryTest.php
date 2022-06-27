@@ -110,9 +110,9 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateCustomerInfo(): void
+	public function testCreateEchoCustomer(): void
 	{
-		$this->requestFactory->createCustomerInfo('cust123@mail.com');
+		$this->requestFactory->createEchoCustomer('cust123@mail.com');
 
 		self::assertTrue(true);
 	}

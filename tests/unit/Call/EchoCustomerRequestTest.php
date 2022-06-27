@@ -8,7 +8,7 @@ use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 
-class CustomerInfoRequestTest extends TestCase
+class EchoCustomerRequestTest extends TestCase
 {
 
 	public function testSend(): void
@@ -18,7 +18,7 @@ class CustomerInfoRequestTest extends TestCase
 			->getMock();
 
 		$apiClient->expects(self::once())->method('get')
-			->with('customer/echo/{merchantId}/{customerId}/{dttm}/{signature}', [
+			->with('echo/customer', [
 				'merchantId' => '012345',
 				'customerId' => 'cust123@mail.com',
 			])
@@ -31,17 +31,17 @@ class CustomerInfoRequestTest extends TestCase
 				]),
 			);
 
-		$customerInfoRequest = new CustomerInfoRequest(
+		$customerInfoRequest = new EchoCustomerRequest(
 			'012345',
 			'cust123@mail.com',
 		);
 
-		$customerInfoResponse = $customerInfoRequest->send($apiClient);
+		$response = $customerInfoRequest->send($apiClient);
 
-		self::assertSame('cust123@mail.com', $customerInfoResponse->getCustomerId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $customerInfoResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $customerInfoResponse->getResultCode());
-		self::assertSame('OK', $customerInfoResponse->getResultMessage());
+		self::assertSame('cust123@mail.com', $response->getCustomerId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
 	}
 
 }
