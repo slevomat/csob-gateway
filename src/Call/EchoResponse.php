@@ -15,6 +15,30 @@ class EchoResponse
 	{
 	}
 
+	/**
+	 * @param mixed[] $data
+	 */
+	public static function createFromResponseData(array $data): self
+	{
+		return new self(
+			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
+			ResultCode::from($data['resultCode']),
+			$data['resultMessage'],
+		);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'dttm' => null,
+			'resultCode' => null,
+			'resultMessage' => null,
+		];
+	}
+
 	public function getResponseDateTime(): DateTimeImmutable
 	{
 		return $this->responseDateTime;
