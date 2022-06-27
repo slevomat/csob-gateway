@@ -161,9 +161,15 @@ class RequestFactory
 	public function createOneclickInitPayment(
 		string $origPayId,
 		string $orderId,
-		string $clientIp,
-		?Price $price = null,
-		?string $description = null,
+		?string $clientIp,
+		?Price $price,
+		?bool $closePayment,
+		string $returnUrl,
+		HttpMethod $returnMethod,
+		?\SlevomatCsobGateway\AdditionalData\Customer $customer = null,
+		?\SlevomatCsobGateway\AdditionalData\Order $order = null,
+		?bool $clientInitiated = null,
+		?bool $sdkUsed = null,
 		?string $merchantData = null,
 	): InitOneClickPaymentRequest
 	{
@@ -173,7 +179,13 @@ class RequestFactory
 			$orderId,
 			$clientIp,
 			$price,
-			$description,
+			$closePayment,
+			$returnUrl,
+			$returnMethod,
+			$customer,
+			$order,
+			$clientInitiated,
+			$sdkUsed,
 			$merchantData,
 		);
 	}

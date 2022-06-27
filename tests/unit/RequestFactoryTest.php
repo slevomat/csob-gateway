@@ -131,8 +131,9 @@ class RequestFactoryTest extends TestCase
 			'5547123',
 			'127.0.0.1',
 			new Price(1789600, Currency::CZK),
-			'Nákup na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)',
-			'some-base64-encoded-merchant-data',
+			false,
+			'https://shop.example.com/return',
+			HttpMethod::POST,
 		);
 
 		self::assertTrue(true);

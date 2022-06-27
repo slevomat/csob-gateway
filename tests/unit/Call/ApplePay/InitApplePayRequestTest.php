@@ -49,14 +49,14 @@ class InitApplePayRequestTest extends TestCase
 			null,
 		);
 
-		$paymentResponse = $initPaymentRequest->send($apiClient);
+		$response = $initPaymentRequest->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
-		self::assertNull($paymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $response->getResponseDateTime());
+		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
+		self::assertNull($response->getAuthCode());
 	}
 
 }

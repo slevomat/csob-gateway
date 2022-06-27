@@ -2,14 +2,16 @@
 
 namespace SlevomatCsobGateway\Call\OneClick;
 
-use DateTimeImmutable;
+use SlevomatCsobGateway\AdditionalData\Customer;
+use SlevomatCsobGateway\AdditionalData\Order;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 use function base64_encode;
 
 class InitOneClickPaymentRequest
@@ -19,43 +21,45 @@ class InitOneClickPaymentRequest
 		private string $merchantId,
 		private string $origPayId,
 		private string $orderId,
-		private string $clientIp,
-		private ?Price $price = null,
-		private ?string $description = null,
+		private ?string $clientIp,
+		private ?Price $price,
+		private ?bool $closePayment,
+		private string $returnUrl,
+		private HttpMethod $returnMethod,
+		private ?Customer $customer = null,
+		private ?Order $order = null,
+		private ?bool $clientInitiated = null,
+		private ?bool $sdkUsed = null,
 		private ?string $merchantData = null,
 	)
 	{
-		Validator::checkPayId($origPayId);
-		Validator::checkOrderId($orderId);
-		if ($description !== null) {
-			Validator::checkDescription($description);
-		}
-		if ($merchantData !== null) {
-			Validator::checkMerchantData($merchantData);
+		Validator::checkPayId($this->origPayId);
+		Validator::checkOrderId($this->orderId);
+		Validator::checkReturnUrl($this->returnUrl);
+		Validator::checkReturnMethod($this->returnMethod);
+		if ($this->merchantData !== null) {
+			Validator::checkMerchantData($this->merchantData);
 		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): ActionsPaymentResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'origPayId' => $this->origPayId,
 			'orderNo' => $this->orderId,
 			'clientIp' => $this->clientIp,
-		];
-
-		if ($this->price !== null) {
-			$requestData['totalAmount'] = $this->price->getAmount();
-			$requestData['currency'] = $this->price->getCurrency()->value;
-		}
-
-		if ($this->description !== null) {
-			$requestData['description'] = $this->description;
-		}
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = base64_encode($this->merchantData);
-		}
+			'totalAmount' => $this->price?->getAmount(),
+			'currency' => $this->price?->getCurrency()->value,
+			'closePayment' => $this->closePayment,
+			'returnUrl' => $this->returnUrl,
+			'returnMethod' => $this->returnMethod->value,
+			'customer' => $this->customer?->encode(),
+			'order' => $this->order?->encode(),
+			'clientInitiated' => $this->clientInitiated,
+			'sdkUsed' => $this->sdkUsed,
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'oneclick/init',
@@ -68,28 +72,22 @@ class InitOneClickPaymentRequest
 				'clientIp' => null,
 				'totalAmount' => null,
 				'currency' => null,
-				'description' => null,
+				'closePayment' => null,
+				'returnUrl' => null,
+				'returnMethod' => null,
+				'customer' => Customer::encodeForSignature(),
+				'order' => Order::encodeForSignature(),
+				'clientInitiated' => null,
+				'sdkUsed' => null,
 				'merchantData' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(ActionsPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new PaymentResponse(
-			$data['payId'],
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return ActionsPaymentResponse::createFromResponseData($data);
 	}
 
 }
