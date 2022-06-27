@@ -9,7 +9,7 @@ use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Call\ResultCode;
 
-class OneClickEchoRequestTest extends TestCase
+class EchoOneClickRequestTest extends TestCase
 {
 
 	public function testSend(): void
@@ -32,17 +32,17 @@ class OneClickEchoRequestTest extends TestCase
 				]),
 			);
 
-		$initPaymentRequest = new OneClickEchoRequest(
+		$request = new EchoOneClickRequest(
 			'012345',
 			'ef08b6e9f22345c',
 		);
 
-		$paymentResponse = $initPaymentRequest->send($apiClient);
+		$response = $request->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
+		self::assertSame('123456789', $response->getOrigPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
 	}
 
 }

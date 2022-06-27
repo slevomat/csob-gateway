@@ -24,8 +24,8 @@ use SlevomatCsobGateway\Call\Masterpass\BasicFinishRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardCheckoutRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
+use SlevomatCsobGateway\Call\OneClick\EchoOneClickRequest;
 use SlevomatCsobGateway\Call\OneClick\InitOneClickPaymentRequest;
-use SlevomatCsobGateway\Call\OneClick\OneClickEchoRequest;
 use SlevomatCsobGateway\Call\OneClick\StartOneClickPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
@@ -299,9 +299,9 @@ class RequestFactory
 		);
 	}
 
-	public function createOneClickEchoRequest(string $payId): OneClickEchoRequest
+	public function createOneClickEchoRequest(string $payId): EchoOneClickRequest
 	{
-		return new OneClickEchoRequest(
+		return new EchoOneClickRequest(
 			$this->merchantId,
 			$payId,
 		);
