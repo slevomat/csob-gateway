@@ -209,6 +209,13 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
+	public function testCreateApplePayEchoRequest(): void
+	{
+		$this->requestFactory->createApplePayEchoRequest();
+
+		self::assertTrue(true);
+	}
+
 	public function testCreateApplePayInitRequest(): void
 	{
 		$this->requestFactory->createApplePayInitRequest(
