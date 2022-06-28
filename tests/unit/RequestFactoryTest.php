@@ -139,9 +139,9 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateOneclickStartPayment(): void
+	public function testCreateOneclickProcessPayment(): void
 	{
-		$this->requestFactory->createOneclickStartPayment('ef08b6e9f22345c');
+		$this->requestFactory->createOneclickProcessPayment('ef08b6e9f22345c');
 
 		self::assertTrue(true);
 	}
