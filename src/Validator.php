@@ -185,6 +185,13 @@ class Validator
 		}
 	}
 
+	public static function checkNumberGraterEqualThen(int $value, int $min): void
+	{
+		if ($value < $min) {
+			throw new InvalidArgumentException(sprintf('Value %d must be >= than %d.', $value, $min));
+		}
+	}
+
 	public static function checkEmail(string $value): void
 	{
 		if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {

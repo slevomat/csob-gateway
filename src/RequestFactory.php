@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\AdditionalData\Fingerprint;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
@@ -26,7 +27,7 @@ use SlevomatCsobGateway\Call\Masterpass\StandardExtractRequest;
 use SlevomatCsobGateway\Call\Masterpass\StandardFinishRequest;
 use SlevomatCsobGateway\Call\OneClick\EchoOneClickRequest;
 use SlevomatCsobGateway\Call\OneClick\InitOneClickPaymentRequest;
-use SlevomatCsobGateway\Call\OneClick\StartOneClickPaymentRequest;
+use SlevomatCsobGateway\Call\OneClick\ProcessOneClickPaymentRequest;
 use SlevomatCsobGateway\Call\PaymentStatusRequest;
 use SlevomatCsobGateway\Call\PayMethod;
 use SlevomatCsobGateway\Call\PayOperation;
@@ -190,11 +191,12 @@ class RequestFactory
 		);
 	}
 
-	public function createOneclickStartPayment(string $payId): StartOneClickPaymentRequest
+	public function createOneclickProcessPayment(string $payId, ?Fingerprint $fingerprint = null): ProcessOneClickPaymentRequest
 	{
-		return new StartOneClickPaymentRequest(
+		return new ProcessOneClickPaymentRequest(
 			$this->merchantId,
 			$payId,
+			$fingerprint,
 		);
 	}
 
