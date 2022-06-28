@@ -223,8 +223,26 @@ class RequestFactoryTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::CZK),
 			true,
-			'Order from example.com',
-			null,
+			[
+				'paymentData' => [
+					'version' => 'EC_v1',
+					'data' => 'zDwclQ1....',
+					'signature' => 'MIAGCSqGSI...',
+					'header' => [
+						'ephemeralPublicKey' => 'MFkwEwY...',
+						'publicKeyHash' => 'bHAaZK2k0SM...',
+						'transactionId' => '5324b499fab7...',
+					],
+				],
+				'paymentMethod' => [
+					'displayName' => 'MasterCard 1234',
+					'network' => 'MasterCard',
+					'type' => 'debit',
+				],
+				'transactionIdentifier' => '5324B499F...',
+			],
+			'https://shop.example.com/return',
+			HttpMethod::POST,
 		);
 
 		self::assertTrue(true);

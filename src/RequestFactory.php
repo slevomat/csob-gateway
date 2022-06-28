@@ -274,12 +274,21 @@ class RequestFactory
 		return new EchoApplePayRequest($this->merchantId);
 	}
 
+	/**
+	 * @param mixed[] $payload Complete payload from Apple Pay JS API, containing paymentData.
+	 */
 	public function createApplePayInitRequest(
 		string $orderId,
 		string $clientIp,
 		Price $totalPrice,
 		bool $closePayment,
-		?string $merchantData,
+		array $payload,
+		string $returnUrl,
+		HttpMethod $returnMethod,
+		?\SlevomatCsobGateway\AdditionalData\Customer $customer = null,
+		?\SlevomatCsobGateway\AdditionalData\Order $order = null,
+		?bool $sdkUsed = null,
+		?string $merchantData = null,
 		?int $ttlSec = null,
 	): InitApplePayRequest
 	{
@@ -289,6 +298,12 @@ class RequestFactory
 			$clientIp,
 			$totalPrice,
 			$closePayment,
+			$payload,
+			$returnUrl,
+			$returnMethod,
+			$customer,
+			$order,
+			$sdkUsed,
 			$merchantData,
 			$ttlSec,
 		);
