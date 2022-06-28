@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway;
 use DateTimeImmutable;
 use SlevomatCsobGateway\AdditionalData\Fingerprint;
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\ApplePay\EchoApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
@@ -266,6 +267,11 @@ class RequestFactory
 			$merchantData,
 			$language,
 		);
+	}
+
+	public function createApplePayEchoRequest(): EchoApplePayRequest
+	{
+		return new EchoApplePayRequest($this->merchantId);
 	}
 
 	public function createApplePayInitRequest(
