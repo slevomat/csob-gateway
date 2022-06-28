@@ -2,60 +2,87 @@
 
 namespace SlevomatCsobGateway\Call\ApplePay;
 
-use DateTimeImmutable;
+use SlevomatCsobGateway\AdditionalData\Customer;
+use SlevomatCsobGateway\AdditionalData\Order;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\ActionsPaymentResponse;
+use SlevomatCsobGateway\Call\InvalidJsonPayloadException;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 use function base64_encode;
+use function json_encode;
+use function json_last_error;
+use function json_last_error_msg;
+use const JSON_ERROR_NONE;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 class InitApplePayRequest
 {
 
-	private ?string $clientIp = null;
-
+	/**
+	 * @param mixed[] $payload Complete payload from Apple Pay JS API, containing paymentData.
+	 */
 	public function __construct(
 		private string $merchantId,
 		private string $orderId,
-		string $clientIp,
+		private string $clientIp,
 		private Price $totalPrice,
 		private bool $closePayment,
+		private array $payload,
+		private string $returnUrl,
+		private HttpMethod $returnMethod,
+		private ?Customer $customer = null,
+		private ?Order $order = null,
+		private ?bool $sdkUsed = null,
 		private ?string $merchantData = null,
 		private ?int $ttlSec = null,
 	)
 	{
-		Validator::checkOrderId($orderId);
-		if ($merchantData !== null) {
-			Validator::checkMerchantData($merchantData);
+		Validator::checkOrderId($this->orderId);
+		Validator::checkReturnUrl($this->returnUrl);
+		Validator::checkReturnMethod($this->returnMethod);
+		if ($this->merchantData !== null) {
+			Validator::checkMerchantData($this->merchantData);
 		}
-		if ($ttlSec !== null) {
-			Validator::checkTtlSec($ttlSec);
+		if ($this->ttlSec !== null) {
+			Validator::checkTtlSec($this->ttlSec);
 		}
-
-		$this->clientIp = $clientIp;
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): ActionsPaymentResponse
 	{
-		$requestData = [
+		$payloadData = $this->payload['paymentData'] ?? null;
+		if ($payloadData === null) {
+			throw new InvalidJsonPayloadException('Missing `paymentData` in ApplePay payload.');
+		}
+		$payloadData = json_encode($payloadData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		$error = json_last_error();
+		if ($error !== JSON_ERROR_NONE) {
+			throw new InvalidJsonPayloadException(json_last_error_msg(), $error);
+		}
+		$payloadData = base64_encode((string) $payloadData);
+
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
+			'clientIp' => $this->clientIp,
 			'totalAmount' => $this->totalPrice->getAmount(),
 			'currency' => $this->totalPrice->getCurrency()->value,
 			'closePayment' => $this->closePayment,
-			'clientIp' => $this->clientIp,
-		];
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = base64_encode($this->merchantData);
-		}
-
-		if ($this->ttlSec !== null) {
-			$requestData['ttlSec'] = $this->ttlSec;
-		}
+			'payload' => $payloadData,
+			'returnUrl' => $this->returnUrl,
+			'returnMethod' => $this->returnMethod->value,
+			'customer' => $this->customer?->encode(),
+			'order' => $this->order?->encode(),
+			'sdkUsed' => $this->sdkUsed,
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'ttlSec' => $this->ttlSec,
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'applepay/init',
@@ -68,29 +95,22 @@ class InitApplePayRequest
 				'totalAmount' => null,
 				'currency' => null,
 				'closePayment' => null,
+				'payload' => null,
+				'returnUrl' => null,
+				'returnMethod' => null,
+				'customer' => Customer::encodeForSignature(),
+				'order' => Order::encodeForSignature(),
+				'sdkUsed' => null,
 				'merchantData' => null,
 				'ttlSec' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(ActionsPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new PaymentResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return ActionsPaymentResponse::createFromResponseData($data);
 	}
 
 }
