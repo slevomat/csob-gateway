@@ -8,11 +8,12 @@
 This repository provides a client library for ČSOB Payment Gateway.
 
 - [CSOB payment gateway wiki](https://github.com/csob/paymentgateway/wiki)
-- [CSOB eAPI 1.8](https://github.com/csob/paymentgateway/wiki/eAPI-v1.8)
+- [CSOB eAPI 1.9](https://github.com/csob/platebnibrana/wiki/Vol%C3%A1n%C3%AD-rozhran%C3%AD-eAPI)
 
-Library supports **all endpoints of eAPI 1.8** without EET extension. Pull requests are welcome.
+Library supports **all endpoints of eAPI 1.9** except NEJsplátku (loan@shop). Pull requests are welcome.
 
 Older available versions (not actively maintained):
+- Version 5.* supports PHP 7.2 and eAPI 1.8
 - Version 4.* supports PHP 7.2 and eAPI 1.7
 - Version 3.* supports PHP 7 and eAPI 1.6.
 - Version 2.* supports PHP 7 and eAPI 1.5.
@@ -47,6 +48,38 @@ $requestFactory = new RequestFactory('012345');
 $cart = new Cart(Currency::EUR);
 $cart->addItem('Nákup', 1, 1.9 * 100);
 
+$customer = new Customer(
+    'Jan Novák',
+    'jan.novak@example.com',
+    mobilePhone: '+420.800300300',
+    customerAccount: new CustomerAccount(
+        new DateTimeImmutable('2022-01-12T12:10:37+01:00'),
+        new DateTimeImmutable('2022-01-15T15:10:12+01:00'),
+    ),
+    customerLogin: new CustomerLogin(
+        CustomerLoginAuth::ACCOUNT,
+        new DateTimeImmutable('2022-01-25T13:10:03+01:00'),
+    ),
+);
+
+$order = new Order(
+    OrderType::PURCHASE,
+    OrderAvailability::NOW,
+    null,
+    OrderDelivery::SHIPPING,
+    OrderDeliveryMode::SAME_DAY,
+    addressMatch: true,
+    billing: new OrderAddress(
+        'Karlova 1',
+        null,
+        null,
+        'Praha',
+        '11000',
+        null,
+        Country::CZE,
+    ),
+);
+
 $paymentResponse = $requestFactory->createInitPayment(
 	123,
 	PayOperation::PAYMENT,
@@ -55,9 +88,14 @@ $paymentResponse = $requestFactory->createInitPayment(
 	$returnUrl,
 	HttpMethod::POST,
 	$cart,
-	null,
-	null,
-	Language::CZ
+    $customer,
+    $order,
+    'some-base64-encoded-merchant-data',
+    '123',
+    Language::CZ,
+    1800,
+    1,
+    2,
 )->send($apiClient);
 $payId = $paymentResponse->getPayId();
 
@@ -67,10 +105,14 @@ $processPaymentResponse = $requestFactory->createProcessPayment($payId)->send($a
 header('Location: ' . $processPaymentResponse->getGatewayLocationUrl());
 ```
 After customer returns from gateway, he is redirected to `$returnUrl` where you have to process the payment.
-```
-$paymentResponse = $requestFactory->createReceivePaymentRequest()->send($apiClient, $_POST);
-if ($paymentResponse->getPaymentStatus() === PaymentStatus::S7_AWAITING_SETTLEMENT) {
-	// payment was successful!
+```php
+try {
+    $receivePaymentResponse = $requestFactory->createReceivePaymentRequest()->send($apiClient, $_POST /* $_GET */);
+    if ($receivePaymentResponse->getPaymentStatus() === PaymentStatus::S7_AWAITING_SETTLEMENT) {
+        // payment was successful!
+    }
+} catch (VerificationFailedException | InvalidSignatureException $e) {
+    // request was not send from csob api
 }
 ```
 Please refer to the CSOB documentation and learn what states you should to check, they are all available as PaymentStatus::S* constants.
