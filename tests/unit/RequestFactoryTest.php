@@ -4,6 +4,8 @@ namespace SlevomatCsobGateway;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use SlevomatCsobGateway\AdditionalData\Fingerprint;
+use SlevomatCsobGateway\AdditionalData\FingerprintBrowser;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\PayMethod;
@@ -248,11 +250,24 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateApplePayStartRequest(): void
+	public function testCreateApplePayProcessRequest(): void
 	{
-		$this->requestFactory->createApplePayStartRequest(
+		$this->requestFactory->createApplePayProcessRequest(
 			'ef08b6e9f22345c',
-			[],
+			new Fingerprint(
+				new FingerprintBrowser(
+					'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+					'text/html,application/xhtml+xml,application/xml;',
+					'en',
+					false,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+				),
+			),
 		);
 
 		self::assertTrue(true);
