@@ -3,12 +3,12 @@
 namespace SlevomatCsobGateway\Call\MallPay;
 
 use DateTimeImmutable;
-use SlevomatCsobGateway\Call\PaymentApiResponse;
+use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use function array_merge;
 
-class InitMallPayResponse extends PaymentApiResponse
+class InitMallPayResponse extends PaymentResponse
 {
 
 	public function __construct(
