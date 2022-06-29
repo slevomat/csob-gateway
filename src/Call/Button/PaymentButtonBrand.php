@@ -6,6 +6,5 @@ enum PaymentButtonBrand: string
 {
 
 	case CSOB = 'csob';
-	case ERA = 'era';
 
 }

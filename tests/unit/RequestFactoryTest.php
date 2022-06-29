@@ -204,7 +204,7 @@ class RequestFactoryTest extends TestCase
 			new Price(12500, Currency::CZK),
 			'https://www.example.com/return',
 			HttpMethod::GET,
-			PaymentButtonBrand::ERA,
+			PaymentButtonBrand::CSOB,
 			null,
 			Language::EN,
 		);
