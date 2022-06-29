@@ -2,11 +2,8 @@
 
 namespace SlevomatCsobGateway\Call\MallPay;
 
-use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Call\StatusDetailPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\MallPay\CancelReason;
 
@@ -21,7 +18,7 @@ class CancelMallPayRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,
@@ -38,26 +35,13 @@ class CancelMallPayRequest
 				'reason' => null,
 				'dttm' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(StatusDetailPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new PaymentResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return StatusDetailPaymentResponse::createFromResponseData($data);
 	}
 
 }
