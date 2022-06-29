@@ -131,7 +131,7 @@ class SignatureDataFormatterTest extends TestCase
 					'dttm' => null,
 					'resultCode' => null,
 					'resultMessage' => null,
-					'checkoutParams' => [
+					'initParams' => [
 						'apiVersion' => null,
 						'apiVersionMinor' => null,
 						'paymentMethodType' => null,
@@ -142,7 +142,7 @@ class SignatureDataFormatterTest extends TestCase
 				[
 					'dttm' => '2017',
 					'resultCode' => 0,
-					'checkoutParams' => [
+					'initParams' => [
 						'apiVersion' => 2,
 						'apiVersionMinor' => 1,
 						'paymentMethodType' => 'CARD',
