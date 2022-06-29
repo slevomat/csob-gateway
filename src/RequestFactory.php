@@ -7,7 +7,7 @@ use SlevomatCsobGateway\AdditionalData\Fingerprint;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ApplePay\EchoApplePayRequest;
 use SlevomatCsobGateway\Call\ApplePay\InitApplePayRequest;
-use SlevomatCsobGateway\Call\ApplePay\StartApplePayRequest;
+use SlevomatCsobGateway\Call\ApplePay\ProcessApplePayRequest;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\Button\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
@@ -309,17 +309,9 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param mixed[] $payload
-	 */
-	public function createApplePayStartRequest(string $payId, array $payload, ?int $totalAmount = null): StartApplePayRequest
+	public function createApplePayProcessRequest(string $payId, Fingerprint $fingerprint): ProcessApplePayRequest
 	{
-		return new StartApplePayRequest(
-			$this->merchantId,
-			$payId,
-			$payload,
-			$totalAmount,
-		);
+		return new ProcessApplePayRequest($this->merchantId, $payId, $fingerprint);
 	}
 
 	public function createOneClickEchoRequest(string $payId): EchoOneClickRequest
