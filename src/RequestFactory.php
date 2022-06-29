@@ -15,7 +15,7 @@ use SlevomatCsobGateway\Call\EchoCustomerRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
 use SlevomatCsobGateway\Call\GooglePay\EchoGooglePayRequest;
 use SlevomatCsobGateway\Call\GooglePay\InitGooglePayRequest;
-use SlevomatCsobGateway\Call\GooglePay\StartGooglePayRequest;
+use SlevomatCsobGateway\Call\GooglePay\ProcessGooglePayRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
 use SlevomatCsobGateway\Call\MallPay\CancelMallPayRequest;
 use SlevomatCsobGateway\Call\MallPay\InitMallPayRequest;
@@ -437,16 +437,9 @@ class RequestFactory
 		);
 	}
 
-	/**
-	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
-	 */
-	public function createGooglePayStartRequest(string $payId, array $payload): StartGooglePayRequest
+	public function createGooglePayProcessRequest(string $payId, Fingerprint $fingerprint): ProcessGooglePayRequest
 	{
-		return new StartGooglePayRequest(
-			$this->merchantId,
-			$payId,
-			$payload,
-		);
+		return new ProcessGooglePayRequest($this->merchantId, $payId, $fingerprint);
 	}
 
 }
