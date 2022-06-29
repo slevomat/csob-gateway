@@ -2,15 +2,15 @@
 
 namespace SlevomatCsobGateway\Call\Button;
 
-use DateTimeImmutable;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
+use function base64_encode;
 
 class PaymentButtonRequest
 {
@@ -22,20 +22,21 @@ class PaymentButtonRequest
 		private Price $totalPrice,
 		private string $returnUrl,
 		private HttpMethod $returnMethod,
-		private PaymentButtonBrand $brand,
+		private ?PaymentButtonBrand $brand,
 		private ?string $merchantData,
 		private Language $language,
 	)
 	{
-		Validator::checkReturnUrl($returnUrl);
-		if ($merchantData !== null) {
-			Validator::checkMerchantData($merchantData);
+		Validator::checkReturnUrl($this->returnUrl);
+		Validator::checkReturnMethod($this->returnMethod);
+		if ($this->merchantData !== null) {
+			Validator::checkMerchantData($this->merchantData);
 		}
 	}
 
 	public function send(ApiClient $apiClient): PaymentButtonResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'clientIp' => $this->clientIp,
@@ -43,13 +44,10 @@ class PaymentButtonRequest
 			'currency' => $this->totalPrice->getCurrency()->value,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->value,
-			'brand' => $this->brand->value,
+			'brand' => $this->brand?->value,
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
 			'language' => $this->language->value,
-		];
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = $this->merchantData;
-		}
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'button/init',
@@ -67,42 +65,13 @@ class PaymentButtonRequest
 				'merchantData' => null,
 				'language' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-				'redirect' => [
-					'method' => null,
-					'url' => null,
-					'params' => null,
-				],
-			]),
+			new SignatureDataFormatter(PaymentButtonResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		$redirectUrl = null;
-		$redirectMethod = null;
-		$redirectParams = [];
-		if (isset($data['redirect'])) {
-			$redirectUrl = $data['redirect']['url'];
-			$redirectMethod = HttpMethod::from($data['redirect']['method']);
-			$redirectParams = $data['redirect']['params'] ?? null;
-		}
-
-		return new PaymentButtonResponse(
-			$data['payId'],
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-			$redirectMethod,
-			$redirectUrl,
-			$redirectParams,
-		);
+		return PaymentButtonResponse::createFromResponseData($data);
 	}
 
 }

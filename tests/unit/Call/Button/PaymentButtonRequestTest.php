@@ -49,7 +49,7 @@ class PaymentButtonRequestTest extends TestCase
 				]),
 			);
 
-		$paymentRequest = new PaymentButtonRequest(
+		$request = new PaymentButtonRequest(
 			'012345',
 			'123456789',
 			'127.0.0.1',
@@ -61,16 +61,16 @@ class PaymentButtonRequestTest extends TestCase
 			Language::EN,
 		);
 
-		$paymentButtonResponse = $paymentRequest->send($apiClient);
+		$response = $request->send($apiClient);
 
-		self::assertSame('123456789', $paymentButtonResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentButtonResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentButtonResponse->getResultCode());
-		self::assertSame('OK', $paymentButtonResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S1_CREATED, $paymentButtonResponse->getPaymentStatus());
-		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob', $paymentButtonResponse->getRedirectUrl());
-		self::assertSame(HttpMethod::GET, $paymentButtonResponse->getRedirectMethod());
-		self::assertNull($paymentButtonResponse->getRedirectParams());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
+		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob', $response->getRedirect()?->getUrl());
+		self::assertSame(HttpMethod::GET, $response->getRedirect()?->getMethod());
+		self::assertNull($response->getRedirect()?->getParams());
 	}
 
 }

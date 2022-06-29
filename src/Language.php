@@ -22,5 +22,9 @@ enum Language: string
 	case TR = 'TR';
 	case SI = 'SI';
 	case VN = 'VN';
+	case JA = 'JA';
+	case VI = 'VI';
+	case SL = 'SL';
+	case SV = 'SV';
 
 }

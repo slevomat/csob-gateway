@@ -4,71 +4,61 @@ namespace SlevomatCsobGateway\Call\Button;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\PaymentApiResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
-use SlevomatCsobGateway\Validator;
+use function array_key_exists;
+use function array_merge;
 
-class PaymentButtonResponse
+class PaymentButtonResponse extends PaymentApiResponse
 {
 
-	/**
-	 * @param mixed[]|null $redirectParams
-	 */
 	public function __construct(
-		private string $payId,
-		private DateTimeImmutable $responseDateTime,
-		private ResultCode $resultCode,
-		private string $resultMessage,
-		private ?PaymentStatus $paymentStatus = null,
-		private ?HttpMethod $redirectMethod = null,
-		private ?string $redirectUrl = null,
-		private ?array $redirectParams = null,
+		string $payId,
+		DateTimeImmutable $responseDateTime,
+		ResultCode $resultCode,
+		string $resultMessage,
+		?PaymentStatus $paymentStatus = null,
+		private ?PaymentButtonRedirect $redirect = null,
 	)
 	{
-		Validator::checkPayId($payId);
-	}
-
-	public function getPayId(): string
-	{
-		return $this->payId;
-	}
-
-	public function getResponseDateTime(): DateTimeImmutable
-	{
-		return $this->responseDateTime;
-	}
-
-	public function getResultCode(): ResultCode
-	{
-		return $this->resultCode;
-	}
-
-	public function getResultMessage(): string
-	{
-		return $this->resultMessage;
-	}
-
-	public function getPaymentStatus(): ?PaymentStatus
-	{
-		return $this->paymentStatus;
-	}
-
-	public function getRedirectMethod(): ?HttpMethod
-	{
-		return $this->redirectMethod;
-	}
-
-	public function getRedirectUrl(): ?string
-	{
-		return $this->redirectUrl;
+		parent::__construct($payId, $responseDateTime, $resultCode, $resultMessage, $paymentStatus);
 	}
 
 	/**
-	 * @return mixed[]|null
+	 * @param mixed[] $data
 	 */
-	public function getRedirectParams(): ?array
+	public static function createFromResponseData(array $data): self
 	{
-		return $this->redirectParams;
+		$paymentResponse = parent::createFromResponseData($data);
+
+		return new self(
+			$paymentResponse->getPayId(),
+			$paymentResponse->getResponseDateTime(),
+			$paymentResponse->getResultCode(),
+			$paymentResponse->getResultMessage(),
+			$paymentResponse->getPaymentStatus(),
+			array_key_exists('redirect', $data) ? new PaymentButtonRedirect(
+				HttpMethod::from($data['redirect']['method']),
+				$data['redirect']['url'],
+				$data['redirect']['params'] ?? null,
+			) : null,
+		);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return array_merge(parent::encodeForSignature(), [
+			'redirect' => PaymentButtonRedirect::encodeForSignature(),
+		]);
+	}
+
+	public function getRedirect(): ?PaymentButtonRedirect
+	{
+		return $this->redirect;
 	}
 
 }

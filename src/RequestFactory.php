@@ -251,7 +251,7 @@ class RequestFactory
 		Price $totalPrice,
 		string $returnUrl,
 		HttpMethod $returnMethod,
-		PaymentButtonBrand $brand,
+		?PaymentButtonBrand $brand,
 		?string $merchantData,
 		Language $language,
 	): PaymentButtonRequest
