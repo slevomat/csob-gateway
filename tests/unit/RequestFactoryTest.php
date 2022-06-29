@@ -149,53 +149,6 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateMasterpassBasicCheckoutRequest(): void
-	{
-		$this->requestFactory->createMasterpassBasicCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback');
-
-		self::assertTrue(true);
-	}
-
-	public function testCreateMasterpassBasicFinishRequest(): void
-	{
-		$callbackParams = [
-			'mpstatus' => 'success',
-			'oauthToken' => '6a79bf9e320a0460d08aee7ad154f7dab4e19503',
-			'checkoutResourceUrl' => 'https://sandbox.api.mastercard.com/masterpass/v6/checkout/616764812',
-			'oauthVerifier' => 'fc8f41bb76ed7d43ea6d714cb8fdefa606611a7d',
-		];
-		$this->requestFactory->createMasterpassBasicFinishRequest('ef08b6e9f22345c', $callbackParams);
-
-		self::assertTrue(true);
-	}
-
-	public function testCreateMasterpassStandardCheckoutRequest(): void
-	{
-		$this->requestFactory->createMasterpassStandardCheckoutRequest('ef08b6e9f22345c', 'https://www.example.com/callback', 'SP123');
-
-		self::assertTrue(true);
-	}
-
-	public function testCreateMasterpassStandardExtractRequest(): void
-	{
-		$callbackParams = [
-			'mpstatus' => 'success',
-			'oauthToken' => '6a79bf9e320a0460d08aee7ad154f7dab4e19503',
-			'checkoutResourceUrl' => 'https://sandbox.api.mastercard.com/masterpass/v6/checkout/616764812',
-			'oauthVerifier' => 'fc8f41bb76ed7d43ea6d714cb8fdefa606611a7d',
-		];
-		$this->requestFactory->createMasterpassStandardExtractRequest('ef08b6e9f22345c', $callbackParams);
-
-		self::assertTrue(true);
-	}
-
-	public function testCreateMasterpassStandardFinishRequest(): void
-	{
-		$this->requestFactory->createMasterpassStandardFinishRequest('ef08b6e9f22345c', '123456789', 15000);
-
-		self::assertTrue(true);
-	}
-
 	public function testCreatePaymentButtonRequest(): void
 	{
 		$this->requestFactory->createPaymentButtonRequest(
