@@ -2,18 +2,16 @@
 
 namespace SlevomatCsobGateway\Call\MallPay;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\MallPay\AddressType;
 use SlevomatCsobGateway\MallPay\Customer;
 use SlevomatCsobGateway\MallPay\Order;
 use SlevomatCsobGateway\Validator;
-use function array_key_exists;
+use function array_filter;
 use function base64_encode;
 
 class InitMallPayRequest
@@ -33,6 +31,7 @@ class InitMallPayRequest
 	)
 	{
 		Validator::checkOrderId($orderId);
+		Validator::checkReturnMethod($returnMethod);
 		if ($merchantData !== null) {
 			Validator::checkMerchantData($merchantData);
 		}
@@ -59,7 +58,7 @@ class InitMallPayRequest
 
 	public function send(ApiClient $apiClient): InitMallPayResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'customer' => $this->customer->encode(),
@@ -68,14 +67,9 @@ class InitMallPayRequest
 			'clientIp' => $this->clientIp,
 			'returnUrl' => $this->returnUrl,
 			'returnMethod' => $this->returnMethod->value,
-		];
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = base64_encode($this->merchantData);
-		}
-		if ($this->ttlSec !== null) {
-			$requestData['ttlSec'] = $this->ttlSec;
-		}
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'ttlSec' => $this->ttlSec,
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'mallpay/init',
@@ -83,76 +77,8 @@ class InitMallPayRequest
 			new SignatureDataFormatter([
 				'merchantId' => null,
 				'orderNo' => null,
-				'customer' => [
-					'firstName' => null,
-					'lastName' => null,
-					'fullName' => null,
-					'titleBefore' => null,
-					'titleAfter' => null,
-					'email' => null,
-					'phone' => null,
-					'tin' => null,
-					'vatin' => null,
-				],
-				'order' => [
-					'totalPrice' => [
-						'amount' => null,
-						'currency' => null,
-					],
-					'totalVat' => [
-						[
-							'amount' => null,
-							'currency' => null,
-							'vatRate' => null,
-						],
-					],
-					'addresses' => [
-						[
-							'name' => null,
-							'country' => null,
-							'city' => null,
-							'streetAddress' => null,
-							'streetNumber' => null,
-							'zip' => null,
-							'addressType' => null,
-						],
-					],
-					'deliveryType' => null,
-					'carrierId' => null,
-					'carrierCustom' => null,
-					'items' => [
-						[
-							'code' => null,
-							'ean' => null,
-							'name' => null,
-							'type' => null,
-							'quantity' => null,
-							'variant' => null,
-							'description' => null,
-							'producer' => null,
-							'categories' => [],
-							'unitPrice' => [
-								'amount' => null,
-								'currency' => null,
-							],
-							'unitVat' => [
-								'amount' => null,
-								'currency' => null,
-								'vatRate' => null,
-							],
-							'totalPrice' => [
-								'amount' => null,
-								'currency' => null,
-							],
-							'totalVat' => [
-								'amount' => null,
-								'currency' => null,
-								'vatRate' => null,
-							],
-							'productUrl' => null,
-						],
-					],
-				],
+				'customer' => Customer::encodeForSignature(),
+				'order' => Order::encodeForSignature(),
 				'agreeTC' => null,
 				'dttm' => null,
 				'clientIp' => null,
@@ -161,31 +87,13 @@ class InitMallPayRequest
 				'merchantData' => null,
 				'ttlSec' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-				'mallpayUrl' => null,
-			]),
+			new SignatureDataFormatter(InitMallPayResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new InitMallPayResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			array_key_exists('paymentStatus', $data) ? PaymentStatus::from($data['paymentStatus']) : null,
-			null,
-			null,
-			[],
-			$data['mallpayUrl'] ?? null,
-		);
+		return InitMallPayResponse::createFromResponseData($data);
 	}
 
 }

@@ -4,6 +4,7 @@ namespace SlevomatCsobGateway\MallPay;
 
 use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
 class Address
 {
@@ -40,22 +41,31 @@ class Address
 	 */
 	public function encode(): array
 	{
-		$data = [
+		return array_filter([
+			'name' => $this->name,
 			'country' => $this->country->value,
 			'city' => $this->city,
 			'streetAddress' => $this->streetAddress,
+			'streetNumber' => $this->streetNumber,
 			'zip' => $this->zip,
 			'addressType' => $this->addressType->value,
+		]);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'name' => null,
+			'country' => null,
+			'city' => null,
+			'streetAddress' => null,
+			'streetNumber' => null,
+			'zip' => null,
+			'addressType' => null,
 		];
-
-		if ($this->name !== null) {
-			$data['name'] = $this->name;
-		}
-		if ($this->streetNumber !== null) {
-			$data['streetNumber'] = $this->streetNumber;
-		}
-
-		return $data;
 	}
 
 	public function getName(): ?string

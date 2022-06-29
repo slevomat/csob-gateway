@@ -3,7 +3,9 @@
 namespace SlevomatCsobGateway\MallPay;
 
 use InvalidArgumentException;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
 class Customer
 {
@@ -61,32 +63,35 @@ class Customer
 	 */
 	public function encode(): array
 	{
-		$data = [
+		return array_filter([
+			'firstName' => $this->firstName,
+			'lastName' => $this->lastName,
+			'fullName' => $this->fullName,
+			'titleBefore' => $this->titleBefore,
+			'titleAfter' => $this->titleAfter,
 			'email' => $this->email,
 			'phone' => $this->phone,
+			'tin' => $this->tin,
+			'vatin' => $this->vatin,
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'firstName' => null,
+			'lastName' => null,
+			'fullName' => null,
+			'titleBefore' => null,
+			'titleAfter' => null,
+			'email' => null,
+			'phone' => null,
+			'tin' => null,
+			'vatin' => null,
 		];
-
-		if ($this->fullName !== null) {
-			$data['fullName'] = $this->fullName;
-		} else {
-			$data['firstName'] = $this->firstName;
-			$data['lastName'] = $this->lastName;
-		}
-
-		if ($this->titleBefore !== null) {
-			$data['titleBefore'] = $this->titleBefore;
-		}
-		if ($this->titleAfter !== null) {
-			$data['titleAfter'] = $this->titleAfter;
-		}
-		if ($this->tin !== null) {
-			$data['tin'] = $this->tin;
-		}
-		if ($this->vatin !== null) {
-			$data['vatin'] = $this->vatin;
-		}
-
-		return $data;
 	}
 
 	public function getFirstName(): ?string

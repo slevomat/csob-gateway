@@ -28,16 +28,33 @@ class CustomerTest extends TestCase
 		$customer = new Customer(null, null, 'Pepa Zdepa', 'Ing', 'Ph.d', 'pepa@zdepa.cz', '+420800300300', '123', '345');
 
 		$expected = [
-			'email' => 'pepa@zdepa.cz',
-			'phone' => '+420800300300',
 			'fullName' => 'Pepa Zdepa',
 			'titleBefore' => 'Ing',
 			'titleAfter' => 'Ph.d',
+			'email' => 'pepa@zdepa.cz',
+			'phone' => '+420800300300',
 			'tin' => '123',
 			'vatin' => '345',
 		];
 
 		self::assertSame($expected, $customer->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'firstName' => null,
+			'lastName' => null,
+			'fullName' => null,
+			'titleBefore' => null,
+			'titleAfter' => null,
+			'email' => null,
+			'phone' => null,
+			'tin' => null,
+			'vatin' => null,
+		];
+
+		self::assertSame($expected, Customer::encodeForSignature());
 	}
 
 	public function testValidation(): void

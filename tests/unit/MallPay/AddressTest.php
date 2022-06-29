@@ -14,16 +14,31 @@ class AddressTest extends TestCase
 		$address = new Address('Slevomat', Country::CZE, 'Praha 8', 'Pernerova 691/42', 'xxx', '186 00', AddressType::BILLING);
 
 		$expected = [
+			'name' => 'Slevomat',
 			'country' => 'CZ',
 			'city' => 'Praha 8',
 			'streetAddress' => 'Pernerova 691/42',
+			'streetNumber' => 'xxx',
 			'zip' => '186 00',
 			'addressType' => 'BILLING',
-			'name' => 'Slevomat',
-			'streetNumber' => 'xxx',
 		];
 
 		self::assertSame($expected, $address->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'name' => null,
+			'country' => null,
+			'city' => null,
+			'streetAddress' => null,
+			'streetNumber' => null,
+			'zip' => null,
+			'addressType' => null,
+		];
+
+		self::assertSame($expected, Address::encodeForSignature());
 	}
 
 	public function testValidation(): void

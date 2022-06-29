@@ -20,6 +20,17 @@ class Price
 		];
 	}
 
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'amount' => null,
+			'currency' => null,
+		];
+	}
+
 	public function getAmount(): int
 	{
 		return $this->amount;
