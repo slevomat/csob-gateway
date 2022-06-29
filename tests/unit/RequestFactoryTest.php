@@ -395,9 +395,9 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateGooglePayInfoRequest(): void
+	public function testCreateGooglePayEchoRequest(): void
 	{
-		$this->requestFactory->createGooglePayInfoRequest();
+		$this->requestFactory->createGooglePayEchoRequest();
 
 		self::assertTrue(true);
 	}

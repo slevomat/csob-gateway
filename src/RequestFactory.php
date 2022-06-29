@@ -13,7 +13,7 @@ use SlevomatCsobGateway\Call\Button\PaymentButtonRequest;
 use SlevomatCsobGateway\Call\ClosePaymentRequest;
 use SlevomatCsobGateway\Call\EchoCustomerRequest;
 use SlevomatCsobGateway\Call\EchoRequest;
-use SlevomatCsobGateway\Call\GooglePay\GooglePayInfoRequest;
+use SlevomatCsobGateway\Call\GooglePay\EchoGooglePayRequest;
 use SlevomatCsobGateway\Call\GooglePay\InitGooglePayRequest;
 use SlevomatCsobGateway\Call\GooglePay\StartGooglePayRequest;
 use SlevomatCsobGateway\Call\InitPaymentRequest;
@@ -397,9 +397,9 @@ class RequestFactory
 		);
 	}
 
-	public function createGooglePayInfoRequest(): GooglePayInfoRequest
+	public function createGooglePayEchoRequest(): EchoGooglePayRequest
 	{
-		return new GooglePayInfoRequest($this->merchantId);
+		return new EchoGooglePayRequest($this->merchantId);
 	}
 
 	public function createGooglePayInitRequest(
