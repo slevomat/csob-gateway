@@ -2,15 +2,14 @@
 
 namespace SlevomatCsobGateway\Call\MallPay;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Call\StatusDetailPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\MallPay\OrderItemReference;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 use function array_map;
 
 class RefundMallPayRequest
@@ -34,17 +33,14 @@ class RefundMallPayRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
+			'amount' => $this->amount,
 			'refundedItems' => array_map(static fn (OrderItemReference $item): array => $item->encode(), $this->refundedItems),
-		];
-
-		if ($this->amount !== null) {
-			$requestData['amount'] = $this->amount;
-		}
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->put(
 			'mallpay/refund',
@@ -55,35 +51,16 @@ class RefundMallPayRequest
 				'dttm' => null,
 				'amount' => null,
 				'refundedItems' => [
-					[
-						'code' => null,
-						'ean' => null,
-						'name' => null,
-						'type' => null,
-						'quantity' => null,
-					],
+					OrderItemReference::encodeForSignature(),
 				],
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(StatusDetailPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new PaymentResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return StatusDetailPaymentResponse::createFromResponseData($data);
 	}
 
 }
