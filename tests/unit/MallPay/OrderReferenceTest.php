@@ -34,8 +34,8 @@ class OrderReferenceTest extends TestCase
 			'items' => [
 				[
 					'code' => '123',
-					'name' => 'Super věc',
 					'ean' => '345',
+					'name' => 'Super věc',
 					'type' => 'PHYSICAL',
 					'quantity' => 2,
 				],
@@ -43,6 +43,19 @@ class OrderReferenceTest extends TestCase
 		];
 
 		self::assertSame($expected, $orderReference->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'code' => null,
+			'ean' => null,
+			'name' => null,
+			'type' => null,
+			'quantity' => null,
+		];
+
+		self::assertSame($expected, OrderItemReference::encodeForSignature());
 	}
 
 }

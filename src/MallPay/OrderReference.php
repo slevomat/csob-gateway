@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
+use function array_filter;
 use function array_map;
 
 class OrderReference
@@ -28,10 +30,26 @@ class OrderReference
 	 */
 	public function encode(): array
 	{
-		return [
+		return array_filter([
 			'totalPrice' => $this->totalPrice->encode(),
 			'totalVat' => array_map(static fn (Vat $vat): array => $vat->encode(), $this->totalVat),
 			'items' => array_map(static fn (OrderItemReference $item): array => $item->encode(), $this->items),
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'totalPrice' => Price::encodeForSignature(),
+			'totalVat' => [
+				Vat::encodeForSignature(),
+			],
+			'items' => [
+				OrderItemReference::encodeForSignature(),
+			],
 		];
 	}
 

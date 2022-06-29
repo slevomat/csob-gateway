@@ -2,7 +2,9 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
 class OrderItemReference
 {
@@ -30,22 +32,27 @@ class OrderItemReference
 	 */
 	public function encode(): array
 	{
-		$data = [
+		return array_filter([
 			'code' => $this->code,
+			'ean' => $this->ean,
 			'name' => $this->name,
+			'type' => $this->type?->value,
+			'quantity' => $this->quantity,
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'code' => null,
+			'ean' => null,
+			'name' => null,
+			'type' => null,
+			'quantity' => null,
 		];
-
-		if ($this->ean !== null) {
-			$data['ean'] = $this->ean;
-		}
-		if ($this->type !== null) {
-			$data['type'] = $this->type->value;
-		}
-		if ($this->quantity !== null) {
-			$data['quantity'] = $this->quantity;
-		}
-
-		return $data;
 	}
 
 	public function getCode(): string
