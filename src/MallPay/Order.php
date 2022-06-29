@@ -5,7 +5,9 @@ namespace SlevomatCsobGateway\MallPay;
 use InvalidArgumentException;
 use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
+use function array_filter;
 use function array_map;
 
 class Order
@@ -104,24 +106,37 @@ class Order
 	 */
 	public function encode(): array
 	{
-		$data = [
+		return array_filter([
 			'totalPrice' => $this->getTotalPrice()->encode(),
 			'totalVat' => array_map(static fn (Vat $vat): array => $vat->encode(), $this->getTotalVat()),
 			'addresses' => array_map(static fn (Address $address): array => $address->encode(), $this->addresses),
+			'deliveryType' => $this->deliveryType?->value,
+			'carrierId' => $this->carrierId?->value,
+			'carrierCustom' => $this->carrierCustom,
 			'items' => array_map(static fn (OrderItem $item): array => $item->encode(), $this->items),
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'totalPrice' => Price::encodeForSignature(),
+			'totalVat' => [
+				Vat::encodeForSignature(),
+			],
+			'addresses' => [
+				Address::encodeForSignature(),
+			],
+			'deliveryType' => null,
+			'carrierId' => null,
+			'carrierCustom' => null,
+			'items' => [
+				OrderItem::encodeForSignature(),
+			],
 		];
-
-		if ($this->deliveryType !== null) {
-			$data['deliveryType'] = $this->deliveryType->value;
-		}
-		if ($this->carrierId !== null) {
-			$data['carrierId'] = $this->carrierId->value;
-		}
-		if ($this->carrierCustom !== null) {
-			$data['carrierCustom'] = $this->carrierCustom;
-		}
-
-		return $data;
 	}
 
 	public function getTotalPrice(): Price

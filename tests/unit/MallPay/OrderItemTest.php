@@ -31,17 +31,8 @@ class OrderItemTest extends TestCase
 
 		$expected = [
 			'code' => '123',
-			'name' => 'Super věc',
-			'totalPrice' => [
-				'amount' => 200,
-				'currency' => 'EUR',
-			],
-			'totalVat' => [
-				'amount' => 40,
-				'currency' => 'EUR',
-				'vatRate' => 20,
-			],
 			'ean' => '345',
+			'name' => 'Super věc',
 			'type' => 'PHYSICAL',
 			'quantity' => 2,
 			'variant' => 'Varianta 1',
@@ -57,10 +48,55 @@ class OrderItemTest extends TestCase
 				'currency' => 'EUR',
 				'vatRate' => 20,
 			],
+			'totalPrice' => [
+				'amount' => 200,
+				'currency' => 'EUR',
+			],
+			'totalVat' => [
+				'amount' => 40,
+				'currency' => 'EUR',
+				'vatRate' => 20,
+			],
 			'productUrl' => 'https://obchod.cz/produkt/123-345',
 		];
 
 		self::assertSame($expected, $orderItem->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'code' => null,
+			'ean' => null,
+			'name' => null,
+			'type' => null,
+			'quantity' => null,
+			'variant' => null,
+			'description' => null,
+			'producer' => null,
+			'categories' => [],
+			'unitPrice' => [
+				'amount' => null,
+				'currency' => null,
+			],
+			'unitVat' => [
+				'amount' => null,
+				'currency' => null,
+				'vatRate' => null,
+			],
+			'totalPrice' => [
+				'amount' => null,
+				'currency' => null,
+			],
+			'totalVat' => [
+				'amount' => null,
+				'currency' => null,
+				'vatRate' => null,
+			],
+			'productUrl' => null,
+		];
+
+		self::assertSame($expected, OrderItem::encodeForSignature());
 	}
 
 	public function testValidation(): void

@@ -72,29 +72,22 @@ class OrderTest extends TestCase
 			],
 			'addresses' => [
 				[
+					'name' => 'Slevomat',
 					'country' => 'CZ',
 					'city' => 'Praha 8',
 					'streetAddress' => 'Pernerova 691/42',
+					'streetNumber' => 'xxx',
 					'zip' => '186 00',
 					'addressType' => 'BILLING',
-					'name' => 'Slevomat',
-					'streetNumber' => 'xxx',
 				],
 			],
+			'deliveryType' => 'DELIVERY_CARRIER',
+			'carrierId' => 'TNT',
 			'items' => [
 				[
 					'code' => '123',
-					'name' => 'Super věc',
-					'totalPrice' => [
-						'amount' => 200,
-						'currency' => 'EUR',
-					],
-					'totalVat' => [
-						'amount' => 40,
-						'currency' => 'EUR',
-						'vatRate' => 20,
-					],
 					'ean' => '345',
+					'name' => 'Super věc',
 					'type' => 'PHYSICAL',
 					'quantity' => 2,
 					'variant' => 'Varianta 1',
@@ -110,11 +103,26 @@ class OrderTest extends TestCase
 						'currency' => 'EUR',
 						'vatRate' => 20,
 					],
+					'totalPrice' => [
+						'amount' => 200,
+						'currency' => 'EUR',
+					],
+					'totalVat' => [
+						'amount' => 40,
+						'currency' => 'EUR',
+						'vatRate' => 20,
+					],
 					'productUrl' => 'https://obchod.cz/produkt/123-345',
 				],
 				[
 					'code' => 'discount',
 					'name' => 'Sleva',
+					'type' => 'DISCOUNT',
+					'quantity' => 2,
+					'unitPrice' => [
+						'amount' => -50,
+						'currency' => 'EUR',
+					],
 					'totalPrice' => [
 						'amount' => -100,
 						'currency' => 'EUR',
@@ -124,19 +132,76 @@ class OrderTest extends TestCase
 						'currency' => 'EUR',
 						'vatRate' => 0,
 					],
-					'type' => 'DISCOUNT',
-					'quantity' => 2,
-					'unitPrice' => [
-						'amount' => -50,
-						'currency' => 'EUR',
-					],
 				],
 			],
-			'deliveryType' => 'DELIVERY_CARRIER',
-			'carrierId' => 'TNT',
 		];
 
 		self::assertSame($expected, $order->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'totalPrice' => [
+				'amount' => null,
+				'currency' => null,
+			],
+			'totalVat' => [
+				[
+					'amount' => null,
+					'currency' => null,
+					'vatRate' => null,
+				],
+			],
+			'addresses' => [
+				[
+					'name' => null,
+					'country' => null,
+					'city' => null,
+					'streetAddress' => null,
+					'streetNumber' => null,
+					'zip' => null,
+					'addressType' => null,
+				],
+			],
+			'deliveryType' => null,
+			'carrierId' => null,
+			'carrierCustom' => null,
+			'items' => [
+				[
+					'code' => null,
+					'ean' => null,
+					'name' => null,
+					'type' => null,
+					'quantity' => null,
+					'variant' => null,
+					'description' => null,
+					'producer' => null,
+					'categories' => [],
+					'unitPrice' => [
+						'amount' => null,
+						'currency' => null,
+					],
+					'unitVat' => [
+						'amount' => null,
+						'currency' => null,
+						'vatRate' => null,
+					],
+					'totalPrice' => [
+						'amount' => null,
+						'currency' => null,
+					],
+					'totalVat' => [
+						'amount' => null,
+						'currency' => null,
+						'vatRate' => null,
+					],
+					'productUrl' => null,
+				],
+			],
+		];
+
+		self::assertSame($expected, Order::encodeForSignature());
 	}
 
 }

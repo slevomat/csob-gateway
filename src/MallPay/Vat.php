@@ -25,6 +25,18 @@ class Vat
 		];
 	}
 
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'amount' => null,
+			'currency' => null,
+			'vatRate' => null,
+		];
+	}
+
 	public function getAmount(): int
 	{
 		return $this->amount;

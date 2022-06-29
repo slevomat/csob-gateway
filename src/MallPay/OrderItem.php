@@ -2,8 +2,10 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
 class OrderItem
 {
@@ -62,45 +64,45 @@ class OrderItem
 	 */
 	public function encode(): array
 	{
-		$data = [
+		return array_filter([
 			'code' => $this->code,
+			'ean' => $this->ean,
 			'name' => $this->name,
+			'type' => $this->type?->value,
+			'quantity' => $this->quantity,
+			'variant' => $this->variant,
+			'description' => $this->description,
+			'producer' => $this->producer,
+			'categories' => $this->categories,
+			'unitPrice' => $this->unitPrice?->encode(),
+			'unitVat' => $this->unitVat?->encode(),
 			'totalPrice' => $this->totalPrice->encode(),
 			'totalVat' => $this->totalVat->encode(),
+			'productUrl' => $this->productUrl,
+		], EncodeHelper::filterValueCallback());
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public static function encodeForSignature(): array
+	{
+		return [
+			'code' => null,
+			'ean' => null,
+			'name' => null,
+			'type' => null,
+			'quantity' => null,
+			'variant' => null,
+			'description' => null,
+			'producer' => null,
+			'categories' => [],
+			'unitPrice' => Price::encodeForSignature(),
+			'unitVat' => Vat::encodeForSignature(),
+			'totalPrice' => Price::encodeForSignature(),
+			'totalVat' => Vat::encodeForSignature(),
+			'productUrl' => null,
 		];
-
-		if ($this->ean !== null) {
-			$data['ean'] = $this->ean;
-		}
-		if ($this->type !== null) {
-			$data['type'] = $this->type->value;
-		}
-		if ($this->quantity !== null) {
-			$data['quantity'] = $this->quantity;
-		}
-		if ($this->variant !== null) {
-			$data['variant'] = $this->variant;
-		}
-		if ($this->description !== null) {
-			$data['description'] = $this->description;
-		}
-		if ($this->producer !== null) {
-			$data['producer'] = $this->producer;
-		}
-		if ($this->categories !== null) {
-			$data['categories'] = $this->categories;
-		}
-		if ($this->unitPrice !== null) {
-			$data['unitPrice'] = $this->unitPrice->encode();
-		}
-		if ($this->unitVat !== null) {
-			$data['unitVat'] = $this->unitVat->encode();
-		}
-		if ($this->productUrl !== null) {
-			$data['productUrl'] = $this->productUrl;
-		}
-
-		return $data;
 	}
 
 	public function getCode(): string
