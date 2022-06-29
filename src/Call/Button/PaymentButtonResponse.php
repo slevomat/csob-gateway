@@ -4,13 +4,13 @@ namespace SlevomatCsobGateway\Call\Button;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
-use SlevomatCsobGateway\Call\PaymentApiResponse;
+use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
 use function array_key_exists;
 use function array_merge;
 
-class PaymentButtonResponse extends PaymentApiResponse
+class PaymentButtonResponse extends PaymentResponse
 {
 
 	public function __construct(

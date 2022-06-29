@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use SlevomatCsobGateway\Validator;
 use function array_key_exists;
 
-class PaymentApiResponse
+class PaymentResponse
 {
 
 	public function __construct(

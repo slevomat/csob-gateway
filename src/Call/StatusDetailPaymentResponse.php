@@ -5,7 +5,7 @@ namespace SlevomatCsobGateway\Call;
 use DateTimeImmutable;
 use function array_merge;
 
-class StatusDetailPaymentResponse extends PaymentApiResponse
+class StatusDetailPaymentResponse extends PaymentResponse
 {
 
 	public function __construct(
