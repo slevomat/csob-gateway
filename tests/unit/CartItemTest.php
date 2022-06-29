@@ -8,13 +8,6 @@ use PHPUnit\Framework\TestCase;
 class CartItemTest extends TestCase
 {
 
-	public function testNullDescription(): void
-	{
-		$cartItem = new CartItem('foo name', 1, 99);
-
-		self::assertNull($cartItem->getDescription());
-	}
-
 	public function testValidation(): void
 	{
 		try {
