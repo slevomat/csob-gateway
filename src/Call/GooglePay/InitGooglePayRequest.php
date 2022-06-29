@@ -2,52 +2,76 @@
 
 namespace SlevomatCsobGateway\Call\GooglePay;
 
-use DateTimeImmutable;
+use SlevomatCsobGateway\AdditionalData\Customer;
+use SlevomatCsobGateway\AdditionalData\Order;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Call\ActionsPaymentResponse;
+use SlevomatCsobGateway\Call\InvalidJsonPayloadException;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 use function base64_encode;
 
 class InitGooglePayRequest
 {
 
-	private ?string $clientIp = null;
-
+	/**
+	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
+	 */
 	public function __construct(
 		private string $merchantId,
 		private string $orderId,
-		string $clientIp,
+		private string $clientIp,
 		private Price $totalPrice,
-		private bool $closePayment,
+		private ?bool $closePayment,
+		private array $payload,
+		private string $returnUrl,
+		private HttpMethod $returnMethod,
+		private ?Customer $customer = null,
+		private ?Order $order = null,
+		private ?bool $sdkUsed = null,
 		private ?string $merchantData = null,
+		private ?int $ttlSec = null,
 	)
 	{
-		Validator::checkOrderId($orderId);
-		if ($merchantData !== null) {
-			Validator::checkMerchantData($merchantData);
+		Validator::checkOrderId($this->orderId);
+		Validator::checkReturnUrl($this->returnUrl);
+		Validator::checkReturnMethod($this->returnMethod);
+		if ($this->merchantData !== null) {
+			Validator::checkMerchantData($this->merchantData);
 		}
-
-		$this->clientIp = $clientIp;
+		if ($this->ttlSec !== null) {
+			Validator::checkTtlSec($this->ttlSec);
+		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): ActionsPaymentResponse
 	{
-		$requestData = [
+		$payloadData = $this->payload['paymentMethodData']['tokenizationData']['token'] ?? null;
+		if ($payloadData === null) {
+			throw new InvalidJsonPayloadException('Missing `paymentMethodData.tokenizationData.token` in Google Pay payload.');
+		}
+		$payloadData = base64_encode((string) $payloadData);
+
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'orderNo' => $this->orderId,
 			'totalAmount' => $this->totalPrice->getAmount(),
 			'currency' => $this->totalPrice->getCurrency()->value,
 			'closePayment' => $this->closePayment,
 			'clientIp' => $this->clientIp,
-		];
-
-		if ($this->merchantData !== null) {
-			$requestData['merchantData'] = base64_encode($this->merchantData);
-		}
+			'payload' => $payloadData,
+			'returnUrl' => $this->returnUrl,
+			'returnMethod' => $this->returnMethod->value,
+			'customer' => $this->customer?->encode(),
+			'order' => $this->order?->encode(),
+			'sdkUsed' => $this->sdkUsed,
+			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'ttlSec' => $this->ttlSec,
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
 			'googlepay/init',
@@ -60,28 +84,22 @@ class InitGooglePayRequest
 				'totalAmount' => null,
 				'currency' => null,
 				'closePayment' => null,
+				'payload' => null,
+				'returnUrl' => null,
+				'returnMethod' => null,
+				'customer' => Customer::encodeForSignature(),
+				'order' => Order::encodeForSignature(),
+				'sdkUsed' => null,
 				'merchantData' => null,
+				'ttlSec' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(ActionsPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new PaymentResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return ActionsPaymentResponse::createFromResponseData($data);
 	}
 
 }

@@ -5,6 +5,7 @@ namespace SlevomatCsobGateway\Call\GooglePay;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Call\PaymentStatus;
@@ -28,7 +29,9 @@ class InitGooglePayRequestTest extends TestCase
 				'clientIp' => '127.0.0.1',
 				'totalAmount' => 1789600,
 				'currency' => 'CZK',
-				'closePayment' => true,
+				'payload' => 'Zm9v',
+				'returnUrl' => 'https://shop.example.com/return',
+				'returnMethod' => 'POST',
 			])
 			->willReturn(
 				new Response(ResponseCode::S200_OK, [
@@ -40,23 +43,25 @@ class InitGooglePayRequestTest extends TestCase
 				]),
 			);
 
-		$initPaymentRequest = new InitGooglePayRequest(
+		$request = new InitGooglePayRequest(
 			'012345',
 			'12345',
 			'127.0.0.1',
 			new Price(1789600, Currency::CZK),
-			true,
 			null,
+			['paymentMethodData' => ['tokenizationData' => ['token' => 'foo']]],
+			'https://shop.example.com/return',
+			HttpMethod::POST,
 		);
 
-		$paymentResponse = $initPaymentRequest->send($apiClient);
+		$response = $request->send($apiClient);
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
-		self::assertNull($paymentResponse->getAuthCode());
+		self::assertSame('123456789', $response->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20190425131559'), $response->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame('OK', $response->getResultMessage());
+		self::assertSame(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
+		self::assertNull($response->getActions());
 	}
 
 }

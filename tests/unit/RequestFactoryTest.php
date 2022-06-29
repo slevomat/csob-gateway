@@ -379,7 +379,9 @@ class RequestFactoryTest extends TestCase
 			'127.0.0.1',
 			new Price(1789600, Currency::CZK),
 			true,
-			'Order from example.com',
+			[],
+			'https://www.example.com/return',
+			HttpMethod::POST,
 		);
 
 		self::assertTrue(true);
