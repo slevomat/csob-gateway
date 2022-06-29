@@ -5,12 +5,12 @@ namespace SlevomatCsobGateway\Call\MallPay;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use SlevomatCsobGateway\Api\ApiClient;
-use SlevomatCsobGateway\Call\PaymentResponse;
-use SlevomatCsobGateway\Call\PaymentStatus;
-use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\Call\StatusDetailPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\MallPay\LogisticsEvent;
 use SlevomatCsobGateway\MallPay\OrderReference;
+use function array_filter;
 
 class LogisticsMallPayRequest
 {
@@ -33,22 +33,17 @@ class LogisticsMallPayRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentResponse
+	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
 	{
-		$requestData = [
+		$requestData = array_filter([
 			'merchantId' => $this->merchantId,
 			'payId' => $this->payId,
 			'event' => $this->event->value,
 			'date' => $this->date->format('Ymd'),
 			'fulfilled' => $this->fulfilled->encode(),
-		];
-
-		if ($this->cancelled !== null) {
-			$requestData['cancelled'] = $this->cancelled->encode();
-		}
-		if ($this->deliveryTrackingNumber !== null) {
-			$requestData['deliveryTrackingNumber'] = $this->deliveryTrackingNumber;
-		}
+			'cancelled' => $this->cancelled?->encode(),
+			'deliveryTrackingNumber' => $this->deliveryTrackingNumber,
+		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->put(
 			'mallpay/logistics',
@@ -58,73 +53,18 @@ class LogisticsMallPayRequest
 				'payId' => null,
 				'event' => null,
 				'date' => null,
-				'fulfilled' => [
-					'totalPrice' => [
-						'amount' => null,
-						'currency' => null,
-					],
-					'totalVat' => [
-						[
-							'amount' => null,
-							'currency' => null,
-							'vatRate' => null,
-						],
-					],
-					'items' => [
-						[
-							'code' => null,
-							'ean' => null,
-							'name' => null,
-							'type' => null,
-							'quantity' => null,
-						],
-					],
-				],
-				'cancelled' => [
-					'totalPrice' => [
-						'amount' => null,
-						'currency' => null,
-					],
-					'totalVat' => [
-						[
-							'amount' => null,
-							'currency' => null,
-							'vatRate' => null,
-						],
-					],
-					'items' => [
-						[
-							'code' => null,
-							'ean' => null,
-							'name' => null,
-							'type' => null,
-							'quantity' => null,
-						],
-					],
-				],
+				'fulfilled' => OrderReference::encodeForSignature(),
+				'cancelled' => OrderReference::encodeForSignature(),
 				'deliveryTrackingNumber' => null,
 				'dttm' => null,
 			]),
-			new SignatureDataFormatter([
-				'payId' => null,
-				'dttm' => null,
-				'resultCode' => null,
-				'resultMessage' => null,
-				'paymentStatus' => null,
-			]),
+			new SignatureDataFormatter(StatusDetailPaymentResponse::encodeForSignature()),
 		);
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
-		$responseDateTime = DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']);
 
-		return new PaymentResponse(
-			$data['payId'],
-			$responseDateTime,
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-		);
+		return StatusDetailPaymentResponse::createFromResponseData($data);
 	}
 
 }

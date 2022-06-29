@@ -20,13 +20,41 @@ class OrderItemReferenceTest extends TestCase
 
 		$expected = [
 			'code' => '123',
-			'name' => 'Super věc',
 			'ean' => '345',
+			'name' => 'Super věc',
 			'type' => 'PHYSICAL',
 			'quantity' => 2,
 		];
 
 		self::assertSame($expected, $orderItemReference->encode());
+	}
+
+	public function testEncodeForSignature(): void
+	{
+		$expected = [
+			'totalPrice' => [
+				'amount' => null,
+				'currency' => null,
+			],
+			'totalVat' => [
+				[
+					'amount' => null,
+					'currency' => null,
+					'vatRate' => null,
+				],
+			],
+			'items' => [
+				[
+					'code' => null,
+					'ean' => null,
+					'name' => null,
+					'type' => null,
+					'quantity' => null,
+				],
+			],
+		];
+
+		self::assertSame($expected, OrderReference::encodeForSignature());
 	}
 
 	public function testValidation(): void

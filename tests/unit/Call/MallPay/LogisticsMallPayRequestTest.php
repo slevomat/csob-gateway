@@ -88,9 +88,9 @@ class LogisticsMallPayRequestTest extends TestCase
 
 		self::assertSame('123456789', $response->getPayId());
 		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20210505092159'), $response->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $response->getResultCode());
+		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
-		self::assertEquals(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
+		self::assertSame(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 	}
 
 }
