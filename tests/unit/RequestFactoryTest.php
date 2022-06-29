@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\AdditionalData\Fingerprint;
 use SlevomatCsobGateway\AdditionalData\FingerprintBrowser;
+use SlevomatCsobGateway\AdditionalData\FingerprintSdk;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\Button\PaymentButtonBrand;
 use SlevomatCsobGateway\Call\PayMethod;
@@ -387,11 +388,21 @@ class RequestFactoryTest extends TestCase
 		self::assertTrue(true);
 	}
 
-	public function testCreateGooglePayStartRequest(): void
+	public function testCreateGooglePayProcessRequest(): void
 	{
-		$this->requestFactory->createGooglePayStartRequest(
+		$this->requestFactory->createGooglePayProcessRequest(
 			'ef08b6e9f22345c',
-			[],
+			new Fingerprint(
+				null,
+				new FingerprintSdk(
+					'198d0791-0025-4183-b9ae-900c88dd80e0',
+					'encrypted-data',
+					'encoded-public-key',
+					5,
+					'sdk-reference-number',
+					'7f101033-df46-4f5c-9e96-9575c924e1e7',
+				),
+			),
 		);
 
 		self::assertTrue(true);
