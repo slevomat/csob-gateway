@@ -402,12 +402,22 @@ class RequestFactory
 		return new EchoGooglePayRequest($this->merchantId);
 	}
 
+	/**
+	 * @param mixed[] $payload Complete payload from Google Pay JS API, containing paymentMethodData.tokenizationData.token
+	 */
 	public function createGooglePayInitRequest(
 		string $orderId,
 		string $clientIp,
 		Price $totalPrice,
-		bool $closePayment,
-		?string $merchantData,
+		?bool $closePayment,
+		array $payload,
+		string $returnUrl,
+		HttpMethod $returnMethod,
+		?\SlevomatCsobGateway\AdditionalData\Customer $customer = null,
+		?\SlevomatCsobGateway\AdditionalData\Order $order = null,
+		?bool $sdkUsed = null,
+		?string $merchantData = null,
+		?int $ttlSec = null,
 	): InitGooglePayRequest
 	{
 		return new InitGooglePayRequest(
@@ -416,7 +426,14 @@ class RequestFactory
 			$clientIp,
 			$totalPrice,
 			$closePayment,
+			$payload,
+			$returnUrl,
+			$returnMethod,
+			$customer,
+			$order,
+			$sdkUsed,
 			$merchantData,
+			$ttlSec,
 		);
 	}
 
