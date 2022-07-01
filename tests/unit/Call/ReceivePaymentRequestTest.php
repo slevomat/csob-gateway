@@ -3,6 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Api\Response;
@@ -19,6 +20,37 @@ class ReceivePaymentRequestTest extends TestCase
 			'resultCode' => 0,
 			'resultMessage' => 'OK',
 			'paymentStatus' => 5,
+			'signature' => 'signature',
+		];
+
+		$apiClient = $this->getMockBuilder(ApiClient::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$apiClient->expects(self::once())->method('createResponseByData')
+			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::S200_OK, $postData));
+
+		$receivePaymentRequest = new ReceivePaymentRequest();
+
+		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
+
+		self::assertSame('123456789', $paymentResponse->getPayId());
+		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
+		self::assertSame(ResultCode::C0_OK, $paymentResponse->getResultCode());
+		self::assertSame('OK', $paymentResponse->getResultMessage());
+		self::assertSame(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
+		self::assertNull($paymentResponse->getAuthCode());
+	}
+
+	public function testSendWithStringValues(): void
+	{
+		$postData = [
+			'payId' => '123456789',
+			'dttm' => '20140425131559',
+			'resultCode' => '0',
+			'resultMessage' => 'OK',
+			'paymentStatus' => '5',
+			'signature' => 'signature',
 		];
 
 		$apiClient = $this->getMockBuilder(ApiClient::class)
@@ -40,33 +72,29 @@ class ReceivePaymentRequestTest extends TestCase
 		self::assertNull($paymentResponse->getAuthCode());
 	}
 
-	public function testSendWithStringValues(): void
+	public function testSendWithMissingValues(): void
 	{
 		$postData = [
-			'payId' => '123456789',
 			'dttm' => '20140425131559',
 			'resultCode' => '0',
 			'resultMessage' => 'OK',
 			'paymentStatus' => '5',
+			'signature' => 'signature',
 		];
 
 		$apiClient = $this->getMockBuilder(ApiClient::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$apiClient->expects(self::once())->method('createResponseByData')
-			->willReturnCallback(static fn (array $postData): Response => new Response(ResponseCode::S200_OK, $postData));
-
 		$receivePaymentRequest = new ReceivePaymentRequest();
 
-		$paymentResponse = $receivePaymentRequest->send($apiClient, $postData);
+		try {
+			$receivePaymentRequest->send($apiClient, $postData);
+			self::fail();
 
-		self::assertSame('123456789', $paymentResponse->getPayId());
-		self::assertEquals(DateTimeImmutable::createFromFormat('YmdHis', '20140425131559'), $paymentResponse->getResponseDateTime());
-		self::assertEquals(ResultCode::C0_OK, $paymentResponse->getResultCode());
-		self::assertSame('OK', $paymentResponse->getResultMessage());
-		self::assertEquals(PaymentStatus::S5_REVOKED, $paymentResponse->getPaymentStatus());
-		self::assertNull($paymentResponse->getAuthCode());
+		} catch (InvalidArgumentException $e) {
+			self::assertSame('Missing parameter payId in gateway response', $e->getMessage());
+		}
 	}
 
 }

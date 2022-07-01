@@ -2,12 +2,13 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use DateTimeImmutable;
+use InvalidArgumentException;
 use SlevomatCsobGateway\Api\ApiClient;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use function array_key_exists;
-use function base64_decode;
+use function in_array;
 use function is_numeric;
+use function sprintf;
 
 class ReceivePaymentRequest
 {
@@ -15,38 +16,36 @@ class ReceivePaymentRequest
 	/**
 	 * @param mixed[] $data
 	 */
-	public function send(ApiClient $apiClient, array $data): PaymentResponse
+	public function send(ApiClient $apiClient, array $data): ReceivePaymentResponse
 	{
-		if (array_key_exists('resultCode', $data) && is_numeric($data['resultCode'])) {
-			$data['resultCode'] = (int) $data['resultCode'];
+		$allowedFields = ['payId', 'dttm', 'resultCode', 'resultMessage', 'paymentStatus', 'authCode', 'merchantData', 'statusDetail', 'signature'];
+		$optionalFields = ['paymentStatus', 'authCode', 'merchantData', 'statusDetail'];
+
+		$validated = [];
+
+		foreach ($allowedFields as $key) {
+			if (!isset($data[$key]) && !in_array($key, $optionalFields, true)) {
+				throw new InvalidArgumentException(sprintf('Missing parameter %s in gateway response', $key));
+			}
+			if (isset($data[$key])) {
+				$validated[$key] = $data[$key];
+			}
 		}
 
-		if (array_key_exists('paymentStatus', $data) && is_numeric($data['paymentStatus'])) {
-			$data['paymentStatus'] = (int) $data['paymentStatus'];
+		if (array_key_exists('resultCode', $validated) && is_numeric($validated['resultCode'])) {
+			$validated['resultCode'] = (int) $validated['resultCode'];
 		}
 
-		$response = $apiClient->createResponseByData($data, new SignatureDataFormatter([
-			'payId' => null,
-			'dttm' => null,
-			'resultCode' => null,
-			'resultMessage' => null,
-			'paymentStatus' => null,
-			'authCode' => null,
-			'merchantData' => null,
-		]));
+		if (array_key_exists('paymentStatus', $validated) && is_numeric($validated['paymentStatus'])) {
+			$validated['paymentStatus'] = (int) $validated['paymentStatus'];
+		}
+
+		$response = $apiClient->createResponseByData($validated, new SignatureDataFormatter(ReceivePaymentResponse::encodeForSignature()));
 
 		/** @var mixed[] $data */
 		$data = $response->getData();
 
-		return new PaymentResponse(
-			$data['payId'],
-			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
-			ResultCode::from($data['resultCode']),
-			$data['resultMessage'],
-			isset($data['paymentStatus']) ? PaymentStatus::from($data['paymentStatus']) : null,
-			$data['authCode'] ?? null,
-			isset($data['merchantData']) ? (string) base64_decode($data['merchantData'], true) : null,
-		);
+		return ReceivePaymentResponse::createFromResponseData($data);
 	}
 
 }
