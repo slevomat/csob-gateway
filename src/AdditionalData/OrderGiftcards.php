@@ -2,12 +2,13 @@
 
 namespace SlevomatCsobGateway\AdditionalData;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class OrderGiftcards
+class OrderGiftcards implements Encodable
 {
 
 	public const QUANTITY_MIN = 0;

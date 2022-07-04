@@ -4,6 +4,8 @@ namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_key_exists;
 use function array_merge;
 
@@ -75,6 +77,16 @@ class ActionsPaymentResponse extends StatusDetailPaymentResponse
 		return array_merge(parent::encodeForSignature(), [
 			'actions' => Actions::encodeForSignature(),
 		]);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter(array_merge(parent::encode(), [
+			'actions' => $this->actions?->encode(),
+		]), EncodeHelper::filterValueCallback());
 	}
 
 	public function getActions(): ?Actions

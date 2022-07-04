@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway;
 
 use function array_filter;
 
-class CartItem
+class CartItem implements Encodable
 {
 
 	public function __construct(private string $name, private int $quantity, private int $amount, private ?string $description = null)

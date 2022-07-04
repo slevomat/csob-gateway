@@ -3,11 +3,12 @@
 namespace SlevomatCsobGateway\AdditionalData;
 
 use InvalidArgumentException;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class FingerprintBrowser
+class FingerprintBrowser implements Encodable
 {
 
 	public const HEADER_LENGTH_MAX = 2048;

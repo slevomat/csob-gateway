@@ -2,11 +2,19 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class ProcessPaymentResponse
+class ProcessPaymentResponse implements Response
 {
 
 	public function __construct(private string $gatewayLocationUrl)
 	{
+	}
+
+	/**
+	 * @param mixed[] $data
+	 */
+	public static function createFromResponseData(array $data): self
+	{
+		return new self($data['gatewayLocationUrl']);
 	}
 
 	/**
@@ -23,6 +31,16 @@ class ProcessPaymentResponse
 			'authCode' => null,
 			'merchantData' => null,
 			'statusDetail' => null,
+		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return [
+			'gatewayLocationUrl' => $this->gatewayLocationUrl,
 		];
 	}
 

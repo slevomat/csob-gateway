@@ -5,6 +5,8 @@ namespace SlevomatCsobGateway\Call\GooglePay;
 use DateTimeImmutable;
 use SlevomatCsobGateway\Call\ResultCode;
 use SlevomatCsobGateway\Country;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_key_exists;
 
 class EchoGooglePayResponse
@@ -60,6 +62,19 @@ class EchoGooglePayResponse
 			'resultMessage' => null,
 			'initParams' => InitParams::encodeForSignature(),
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'dttm' => $this->responseDateTime->format('YmdHis'),
+			'resultCode' => $this->resultCode->value,
+			'resultMessage' => $this->resultMessage,
+			'initParams' => $this->initParams?->encode(),
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getResponseDateTime(): DateTimeImmutable

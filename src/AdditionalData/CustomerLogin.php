@@ -3,12 +3,13 @@
 namespace SlevomatCsobGateway\AdditionalData;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use function array_filter;
 use function in_array;
 use const DATE_ATOM;
 
-class CustomerLogin
+class CustomerLogin implements Encodable
 {
 
 	private ?string $authData = null;

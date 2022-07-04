@@ -3,10 +3,12 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 use function array_key_exists;
 
-class PaymentResponse
+class PaymentResponse implements Response
 {
 
 	public function __construct(
@@ -46,6 +48,20 @@ class PaymentResponse
 			'resultMessage' => null,
 			'paymentStatus' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'payId' => $this->payId,
+			'dttm' => $this->responseDateTime->format('YmdHis'),
+			'resultCode' => $this->resultCode->value,
+			'resultMessage' => $this->resultMessage,
+			'paymentStatus' => $this->paymentStatus?->value,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getPayId(): string

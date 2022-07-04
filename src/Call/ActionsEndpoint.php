@@ -4,8 +4,11 @@ namespace SlevomatCsobGateway\Call;
 
 use InvalidArgumentException;
 use SlevomatCsobGateway\Api\HttpMethod;
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 
-class ActionsEndpoint
+class ActionsEndpoint implements Encodable
 {
 
 	/**
@@ -32,6 +35,18 @@ class ActionsEndpoint
 			'method' => null,
 			'vars' => [],
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'url' => $this->url,
+			'method' => $this->method?->value,
+			'vars' => $this->vars,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getUrl(): string

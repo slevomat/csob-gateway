@@ -2,11 +2,12 @@
 
 namespace SlevomatCsobGateway\AdditionalData;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class Customer
+class Customer implements Encodable
 {
 
 	public const NAME_LENGTH_MAX = 45;

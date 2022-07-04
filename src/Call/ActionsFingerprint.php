@@ -2,7 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class ActionsFingerprint
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
+
+class ActionsFingerprint implements Encodable
 {
 
 	public function __construct(
@@ -21,6 +25,17 @@ class ActionsFingerprint
 			'browserInit' => ActionsEndpoint::encodeForSignature(),
 			'sdkInit' => ActionsFingerprintSdkInit::encodeForSignature(),
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'browserInit' => $this->browserInit?->encode(),
+			'sdkInit' => $this->sdkInit?->encode(),
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getBrowserInit(): ?ActionsEndpoint

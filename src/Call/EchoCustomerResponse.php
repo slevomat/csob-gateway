@@ -3,9 +3,11 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
-class EchoCustomerResponse
+class EchoCustomerResponse implements Response
 {
 
 	public function __construct(
@@ -42,6 +44,19 @@ class EchoCustomerResponse
 			'resultCode' => null,
 			'resultMessage' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'customerId' => $this->customerId,
+			'dttm' => $this->responseDateTime->format('YmdHis'),
+			'resultCode' => $this->resultCode->value,
+			'resultMessage' => $this->resultMessage,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getCustomerId(): string

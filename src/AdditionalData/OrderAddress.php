@@ -3,11 +3,12 @@
 namespace SlevomatCsobGateway\AdditionalData;
 
 use SlevomatCsobGateway\Country;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class OrderAddress
+class OrderAddress implements Encodable
 {
 
 	public const ADDRESS_LENGTH_MAX = 50;

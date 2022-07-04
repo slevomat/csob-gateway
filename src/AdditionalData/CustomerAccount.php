@@ -3,12 +3,13 @@
 namespace SlevomatCsobGateway\AdditionalData;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 use const DATE_ATOM;
 
-class CustomerAccount
+class CustomerAccount implements Encodable
 {
 
 	public const QUANTITY_MIN = 0;

@@ -3,8 +3,11 @@
 namespace SlevomatCsobGateway\Call\ApplePay;
 
 use SlevomatCsobGateway\Country;
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 
-class InitParams
+class InitParams implements Encodable
 {
 
 	/**
@@ -29,6 +32,18 @@ class InitParams
 			'supportedNetworks' => [],
 			'merchantCapabilities' => [],
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'countryCode' => $this->countryCode->value,
+			'supportedNetworks' => $this->supportedNetworks,
+			'merchantCapabilities' => $this->merchantCapabilities,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getCountryCode(): Country

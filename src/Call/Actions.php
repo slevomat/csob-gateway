@@ -2,7 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class Actions
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
+
+class Actions implements Encodable
 {
 
 	public function __construct(
@@ -21,6 +25,17 @@ class Actions
 			'fingerprint' => ActionsFingerprint::encodeForSignature(),
 			'authenticate' => ActionsAuthenticate::encodeForSignature(),
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'fingerprint' => $this->fingerprint?->encode(),
+			'authenticate' => $this->authenticate?->encode(),
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getFingerprint(): ?ActionsFingerprint

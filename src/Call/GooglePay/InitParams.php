@@ -3,8 +3,11 @@
 namespace SlevomatCsobGateway\Call\GooglePay;
 
 use SlevomatCsobGateway\Country;
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 
-class InitParams
+class InitParams implements Encodable
 {
 
 	/**
@@ -55,6 +58,31 @@ class InitParams
 			'totalPriceStatus' => null,
 			'countryCode' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'apiVersion' => $this->apiVersion,
+			'apiVersionMinor' => $this->apiVersionMinor,
+			'paymentMethodType' => $this->paymentMethodType,
+			'allowedCardNetworks' => $this->allowedCardNetworks,
+			'allowedCardAuthMethods' => $this->allowedCardAuthMethods,
+			'assuranceDetailsRequired' => $this->assuranceDetailsRequired,
+			'billingAddressRequired' => $this->billingAddressRequired,
+			'billingAddressParametersFormat' => $this->billingAddressParametersFormat,
+			'tokenizationSpecificationType' => $this->tokenizationSpecificationType,
+			'gateway' => $this->gateway,
+			'gatewayMerchantId' => $this->gatewayMerchantId,
+			'googlepayMerchantId' => $this->googlepayMerchantId,
+			'merchantName' => $this->merchantName,
+			'environment' => $this->environment->value,
+			'totalPriceStatus' => $this->totalPriceStatus,
+			'countryCode' => $this->countryCode->value,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getApiVersion(): int
