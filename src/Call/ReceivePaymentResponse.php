@@ -3,7 +3,10 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_key_exists;
+use function array_merge;
 use function base64_decode;
 
 class ReceivePaymentResponse extends AuthCodeStatusDetailPaymentResponse
@@ -48,6 +51,16 @@ class ReceivePaymentResponse extends AuthCodeStatusDetailPaymentResponse
 	public static function encodeForSignature(): array
 	{
 		return ProcessPaymentResponse::encodeForSignature();
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter(array_merge(parent::encode(), [
+			'merchantData' => $this->merchantData,
+		]), EncodeHelper::filterValueCallback());
 	}
 
 	public function getMerchantData(): ?string

@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway;
 
 use function array_map;
 
-class Cart
+class Cart implements Encodable
 {
 
 	/** @var CartItem[] */

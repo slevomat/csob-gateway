@@ -3,6 +3,8 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_merge;
 
 class InitPaymentResponse extends PaymentResponse
@@ -48,6 +50,17 @@ class InitPaymentResponse extends PaymentResponse
 			'customerCode' => null,
 			'statusDetail' => null,
 		]);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter(array_merge(parent::encode(), [
+			'customerCode' => $this->customerCode,
+			'statusDetail' => $this->statusDetail,
+		]), EncodeHelper::filterValueCallback());
 	}
 
 	public function getCustomerCode(): ?string

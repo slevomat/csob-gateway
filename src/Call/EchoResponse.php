@@ -3,8 +3,10 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 
-class EchoResponse
+class EchoResponse implements Response
 {
 
 	public function __construct(
@@ -37,6 +39,18 @@ class EchoResponse
 			'resultCode' => null,
 			'resultMessage' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'dttm' => $this->responseDateTime->format('YmdHis'),
+			'resultCode' => $this->resultCode->value,
+			'resultMessage' => $this->resultMessage,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getResponseDateTime(): DateTimeImmutable

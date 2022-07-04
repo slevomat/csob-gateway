@@ -2,11 +2,12 @@
 
 namespace SlevomatCsobGateway\AdditionalData;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class FingerprintSdk
+class FingerprintSdk implements Encodable
 {
 
 	public const MAX_TIMEOUT_MIN = 5;

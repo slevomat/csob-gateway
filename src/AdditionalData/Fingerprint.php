@@ -2,10 +2,11 @@
 
 namespace SlevomatCsobGateway\AdditionalData;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use function array_filter;
 
-class Fingerprint
+class Fingerprint implements Encodable
 {
 
 	public function __construct(

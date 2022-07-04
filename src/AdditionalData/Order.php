@@ -4,12 +4,13 @@ namespace SlevomatCsobGateway\AdditionalData;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 use const DATE_ATOM;
 
-class Order
+class Order implements Encodable
 {
 
 	public const EMAIL_LENGTH_MAX = 100;

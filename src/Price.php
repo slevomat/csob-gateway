@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway;
 
-class Price
+class Price implements Encodable
 {
 
 	public function __construct(private int $amount, private Currency $currency)

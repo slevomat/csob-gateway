@@ -2,12 +2,13 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class OrderItem
+class OrderItem implements Encodable
 {
 
 	public const CODE_VARIANT_PRODUCER_LENGTH_MAX = 50;

@@ -3,6 +3,8 @@
 namespace SlevomatCsobGateway\Call;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_merge;
 
 class StatusDetailPaymentResponse extends PaymentResponse
@@ -45,6 +47,16 @@ class StatusDetailPaymentResponse extends PaymentResponse
 		return array_merge(parent::encodeForSignature(), [
 			'statusDetail' => null,
 		]);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter(array_merge(parent::encode(), [
+			'statusDetail' => $this->statusDetail,
+		]), EncodeHelper::filterValueCallback());
 	}
 
 	public function getStatusDetail(): ?string

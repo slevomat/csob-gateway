@@ -3,10 +3,13 @@
 namespace SlevomatCsobGateway\Call\OneClick;
 
 use DateTimeImmutable;
+use SlevomatCsobGateway\Call\Response;
 use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
+use function array_filter;
 
-class EchoOneClickResponse
+class EchoOneClickResponse implements Response
 {
 
 	public function __construct(
@@ -43,6 +46,19 @@ class EchoOneClickResponse
 			'resultCode' => null,
 			'resultMessage' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'origPayId' => $this->origPayId,
+			'dttm' => $this->responseDateTime->format('YmdHis'),
+			'resultCode' => $this->resultCode->value,
+			'resultMessage' => $this->resultMessage,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getOrigPayId(): string

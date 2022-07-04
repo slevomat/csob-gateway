@@ -5,12 +5,13 @@ namespace SlevomatCsobGateway\MallPay;
 use InvalidArgumentException;
 use SlevomatCsobGateway\Country;
 use SlevomatCsobGateway\Currency;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use function array_filter;
 use function array_map;
 
-class Order
+class Order implements Encodable
 {
 
 	/** @var Address[] */

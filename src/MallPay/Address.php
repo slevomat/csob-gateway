@@ -3,10 +3,11 @@
 namespace SlevomatCsobGateway\MallPay;
 
 use SlevomatCsobGateway\Country;
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class Address
+class Address implements Encodable
 {
 
 	public const NAME_LENGTH_MAX = 40;

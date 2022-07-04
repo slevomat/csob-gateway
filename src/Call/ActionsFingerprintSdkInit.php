@@ -2,7 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class ActionsFingerprintSdkInit
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
+
+class ActionsFingerprintSdkInit implements Encodable
 {
 
 	public function __construct(
@@ -23,6 +27,18 @@ class ActionsFingerprintSdkInit
 			'schemeId' => null,
 			'messageVersion' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'directoryServerID' => $this->directoryServerID,
+			'schemeId' => $this->schemeId,
+			'messageVersion' => $this->messageVersion,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getDirectoryServerID(): string

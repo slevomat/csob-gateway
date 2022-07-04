@@ -2,11 +2,12 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
 
-class OrderItemReference
+class OrderItemReference implements Encodable
 {
 
 	public function __construct(

@@ -2,7 +2,11 @@
 
 namespace SlevomatCsobGateway\Call;
 
-class ActionsAuthenticateSdkChallenge
+use SlevomatCsobGateway\Encodable;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
+
+class ActionsAuthenticateSdkChallenge implements Encodable
 {
 
 	public function __construct(
@@ -25,6 +29,19 @@ class ActionsAuthenticateSdkChallenge
 			'acsTransID' => null,
 			'acsSignedContent' => null,
 		];
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter([
+			'threeDSServerTransID' => $this->threeDSServerTransID,
+			'acsReferenceNumber' => $this->acsReferenceNumber,
+			'acsTransID' => $this->acsTransID,
+			'acsSignedContent' => $this->acsSignedContent,
+		], EncodeHelper::filterValueCallback());
 	}
 
 	public function getThreeDSServerTransID(): string

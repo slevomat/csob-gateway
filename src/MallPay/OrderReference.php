@@ -2,12 +2,13 @@
 
 namespace SlevomatCsobGateway\MallPay;
 
+use SlevomatCsobGateway\Encodable;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Price;
 use function array_filter;
 use function array_map;
 
-class OrderReference
+class OrderReference implements Encodable
 {
 
 	/** @var OrderItemReference[] */

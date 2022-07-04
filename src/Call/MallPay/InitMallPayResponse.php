@@ -6,6 +6,8 @@ use DateTimeImmutable;
 use SlevomatCsobGateway\Call\PaymentResponse;
 use SlevomatCsobGateway\Call\PaymentStatus;
 use SlevomatCsobGateway\Call\ResultCode;
+use SlevomatCsobGateway\EncodeHelper;
+use function array_filter;
 use function array_merge;
 
 class InitMallPayResponse extends PaymentResponse
@@ -48,6 +50,16 @@ class InitMallPayResponse extends PaymentResponse
 		return array_merge(parent::encodeForSignature(), [
 			'mallpayUrl' => null,
 		]);
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function encode(): array
+	{
+		return array_filter(array_merge(parent::encode(), [
+			'mallpayUrl' => $this->mallpayUrl,
+		]), EncodeHelper::filterValueCallback());
 	}
 
 	public function getMallpayUrl(): ?string
