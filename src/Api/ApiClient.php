@@ -227,6 +227,9 @@ class ApiClient
 		if ($response->getResponseCode() === ResponseCode::S400_BAD_REQUEST) {
 			throw new BadRequestException($response);
 		}
+		if ($response->getResponseCode() === ResponseCode::S401_UNAUTHORIZED) {
+			throw new UnauthorizedException($response);
+		}
 		if ($response->getResponseCode() === ResponseCode::S403_FORBIDDEN) {
 			throw new ForbiddenException($response);
 		}

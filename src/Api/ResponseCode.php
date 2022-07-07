@@ -10,6 +10,7 @@ enum ResponseCode: int
 	case S303_SEE_OTHER = 303;
 
 	case S400_BAD_REQUEST = 400;
+	case S401_UNAUTHORIZED = 401;
 	case S403_FORBIDDEN = 403;
 	case S404_NOT_FOUND = 404;
 	case S405_METHOD_NOT_ALLOWED = 405;
