@@ -28,7 +28,7 @@ class PaymentResponse implements Response
 	public static function createFromResponseData(array $data): self
 	{
 		return new self(
-			$data['payId'],
+			$data['payId'] ?? '', // for some error response it can be null
 			DateTimeImmutable::createFromFormat('YmdHis', $data['dttm']),
 			ResultCode::from($data['resultCode']),
 			$data['resultMessage'],
