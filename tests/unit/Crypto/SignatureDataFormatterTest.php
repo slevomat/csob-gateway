@@ -152,6 +152,29 @@ class SignatureDataFormatterTest extends TestCase
 				],
 				'2017|0|2|1|CARD|VISA|MASTERCARD|PAN_ONLY',
 			],
+			[
+				[
+					'payId' => null,
+					'dttm' => null,
+					'resultCode' => null,
+					'resultMessage' => null,
+					'paymentStatus' => null,
+					'authCode' => null,
+					'statusDetail' => null,
+				],
+				[
+					'dttm' => '20221020125950',
+					'merchantId' => null,
+					'payId' => 'ea900d28f513@HJ',
+					'resultCode' => 0,
+					'resultMessage' => 'OK',
+					'paymentStatus' => 8,
+					'authCode' => null,
+					'statusDetail' => null,
+					'actions' => null,
+				],
+				'ea900d28f513@HJ|20221020125950|0|OK|8',
+			],
 		];
 	}
 
