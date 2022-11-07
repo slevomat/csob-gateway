@@ -131,8 +131,8 @@ class InitApplePayRequestTest extends TestCase
 		self::assertNull($response->getStatusDetail());
 		self::assertNull($response->getActions()?->getAuthenticate());
 		self::assertSame('A000000003', $response->getActions()?->getFingerprint()?->getSdkInit()?->getDirectoryServerID());
-		self::assertSame('Visa', $response->getActions()?->getFingerprint()?->getSdkInit()?->getSchemeId());
-		self::assertSame('2.2.0', $response->getActions()?->getFingerprint()?->getSdkInit()?->getMessageVersion());
+		self::assertSame('Visa', $response->getActions()->getFingerprint()->getSdkInit()->getSchemeId());
+		self::assertSame('2.2.0', $response->getActions()->getFingerprint()->getSdkInit()->getMessageVersion());
 	}
 
 }

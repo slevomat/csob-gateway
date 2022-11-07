@@ -61,8 +61,8 @@ class PaymentStatusRequestTest extends TestCase
 		self::assertSame(PaymentStatus::S4_CONFIRMED, $response->getPaymentStatus());
 		self::assertSame('F7A23E', $response->getAuthCode());
 		self::assertSame('https://example.com/3ds-method-endpoint', $response->getActions()?->getFingerprint()?->getBrowserInit()?->getUrl());
-		self::assertSame('https://example.com/challenge-endpoint', $response->getActions()?->getAuthenticate()?->getBrowserChallenge()?->getUrl());
-		self::assertSame(HttpMethod::GET, $response->getActions()?->getAuthenticate()?->getBrowserChallenge()?->getMethod());
+		self::assertSame('https://example.com/challenge-endpoint', $response->getActions()->getAuthenticate()?->getBrowserChallenge()?->getUrl());
+		self::assertSame(HttpMethod::GET, $response->getActions()->getAuthenticate()->getBrowserChallenge()->getMethod());
 	}
 
 }

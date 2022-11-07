@@ -57,9 +57,9 @@ class EchoGooglePayRequestTest extends TestCase
 		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
 		self::assertSame(['VISA', 'MASTERCARD'], $response->getInitParams()?->getAllowedCardNetworks());
-		self::assertSame(Country::CZE, $response->getInitParams()?->getCountryCode());
-		self::assertSame(InitParamsEnvironment::TEST, $response->getInitParams()?->getEnvironment());
-		self::assertSame(0, $response->getInitParams()?->getApiVersionMinor());
+		self::assertSame(Country::CZE, $response->getInitParams()->getCountryCode());
+		self::assertSame(InitParamsEnvironment::TEST, $response->getInitParams()->getEnvironment());
+		self::assertSame(0, $response->getInitParams()->getApiVersionMinor());
 	}
 
 }

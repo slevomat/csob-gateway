@@ -44,8 +44,8 @@ class EchoApplePayRequestTest extends TestCase
 		self::assertSame(ResultCode::C0_OK, $response->getResultCode());
 		self::assertSame('OK', $response->getResultMessage());
 		self::assertSame(Country::CZE, $response->getInitParams()?->getCountryCode());
-		self::assertSame(['visa', 'masterCard', 'maestro'], $response->getInitParams()?->getSupportedNetworks());
-		self::assertSame(['supports3DS'], $response->getInitParams()?->getMerchantCapabilities());
+		self::assertSame(['visa', 'masterCard', 'maestro'], $response->getInitParams()->getSupportedNetworks());
+		self::assertSame(['supports3DS'], $response->getInitParams()->getMerchantCapabilities());
 	}
 
 }

@@ -104,7 +104,7 @@ class InitOneClickPaymentRequestTest extends TestCase
 		self::assertSame(PaymentStatus::S1_CREATED, $paymentResponse->getPaymentStatus());
 		self::assertNull($paymentResponse->getStatusDetail());
 		self::assertSame('https://example.com/3ds-method-endpoint', $paymentResponse->getActions()?->getFingerprint()?->getBrowserInit()?->getUrl());
-		self::assertNull($paymentResponse->getActions()?->getAuthenticate());
+		self::assertNull($paymentResponse->getActions()->getAuthenticate());
 	}
 
 }
