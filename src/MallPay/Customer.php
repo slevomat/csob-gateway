@@ -16,7 +16,8 @@ class Customer implements Encodable
 	public const TITLE_LENGTH_MAX = 20;
 	public const EMAIL_LENGTH_MAX = 50;
 	public const PHONE_LENGTH_MAX = 16;
-	public const TIN_VATIN_LENGTH_MAX = 10;
+	public const TIN_LENGTH_MAX = 10;
+	public const VATIN_LENGTH_MAX = 12;
 
 	public function __construct(
 		private ?string $firstName,
@@ -52,10 +53,10 @@ class Customer implements Encodable
 			Validator::checkWhitespacesAndLength($titleAfter, self::TITLE_LENGTH_MAX);
 		}
 		if ($tin !== null) {
-			Validator::checkWhitespacesAndLength($tin, self::TIN_VATIN_LENGTH_MAX);
+			Validator::checkWhitespacesAndLength($tin, self::TIN_LENGTH_MAX);
 		}
 		if ($vatin !== null) {
-			Validator::checkWhitespacesAndLength($vatin, self::TIN_VATIN_LENGTH_MAX);
+			Validator::checkWhitespacesAndLength($vatin, self::VATIN_LENGTH_MAX);
 		}
 	}
 
