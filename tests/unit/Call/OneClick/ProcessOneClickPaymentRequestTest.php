@@ -81,9 +81,9 @@ class ProcessOneClickPaymentRequestTest extends TestCase
 		self::assertSame(PaymentStatus::S2_IN_PROGRESS, $response->getPaymentStatus());
 		self::assertNull($response->getActions()?->getFingerprint());
 		self::assertSame('eeddda80-6ca7-4b22-9d6a-eb8e84791ec9', $response->getActions()?->getAuthenticate()?->getSdkChallenge()?->getThreeDSServerTransID());
-		self::assertSame('3DS_LOA_ACS_201_13579', $response->getActions()?->getAuthenticate()?->getSdkChallenge()?->getAcsReferenceNumber());
-		self::assertSame('7f3296a8-08c4-4afb-a3e2-8ce31b2e9069', $response->getActions()?->getAuthenticate()?->getSdkChallenge()?->getAcsTransID());
-		self::assertSame('base64-encoded-acs-signed-content', $response->getActions()?->getAuthenticate()?->getSdkChallenge()?->getAcsSignedContent());
+		self::assertSame('3DS_LOA_ACS_201_13579', $response->getActions()->getAuthenticate()->getSdkChallenge()->getAcsReferenceNumber());
+		self::assertSame('7f3296a8-08c4-4afb-a3e2-8ce31b2e9069', $response->getActions()->getAuthenticate()->getSdkChallenge()->getAcsTransID());
+		self::assertSame('base64-encoded-acs-signed-content', $response->getActions()->getAuthenticate()->getSdkChallenge()->getAcsSignedContent());
 	}
 
 }

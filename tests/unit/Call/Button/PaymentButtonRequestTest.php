@@ -69,8 +69,8 @@ class PaymentButtonRequestTest extends TestCase
 		self::assertSame('OK', $response->getResultMessage());
 		self::assertSame(PaymentStatus::S1_CREATED, $response->getPaymentStatus());
 		self::assertSame('https://platebnibrana.csob.cz/pay/vasobchod.cz/2c72d818-9788-45a1-878a-9db2a706edc5/pt-detect/csob', $response->getRedirect()?->getUrl());
-		self::assertSame(HttpMethod::GET, $response->getRedirect()?->getMethod());
-		self::assertNull($response->getRedirect()?->getParams());
+		self::assertSame(HttpMethod::GET, $response->getRedirect()->getMethod());
+		self::assertNull($response->getRedirect()->getParams());
 	}
 
 }
