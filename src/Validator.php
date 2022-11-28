@@ -7,12 +7,12 @@ use SlevomatCsobGateway\Api\HttpMethod;
 use function base64_encode;
 use function ctype_digit;
 use function filter_var;
+use function mb_strlen;
 use function preg_match;
 use function preg_quote;
 use function preg_replace;
 use function sprintf;
 use function strlen;
-use function utf8_decode;
 use const FILTER_VALIDATE_EMAIL;
 use const FILTER_VALIDATE_URL;
 
@@ -39,7 +39,7 @@ class Validator
 	{
 		self::checkWhitespaces($name);
 
-		if (strlen(utf8_decode($name)) > self::CART_ITEM_NAME_LENGTH_MAX) {
+		if (mb_strlen($name) > self::CART_ITEM_NAME_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('Cart item name can have maximum of %d characters.', self::CART_ITEM_NAME_LENGTH_MAX));
 		}
 	}
@@ -48,7 +48,7 @@ class Validator
 	{
 		self::checkWhitespaces($description);
 
-		if (strlen(utf8_decode($description)) > self::CART_ITEM_DESCRIPTION_LENGTH_MAX) {
+		if (mb_strlen($description) > self::CART_ITEM_DESCRIPTION_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('Cart item description can have maximum of %d characters.', self::CART_ITEM_DESCRIPTION_LENGTH_MAX));
 		}
 	}
@@ -83,7 +83,7 @@ class Validator
 	{
 		self::checkWhitespaces($returnUrl);
 
-		if (strlen(utf8_decode($returnUrl)) > self::RETURN_URL_LENGTH_MAX) {
+		if (mb_strlen($returnUrl) > self::RETURN_URL_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('ReturnUrl can have maximum of %d characters.', self::RETURN_URL_LENGTH_MAX));
 		}
 	}
@@ -99,7 +99,7 @@ class Validator
 	{
 		self::checkWhitespaces($description);
 
-		if (strlen(utf8_decode($description)) > self::DESCRIPTION_LENGTH_MAX) {
+		if (mb_strlen($description) > self::DESCRIPTION_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('Description can have maximum of %d characters.', self::DESCRIPTION_LENGTH_MAX));
 		}
 	}
@@ -108,7 +108,7 @@ class Validator
 	{
 		self::checkWhitespaces($merchantData);
 
-		if (strlen(utf8_decode(base64_encode($merchantData))) > self::MERCHANT_DATA_LENGTH_MAX) {
+		if (mb_strlen(base64_encode($merchantData)) > self::MERCHANT_DATA_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('MerchantData can have maximum of %d characters in encoded state.', self::MERCHANT_DATA_LENGTH_MAX));
 		}
 	}
@@ -117,7 +117,7 @@ class Validator
 	{
 		self::checkWhitespaces($customerId);
 
-		if (strlen(utf8_decode($customerId)) > self::CUSTOMER_ID_LENGTH_MAX) {
+		if (mb_strlen($customerId) > self::CUSTOMER_ID_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('CustomerId can have maximum of %d characters.', self::CUSTOMER_ID_LENGTH_MAX));
 		}
 	}
@@ -126,7 +126,7 @@ class Validator
 	{
 		self::checkWhitespaces($payId);
 
-		if (strlen(utf8_decode($payId)) > self::PAY_ID_LENGTH_MAX) {
+		if (mb_strlen($payId) > self::PAY_ID_LENGTH_MAX) {
 			throw new InvalidArgumentException(sprintf('PayId can have maximum of %d characters.', self::PAY_ID_LENGTH_MAX));
 		}
 	}
@@ -159,7 +159,7 @@ class Validator
 	{
 		self::checkWhitespaces($value);
 
-		if (strlen(utf8_decode($value)) > $maxLength) {
+		if (mb_strlen($value) > $maxLength) {
 			throw new InvalidArgumentException(sprintf('Field must have maximum of %d characters.', $maxLength));
 		}
 	}
