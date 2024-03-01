@@ -301,7 +301,6 @@
 	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
 		<properties>
 			<property name="searchAnnotations" value="true"/>
-			<property name="fullyQualifiedKeywords" type="array" value=""/>
 			<property name="allowFallbackGlobalFunctions" value="false"/>
 			<property name="allowFallbackGlobalConstants" value="false"/>
 			<property name="allowFullyQualifiedExceptions" value="false"/>
@@ -378,7 +377,6 @@
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
 		<properties>
-			<property name="enableNativeTypeHint" value="true"/>
 			<property name="enableMixedTypeHint" value="true"/>
 			<property name="enableUnionTypeHint" value="true"/>
 			<property name="traversableTypeHints" type="array" value="
