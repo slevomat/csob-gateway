@@ -168,6 +168,8 @@ class RequestFactory
 		?bool $clientInitiated = null,
 		?bool $sdkUsed = null,
 		?string $merchantData = null,
+		?Language $language = null,
+		?int $ttlSec = null,
 	): InitOneClickPaymentRequest
 	{
 		return new InitOneClickPaymentRequest(
@@ -184,6 +186,8 @@ class RequestFactory
 			$clientInitiated,
 			$sdkUsed,
 			$merchantData,
+			$language,
+			$ttlSec,
 		);
 	}
 
@@ -240,6 +244,7 @@ class RequestFactory
 		?\SlevomatCsobGateway\AdditionalData\Order $order = null,
 		?bool $sdkUsed = null,
 		?string $merchantData = null,
+		?Language $language = null,
 		?int $ttlSec = null,
 	): InitApplePayRequest
 	{
@@ -256,6 +261,7 @@ class RequestFactory
 			$order,
 			$sdkUsed,
 			$merchantData,
+			$language,
 			$ttlSec,
 		);
 	}
@@ -368,6 +374,7 @@ class RequestFactory
 		?\SlevomatCsobGateway\AdditionalData\Order $order = null,
 		?bool $sdkUsed = null,
 		?string $merchantData = null,
+		?Language $language = null,
 		?int $ttlSec = null,
 	): InitGooglePayRequest
 	{
@@ -384,6 +391,7 @@ class RequestFactory
 			$order,
 			$sdkUsed,
 			$merchantData,
+			$language,
 			$ttlSec,
 		);
 	}

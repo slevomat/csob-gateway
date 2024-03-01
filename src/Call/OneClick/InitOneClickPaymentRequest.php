@@ -9,6 +9,7 @@ use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
+use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
@@ -31,6 +32,8 @@ class InitOneClickPaymentRequest
 		private ?bool $clientInitiated = null,
 		private ?bool $sdkUsed = null,
 		private ?string $merchantData = null,
+		private ?Language $language = null,
+		private ?int $ttlSec = null,
 	)
 	{
 		Validator::checkPayId($this->origPayId);
@@ -59,6 +62,8 @@ class InitOneClickPaymentRequest
 			'clientInitiated' => $this->clientInitiated,
 			'sdkUsed' => $this->sdkUsed,
 			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'language' => $this->language?->value,
+			'ttlSec' => $this->ttlSec,
 		], EncodeHelper::filterValueCallback());
 
 		$response = $apiClient->post(
@@ -80,6 +85,8 @@ class InitOneClickPaymentRequest
 				'clientInitiated' => null,
 				'sdkUsed' => null,
 				'merchantData' => null,
+				'language' => null,
+				'ttlSec' => null,
 			]),
 			new SignatureDataFormatter(ActionsPaymentResponse::encodeForSignature()),
 		);

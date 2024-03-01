@@ -10,6 +10,7 @@ use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Call\InvalidJsonPayloadException;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
+use SlevomatCsobGateway\Language;
 use SlevomatCsobGateway\Price;
 use SlevomatCsobGateway\Validator;
 use function array_filter;
@@ -34,6 +35,7 @@ class InitGooglePayRequest
 		private ?Order $order = null,
 		private ?bool $sdkUsed = null,
 		private ?string $merchantData = null,
+		private ?Language $language = null,
 		private ?int $ttlSec = null,
 	)
 	{
@@ -70,6 +72,7 @@ class InitGooglePayRequest
 			'order' => $this->order?->encode(),
 			'sdkUsed' => $this->sdkUsed,
 			'merchantData' => $this->merchantData !== null ? base64_encode($this->merchantData) : null,
+			'language' => $this->language?->value,
 			'ttlSec' => $this->ttlSec,
 		], EncodeHelper::filterValueCallback());
 
@@ -91,6 +94,7 @@ class InitGooglePayRequest
 				'order' => Order::encodeForSignature(),
 				'sdkUsed' => null,
 				'merchantData' => null,
+				'language' => null,
 				'ttlSec' => null,
 			]),
 			new SignatureDataFormatter(ActionsPaymentResponse::encodeForSignature()),
