@@ -19,10 +19,11 @@ jobs:
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -32,7 +33,7 @@ jobs:
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -51,21 +52,21 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.1"
+          php-version: "8.3"
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
-          key: "php-8.1-composer-${{ hashFiles('**/composer.json') }}"
-          restore-keys: "php-8.1-composer-"
+          key: "php-8.3-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-8.3-composer-"
 
       - name: "Install dependencies"
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
@@ -86,10 +87,11 @@ jobs:
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -99,7 +101,7 @@ jobs:
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -122,12 +124,13 @@ jobs:
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         operating-system: ["ubuntu-latest", "windows-latest"]
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -137,7 +140,7 @@ jobs:
           extensions: mbstring
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -161,21 +164,23 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 5
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "pcov"
-          php-version: "8.1"
+          php-version: "8.3"
           tools: pecl
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
-          key: "php-8.1-composer-${{ hashFiles('**/composer.json') }}"
-          restore-keys: "php-8.1-composer-"
+          key: "php-8.3-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-8.3-composer-"
 
       - name: "Install dependencies"
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
