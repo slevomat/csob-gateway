@@ -7,4 +7,6 @@ enum PayMethod: string
 
 	case CARD = 'card';
 
+	case CARD_LVP = 'card#LVP';
+
 }
