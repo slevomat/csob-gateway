@@ -189,7 +189,7 @@ jobs:
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Tests"
-        run: "composer run check:tests"
+        run: "composer run check:tests-coverage"
 
       - name: "Upload to Codecov.io"
         env:

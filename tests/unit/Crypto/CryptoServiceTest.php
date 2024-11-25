@@ -20,7 +20,7 @@ class CryptoServiceTest extends TestCase
 	/**
 	 * @return mixed[]
 	 */
-	public function getSignDataData(): array
+	public static function getSignDataData(): array
 	{
 		return [
 			[

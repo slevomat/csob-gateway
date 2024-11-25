@@ -61,70 +61,70 @@ class RequestFactoryTest extends TestCase
 			1,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateProcessPayment(): void
 	{
 		$this->requestFactory->createProcessPayment('123456789');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePaymentStatus(): void
 	{
 		$this->requestFactory->createPaymentStatus('123456789');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateReversePayment(): void
 	{
 		$this->requestFactory->createReversePayment('123456789');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateClosePayment(): void
 	{
 		$this->requestFactory->createClosePayment('123456789');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateRefundPayment(): void
 	{
 		$this->requestFactory->createRefundPayment('123456789');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateEchoRequest(): void
 	{
 		$this->requestFactory->createEchoRequest();
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePostEchoRequest(): void
 	{
 		$this->requestFactory->createPostEchoRequest();
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateEchoCustomer(): void
 	{
 		$this->requestFactory->createEchoCustomer('cust123@mail.com');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateReceivePayment(): void
 	{
 		$this->requestFactory->createReceivePaymentRequest();
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateOneclickInitPayment(): void
@@ -139,14 +139,14 @@ class RequestFactoryTest extends TestCase
 			HttpMethod::POST,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateOneclickProcessPayment(): void
 	{
 		$this->requestFactory->createOneclickProcessPayment('ef08b6e9f22345c');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreatePaymentButtonRequest(): void
@@ -162,14 +162,14 @@ class RequestFactoryTest extends TestCase
 			Language::EN,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateApplePayEchoRequest(): void
 	{
 		$this->requestFactory->createApplePayEchoRequest();
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateApplePayInitRequest(): void
@@ -201,7 +201,7 @@ class RequestFactoryTest extends TestCase
 			HttpMethod::POST,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateApplePayProcessRequest(): void
@@ -224,21 +224,21 @@ class RequestFactoryTest extends TestCase
 			),
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateOneClickEchoRequest(): void
 	{
 		$this->requestFactory->createOneClickEchoRequest('ef08b6e9f22345c');
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMallPayCancelRequest(): void
 	{
 		$this->requestFactory->createMallPayCancelRequest('ef08b6e9f22345c', CancelReason::ABANDONED);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMallPayInitRequest(): void
@@ -299,7 +299,7 @@ class RequestFactoryTest extends TestCase
 			null,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMMallPayLogisticsRequest(): void
@@ -315,7 +315,7 @@ class RequestFactoryTest extends TestCase
 			'123456',
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateMallPayRefundRequest(): void
@@ -323,7 +323,7 @@ class RequestFactoryTest extends TestCase
 		$orderItemReference = new OrderItemReference('123', null, 'Thing', OrderItemType::DIGITAL, 1);
 		$this->requestFactory->createMallPayRefundRequest('ef08b6e9f22345c', null, [$orderItemReference]);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateGooglePayInitRequest(): void
@@ -338,7 +338,7 @@ class RequestFactoryTest extends TestCase
 			HttpMethod::POST,
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateGooglePayProcessRequest(): void
@@ -358,14 +358,14 @@ class RequestFactoryTest extends TestCase
 			),
 		);
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function testCreateGooglePayEchoRequest(): void
 	{
 		$this->requestFactory->createGooglePayEchoRequest();
 
-		self::assertTrue(true);
+		$this->expectNotToPerformAssertions();
 	}
 
 }

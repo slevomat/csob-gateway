@@ -1,34 +1,37 @@
 <?xml version="1.0"?>
 <phpunit
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	bootstrap="bootstrap.php"
-	colors="true"
-	backupGlobals="false"
-	backupStaticAttributes="false"
-	beStrictAboutTestsThatDoNotTestAnything="true"
-	beStrictAboutCoversAnnotation="true"
-	beStrictAboutOutputDuringTests="true"
-	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-	failOnRisky="true"
-	convertDeprecationsToExceptions="true"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		bootstrap="bootstrap.php"
+		colors="true"
+		beStrictAboutCoverageMetadata="true"
+		beStrictAboutOutputDuringTests="true"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+		failOnRisky="true"
+		displayDetailsOnTestsThatTriggerWarnings="true"
+		displayDetailsOnTestsThatTriggerDeprecations="true"
+		displayDetailsOnTestsThatTriggerErrors="true"
+		displayDetailsOnTestsThatTriggerNotices="true"
+		displayDetailsOnPhpunitDeprecations="true"
 >
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">../src</directory>
-    </include>
-    <report>
-      <clover outputFile="../build/log/clover.xml"/>
-      <html outputDirectory="../build/log/html" lowUpperBound="0" highLowerBound="99"/>
-      <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
-    </report>
-  </coverage>
-  <logging/>
-  <testsuites>
-    <testsuite name="Unit_Tests">
-      <directory>unit</directory>
-    </testsuite>
-  </testsuites>
+	<source>
+		<include>
+			<directory>../src</directory>
+		</include>
+	</source>
+	<coverage>
+		<report>
+			<clover outputFile="../build/log/clover.xml"/>
+			<html outputDirectory="../build/log/html" lowUpperBound="0" highLowerBound="99"/>
+			<text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
+		</report>
+	</coverage>
+	<logging/>
+	<testsuites>
+		<testsuite name="Unit_Tests">
+			<directory>unit</directory>
+		</testsuite>
+	</testsuites>
 	<php>
-		<ini name="error_reporting" value="E_ALL" />
+		<ini name="error_reporting" value="E_ALL"/>
 	</php>
 </phpunit>
