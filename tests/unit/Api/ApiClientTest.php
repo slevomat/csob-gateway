@@ -20,7 +20,7 @@ class ApiClientTest extends TestCase
 	/**
 	 * @return mixed[]
 	 */
-	public function getRequests(): array
+	public static function getRequests(): array
 	{
 		return [
 			[
@@ -200,7 +200,7 @@ class ApiClientTest extends TestCase
 	/**
 	 * @return mixed[]
 	 */
-	public function getTestExceptions(): array
+	public static function getTestExceptions(): array
 	{
 		return [
 			[

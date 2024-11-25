@@ -23,7 +23,6 @@ use const CURLOPT_POSTFIELDS;
 use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_SSL_VERIFYPEER;
 use const CURLOPT_TIMEOUT;
-use const PHP_VERSION_ID;
 
 class CurlDriver implements ApiClientDriver
 {
@@ -46,7 +45,7 @@ class CurlDriver implements ApiClientDriver
 
 		if ($method === HttpMethod::POST || $method === HttpMethod::PUT) {
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method->value);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, JSON_THROW_ON_ERROR));
 		}
 
 		curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
@@ -69,10 +68,6 @@ class CurlDriver implements ApiClientDriver
 		$body = substr((string) $output, $headerSize);
 
 		$responseCode = ResponseCode::from(curl_getinfo($ch, CURLINFO_HTTP_CODE));
-		if (PHP_VERSION_ID < 80000) {
-			curl_close($ch);
-		}
-
 		return new Response(
 			$responseCode,
 			json_decode($body, true),

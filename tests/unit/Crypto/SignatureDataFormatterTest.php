@@ -10,7 +10,7 @@ class SignatureDataFormatterTest extends TestCase
 	/**
 	 * @return mixed[]
 	 */
-	public function getFormatDataForSignatureData(): array
+	public static function getFormatDataForSignatureData(): array
 	{
 		return [
 			[

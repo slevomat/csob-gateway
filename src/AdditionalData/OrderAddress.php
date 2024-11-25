@@ -31,9 +31,7 @@ class OrderAddress implements Encodable
 		if ($this->address3 !== null) {
 			Validator::checkWhitespacesAndLength($this->address3, self::ADDRESS_LENGTH_MAX);
 		}
-		if ($this->city !== null) {
-			Validator::checkWhitespacesAndLength($this->city, self::ADDRESS_LENGTH_MAX);
-		}
+		Validator::checkWhitespacesAndLength($this->city, self::ADDRESS_LENGTH_MAX);
 		Validator::checkWhitespacesAndLength($this->zip, self::ZIP_LENGTH_MAX);
 	}
 
