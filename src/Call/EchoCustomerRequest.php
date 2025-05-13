@@ -16,7 +16,7 @@ class EchoCustomerRequest
 
 	public function send(ApiClient $apiClient): EchoCustomerResponse
 	{
-		$response = $apiClient->get(
+		$response = $apiClient->post(
 			'echo/customer',
 			[
 				'merchantId' => $this->merchantId,

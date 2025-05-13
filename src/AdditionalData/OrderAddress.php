@@ -12,7 +12,7 @@ class OrderAddress implements Encodable
 {
 
 	public const ADDRESS_LENGTH_MAX = 50;
-	public const ZIP_LENGTH_MAX = 50;
+	public const ZIP_LENGTH_MAX = 16;
 
 	public function __construct(
 		private string $address1,
