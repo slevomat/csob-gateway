@@ -17,7 +17,7 @@ class EchoCustomerRequestTest extends TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$apiClient->expects(self::once())->method('get')
+		$apiClient->expects(self::once())->method('post')
 			->with('echo/customer', [
 				'merchantId' => '012345',
 				'customerId' => 'cust123@mail.com',
