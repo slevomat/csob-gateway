@@ -179,14 +179,14 @@
 	<rule ref="SlevomatCodingStandard.Commenting.EmptyComment" />
 	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
 		<properties>
-			<property name="forbiddenAnnotations" type="array" value="
-				@author,
-				@created,
-				@copyright,
-				@license,
-				@package,
-				@version,
-			"/>
+			<property name="forbiddenAnnotations" type="array">
+				<element value="@author"/>
+				<element value="@created"/>
+				<element value="@copyright"/>
+				<element value="@license"/>
+				<element value="@package"/>
+				<element value="@version"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments" />
@@ -260,10 +260,11 @@
 	<rule ref="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch"/>
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
-			<property name="rootNamespaces" type="array" value="
-				src => SlevomatCsobGateway,
-				tests/unit => SlevomatCsobGateway,
-			"/>
+			<property name="rootNamespaces" type="array">
+				<element key="src" value="SlevomatCsobGateway"/>
+				<element key="tests/unit" value="SlevomatCsobGateway"/>
+
+			</property>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInCall">
@@ -356,10 +357,10 @@
 		<properties>
 			<property name="enableMixedTypeHint" value="true"/>
 			<property name="enableUnionTypeHint" value="true"/>
-			<property name="traversableTypeHints" type="array" value="
-				Traversable,
-				Generator,
-			"/>
+			<property name="traversableTypeHints" type="array">
+				<element value="Traversable"/>
+				<element value="Generator"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
@@ -369,20 +370,20 @@
 			<property name="enableNativeTypeHint" value="true"/>
 			<property name="enableMixedTypeHint" value="true"/>
 			<property name="enableUnionTypeHint" value="true"/>
-			<property name="traversableTypeHints" type="array" value="
-				Traversable,
-				Generator,
-			"/>
+			<property name="traversableTypeHints" type="array">
+				<element value="Traversable"/>
+				<element value="Generator"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
 		<properties>
 			<property name="enableMixedTypeHint" value="true"/>
 			<property name="enableUnionTypeHint" value="true"/>
-			<property name="traversableTypeHints" type="array" value="
-				Traversable,
-				Generator,
-			"/>
+			<property name="traversableTypeHints" type="array">
+				<element value="Traversable"/>
+				<element value="Generator"/>
+			</property>
 		</properties>
 		<exclude-pattern>tests/unit/Api/Driver/CurlMock.php</exclude-pattern>
 		<exclude-pattern>tests/unit/Api/Driver/Curl_exec_false_Mock.php</exclude-pattern>
@@ -392,10 +393,11 @@
 		<exclude-pattern>tests/</exclude-pattern><!-- it's useless to add "@return mixed[]" to all data providers -->
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-	<rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+	<rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
 		<properties>
-			<property name="withSpaces" value="false"/>
-			<property name="shortNullable" value="true"/>
+			<property name="withSpacesAroundOperators" value="no"/>
+			<property name="withSpacesInsideParentheses" value="no"/>
+			<property name="shortNullable" value="yes"/>
 			<property name="nullPosition" value="last"/>
 		</properties>
 	</rule>
