@@ -9,7 +9,6 @@ enum Currency: string
 	case EUR = 'EUR';
 	case USD = 'USD';
 	case GBP = 'GBP';
-	case HRK = 'HRK';
 	case HUF = 'HUF';
 	case PLN = 'PLN';
 	case RON = 'RON';
