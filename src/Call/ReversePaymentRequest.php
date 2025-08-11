@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
@@ -14,7 +14,7 @@ class ReversePaymentRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
+	public function send(ApiClientInterface $apiClient): StatusDetailPaymentResponse
 	{
 		$response = $apiClient->put(
 			'payment/reverse',

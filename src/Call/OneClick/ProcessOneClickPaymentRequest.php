@@ -3,7 +3,7 @@
 namespace SlevomatCsobGateway\Call\OneClick;
 
 use SlevomatCsobGateway\AdditionalData\Fingerprint;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
@@ -22,7 +22,7 @@ class ProcessOneClickPaymentRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): ActionsPaymentResponse
+	public function send(ApiClientInterface $apiClient): ActionsPaymentResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\GooglePay;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
 class EchoGooglePayRequest
@@ -12,7 +12,7 @@ class EchoGooglePayRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): EchoGooglePayResponse
+	public function send(ApiClientInterface $apiClient): EchoGooglePayResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,

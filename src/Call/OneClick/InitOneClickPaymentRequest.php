@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway\Call\OneClick;
 
 use SlevomatCsobGateway\AdditionalData\Customer;
 use SlevomatCsobGateway\AdditionalData\Order;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
@@ -45,7 +45,7 @@ class InitOneClickPaymentRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): ActionsPaymentResponse
+	public function send(ApiClientInterface $apiClient): ActionsPaymentResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

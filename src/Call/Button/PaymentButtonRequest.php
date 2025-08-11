@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\Button;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
@@ -34,7 +34,7 @@ class PaymentButtonRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): PaymentButtonResponse
+	public function send(ApiClientInterface $apiClient): PaymentButtonResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

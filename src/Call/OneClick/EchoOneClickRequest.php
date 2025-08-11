@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\OneClick;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
 class EchoOneClickRequest
@@ -12,7 +12,7 @@ class EchoOneClickRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): EchoOneClickResponse
+	public function send(ApiClientInterface $apiClient): EchoOneClickResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,

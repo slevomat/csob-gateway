@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
 use SlevomatCsobGateway\Validator;
@@ -20,7 +20,7 @@ class RefundPaymentRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): AuthCodeStatusDetailPaymentResponse
+	public function send(ApiClientInterface $apiClient): AuthCodeStatusDetailPaymentResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

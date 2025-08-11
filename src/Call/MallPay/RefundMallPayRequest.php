@@ -3,7 +3,7 @@
 namespace SlevomatCsobGateway\Call\MallPay;
 
 use InvalidArgumentException;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Call\StatusDetailPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
@@ -33,7 +33,7 @@ class RefundMallPayRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
+	public function send(ApiClientInterface $apiClient): StatusDetailPaymentResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

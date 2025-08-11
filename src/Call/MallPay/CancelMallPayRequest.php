@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\MallPay;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Call\StatusDetailPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\MallPay\CancelReason;
@@ -18,7 +18,7 @@ class CancelMallPayRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): StatusDetailPaymentResponse
+	public function send(ApiClientInterface $apiClient): StatusDetailPaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,

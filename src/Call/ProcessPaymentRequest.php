@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\InvalidPaymentException;
 use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
@@ -17,7 +17,7 @@ class ProcessPaymentRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): ProcessPaymentResponse
+	public function send(ApiClientInterface $apiClient): ProcessPaymentResponse
 	{
 		$response = $apiClient->get(
 			'payment/process/{merchantId}/{payId}/{dttm}/{signature}',

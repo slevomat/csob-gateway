@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
 class EchoRequest
@@ -12,7 +12,7 @@ class EchoRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): EchoResponse
+	public function send(ApiClientInterface $apiClient): EchoResponse
 	{
 		$response = $apiClient->get(
 			'echo/{merchantId}/{dttm}/{signature}',

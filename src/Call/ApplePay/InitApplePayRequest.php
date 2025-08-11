@@ -4,7 +4,7 @@ namespace SlevomatCsobGateway\Call\ApplePay;
 
 use SlevomatCsobGateway\AdditionalData\Customer;
 use SlevomatCsobGateway\AdditionalData\Order;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Call\InvalidJsonPayloadException;
@@ -56,7 +56,7 @@ class InitApplePayRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): ActionsPaymentResponse
+	public function send(ApiClientInterface $apiClient): ActionsPaymentResponse
 	{
 		$payloadData = $this->payload['paymentData'] ?? null;
 		if ($payloadData === null) {

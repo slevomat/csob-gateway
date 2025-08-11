@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
@@ -14,7 +14,7 @@ class EchoCustomerRequest
 		Validator::checkCustomerId($customerId);
 	}
 
-	public function send(ApiClient $apiClient): EchoCustomerResponse
+	public function send(ApiClientInterface $apiClient): EchoCustomerResponse
 	{
 		$response = $apiClient->post(
 			'echo/customer',

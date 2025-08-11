@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
 class PostEchoRequest
@@ -12,7 +12,7 @@ class PostEchoRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): EchoResponse
+	public function send(ApiClientInterface $apiClient): EchoResponse
 	{
 		$response = $apiClient->post(
 			'echo',

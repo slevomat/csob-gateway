@@ -3,7 +3,7 @@
 namespace SlevomatCsobGateway\Call;
 
 use InvalidArgumentException;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use function array_key_exists;
 use function in_array;
@@ -16,7 +16,7 @@ class ReceivePaymentRequest
 	/**
 	 * @param mixed[] $data
 	 */
-	public function send(ApiClient $apiClient, array $data): ReceivePaymentResponse
+	public function send(ApiClientInterface $apiClient, array $data): ReceivePaymentResponse
 	{
 		$allowedFields = ['payId', 'dttm', 'resultCode', 'resultMessage', 'paymentStatus', 'authCode', 'merchantData', 'statusDetail', 'signature'];
 		$optionalFields = ['paymentStatus', 'authCode', 'merchantData', 'statusDetail'];

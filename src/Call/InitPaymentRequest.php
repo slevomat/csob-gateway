@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use SlevomatCsobGateway\AdditionalData\Customer;
 use SlevomatCsobGateway\AdditionalData\Order;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Cart;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
@@ -58,7 +58,7 @@ class InitPaymentRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): InitPaymentResponse
+	public function send(ApiClientInterface $apiClient): InitPaymentResponse
 	{
 		$price = $this->cart->getCurrentPrice();
 

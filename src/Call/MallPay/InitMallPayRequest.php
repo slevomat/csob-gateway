@@ -3,7 +3,7 @@
 namespace SlevomatCsobGateway\Call\MallPay;
 
 use InvalidArgumentException;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Api\HttpMethod;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\EncodeHelper;
@@ -56,7 +56,7 @@ class InitMallPayRequest
 		}
 	}
 
-	public function send(ApiClient $apiClient): InitMallPayResponse
+	public function send(ApiClientInterface $apiClient): InitMallPayResponse
 	{
 		$requestData = array_filter([
 			'merchantId' => $this->merchantId,

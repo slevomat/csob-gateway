@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call\ApplePay;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 
 class EchoApplePayRequest
@@ -12,7 +12,7 @@ class EchoApplePayRequest
 	{
 	}
 
-	public function send(ApiClient $apiClient): EchoApplePayResponse
+	public function send(ApiClientInterface $apiClient): EchoApplePayResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,

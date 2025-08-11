@@ -2,7 +2,7 @@
 
 namespace SlevomatCsobGateway\Call;
 
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
 
@@ -17,7 +17,7 @@ class PaymentStatusRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): PaymentStatusResponse
+	public function send(ApiClientInterface $apiClient): PaymentStatusResponse
 	{
 		$response = $apiClient->get(
 			'payment/status/{merchantId}/{payId}/{dttm}/{signature}',

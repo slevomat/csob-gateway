@@ -3,7 +3,7 @@
 namespace SlevomatCsobGateway\Call\ApplePay;
 
 use SlevomatCsobGateway\AdditionalData\Fingerprint;
-use SlevomatCsobGateway\Api\ApiClient;
+use SlevomatCsobGateway\Api\ApiClientInterface;
 use SlevomatCsobGateway\Call\ActionsPaymentResponse;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
@@ -20,7 +20,7 @@ class ProcessApplePayRequest
 		Validator::checkPayId($payId);
 	}
 
-	public function send(ApiClient $apiClient): ActionsPaymentResponse
+	public function send(ApiClientInterface $apiClient): ActionsPaymentResponse
 	{
 		$requestData = [
 			'merchantId' => $this->merchantId,

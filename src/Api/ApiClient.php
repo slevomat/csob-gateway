@@ -21,16 +21,16 @@ use function strpos;
 use function substr;
 use function urlencode;
 
-class ApiClient
+class ApiClient implements ApiClientInterface
 {
 
-	private ?LoggerInterface $logger = null;
+	protected ?LoggerInterface $logger = null;
 
-	private ?string $apiUrl = null;
+    protected ?string $apiUrl = null;
 
 	public function __construct(
-		private ApiClientDriver $driver,
-		private CryptoService $cryptoService,
+        protected ApiClientDriver $driver,
+        protected CryptoService $cryptoService,
 		string $apiUrl,
 	)
 	{
@@ -149,7 +149,7 @@ class ApiClient
 	 * @throws ApiClientDriverException
 	 * @throws InvalidSignatureException
 	 */
-	private function request(
+    protected function request(
 		HttpMethod $method,
 		string $url,
 		array $queries,
@@ -281,7 +281,7 @@ class ApiClient
 	 * @throws PrivateKeyFileException
 	 * @throws SigningFailedException
 	 */
-	private function prepareData(array $data, SignatureDataFormatter $signatureDataFormatter): array
+    protected function prepareData(array $data, SignatureDataFormatter $signatureDataFormatter): array
 	{
 		$data['dttm'] = (new DateTimeImmutable())->format('YmdHis');
 		$data['signature'] = $this->cryptoService->signData($data, $signatureDataFormatter);
@@ -297,7 +297,7 @@ class ApiClient
 	 * @throws PublicKeyFileException
 	 * @throws VerificationFailedException
 	 */
-	private function decodeData(array $responseData, SignatureDataFormatter $signatureDataFormatter): array
+    protected function decodeData(array $responseData, SignatureDataFormatter $signatureDataFormatter): array
 	{
 		if (!array_key_exists('signature', $responseData)) {
 			throw new InvalidSignatureException($responseData);
@@ -317,7 +317,7 @@ class ApiClient
 	 * @param mixed[] $queries
 	 * @param mixed[]|null $requestData
 	 */
-	private function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response, float $responseTime): void
+    protected function logRequest(HttpMethod $method, string $url, array $queries, ?array $requestData, Response $response, float $responseTime): void
 	{
 		if ($this->logger === null) {
 			return;
