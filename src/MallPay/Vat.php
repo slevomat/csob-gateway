@@ -4,14 +4,12 @@ namespace SlevomatCsobGateway\MallPay;
 
 use SlevomatCsobGateway\Currency;
 use SlevomatCsobGateway\Encodable;
-use SlevomatCsobGateway\Validator;
 
 class Vat implements Encodable
 {
 
 	public function __construct(private int $amount, private Currency $currency, private int $vatRate)
 	{
-		Validator::checkNumberPositiveOrZero($amount);
 	}
 
 	/**
