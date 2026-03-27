@@ -8,6 +8,7 @@ use SlevomatCsobGateway\Api\Response;
 use SlevomatCsobGateway\Api\ResponseCode;
 use SlevomatCsobGateway\Crypto\SignatureDataFormatter;
 use SlevomatCsobGateway\Validator;
+use function array_change_key_case;
 
 class ProcessPaymentRequest
 {
@@ -41,8 +42,9 @@ class ProcessPaymentRequest
 			},
 		);
 
+		$headers = array_change_key_case($response->getHeaders());
 		/** @var string $gatewayLocationUrl */
-		$gatewayLocationUrl = $response->getHeaders()['Location'];
+		$gatewayLocationUrl = $headers['location'];
 
 		return new ProcessPaymentResponse($gatewayLocationUrl);
 	}
