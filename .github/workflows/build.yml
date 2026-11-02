@@ -22,10 +22,11 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -35,7 +36,7 @@ jobs:
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v6"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -54,7 +55,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -64,7 +65,7 @@ jobs:
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v6"
         with:
           path: "~/.composer/cache"
           key: "php-8.4-composer-${{ hashFiles('**/composer.json') }}"
@@ -92,10 +93,11 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -105,7 +107,7 @@ jobs:
           tools: composer:v2
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v6"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -131,12 +133,13 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
 
         operating-system: ["ubuntu-latest", "windows-latest"]
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -146,7 +149,7 @@ jobs:
           extensions: mbstring
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v6"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -170,7 +173,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
         with:
           fetch-depth: 5
 
@@ -182,7 +185,7 @@ jobs:
           tools: pecl
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v6"
         with:
           path: "~/.composer/cache"
           key: "php-8.4-composer-${{ hashFiles('**/composer.json') }}"
@@ -195,6 +198,8 @@ jobs:
         run: "composer run check:tests-coverage"
 
       - name: "Upload to Codecov.io"
-        env:
-          CODECOV_TOKEN: "${{ secrets.CODECOV }}"
-        run: "bash <(curl -s https://codecov.io/bash) -f build/log/clover.xml"
+        uses: "codecov/codecov-action@v7"
+        with:
+          token: "${{ secrets.CODECOV }}"
+          files: "build/log/clover.xml"
+          disable_search: true
